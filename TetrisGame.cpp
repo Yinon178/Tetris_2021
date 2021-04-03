@@ -135,7 +135,7 @@ void TetrisGame::run() {
 GameObjects * TetrisGame::createNewObject(int & type)
 {
 	GameObjects * res;
-	int randObj = rand() % RAND;
+	int randObj = rand() % RAND;;
 
 	switch (randObj)
 	{

@@ -4,14 +4,8 @@
 
 class Square : public Shape {
 public:
-	Square(); // ctor
+	// ctor
+	Square(); 
 
-	//move
-	bool move(Board &boardGame, char keyPressed = DEFAULT) override;
-
-	//rotate
-	void rotate() override { 
-		return;
-	}
-
+	AllAdjustRotations getPossibleRotations();
 };

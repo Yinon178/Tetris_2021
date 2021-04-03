@@ -4,7 +4,7 @@
 #include <Windows.h>
 using namespace std;
 
-enum eKEYS {LEFT = 'a', RIGHT = 'd', HARD_DOWN = 'x', ROUTE = 'w', JSTOP = 's', DEFAULT = ' ', ESC = 27};
+enum eKEYS {LEFT = 'a', RIGHT = 'd', HARD_DOWN = 'x', ROUTE = 'w', ROUTEC = 'c', JSTOP = 's', DEFAULT = ' ', ESC = 27};
 
 class Point
 {
@@ -22,7 +22,6 @@ public:
 
 	Point() {}; // empty constructor
 
-	
 	void setPoint(int _x, int _y, bool _busy = false, int _serialNumber = 0, char _ch = '#') { x = _x; y = _y; busy = _busy; serialNumber = _serialNumber; ch = _ch; }
 
 	void setSerialNumber(int _serialNumber) { serialNumber = _serialNumber; }
