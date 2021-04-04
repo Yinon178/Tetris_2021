@@ -9,12 +9,12 @@ private:
 public:
 
 	//ctor
-	Joker();
+	Joker(Board& _boardGame);
 
 	//draw 
 	void draw(char ch = '#')const override;
 
 	//move
-	bool move(Board &boardGame, char keyPressed = DEFAULT) override;
+	bool move(char keyPressed = DEFAULT) override;
 
 };

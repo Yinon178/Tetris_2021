@@ -1,6 +1,6 @@
 #include "Joker.h"
 
-Joker::Joker() : Special()
+Joker::Joker(Board &_boardGame) : Special(_boardGame)
 {
 	body.setPoint((boardGame.gameZone.left + boardGame.gameZone.right) / 2, boardGame.gameZone.top, true, getSerialObj(), Sign::J);
 	prevJ.setPoint((boardGame.gameZone.left + boardGame.gameZone.right) / 2, boardGame.gameZone.top, false, getSerialObj(), Sign::J);
@@ -11,7 +11,7 @@ void Joker::draw(char ch) const
 	body.draw('O');
 }
 
-bool Joker::move(Board & boardGame, char keyPressed)
+bool Joker::move(char keyPressed)
 {
 	int addScore;
 

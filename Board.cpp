@@ -5,7 +5,7 @@
 Board::Board(int _player)
 {
 	player = _player;
-	topB = new TopBoard();
+	topB = new TopBoard(this);
 	setBoard();
 }
 
@@ -195,7 +195,7 @@ bool Board::updateBoard()
 {
 	Point temp[4];
 	int tempSize;
-	int row = Board::BOTTOM - 1;
+	int row = gameZone.bottom - 1;
 	bool endClean = true;
 	while (row != gameZone.top )
 	{

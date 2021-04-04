@@ -46,14 +46,14 @@ void TetrisGame::run() {
 					boardGamePlayer1.cleanGameOver();
                     boardGamePlayer2.cleanGameOver();
 				}
-				if (exitGame == EXIT)
+				if (exitGame)
 					break;
 				while (true)
 				{
 					while (!gameOver && !exitGame)
 					{
 
-						if (!checkGameOver(type))
+						if (!checkGameOver(type, boardGamePlayer1 ))
 						{
 							gameOver = true;
 							break;
@@ -63,7 +63,7 @@ void TetrisGame::run() {
 						objectPlayer1 = createNewObject(type, boardGamePlayer1);
 
 
-						while (objectPlayer1->move(this->boardGamePlayer1))
+						while (objectPlayer1->move(keyPressed))
 						{
 							char keyPressed;
 							if (_kbhit()) // checks if there is anything in the buffer
@@ -90,7 +90,7 @@ void TetrisGame::run() {
 										}
 									}
 								}
-								if (!(objectPlayer1->move(this->boardGamePlayer1, keyPressed)))
+								if (!(objectPlayer1->move(keyPressed)))
 									break;
 							}
 							Sleep(gameSpeed);
@@ -106,22 +106,24 @@ void TetrisGame::run() {
 						score = boardGamePlayer1.getScore();
 						if (score > bestScore) {
 							bestScore = score;
-							gotoxy(Board::LEFT_F, Board::BOTTOM_F + 5);
+							//gotoxy(Board::LEFT_F, Board::BOTTOM_F + 5);
 							HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);
 							SetConsoleTextAttribute(color, 4);
 							cout << "~~NEW RECORD~~";
 							SetConsoleTextAttribute(color, 7);
 							boardGamePlayer1.updateRecord(bestScore);
 						}
+						/*
 						gotoxy(Board::LEFT_F + 2, Board::BOTTOM_F + 1);
 						cout << "GAME OVER" << endl;
 						gotoxy(Board::LEFT_F - 2, Board::BOTTOM_F + 3);
 						cout << "YOUR SCORE IS : " << score << endl;
+						*/
 						resetGame();
 						break;
 					}
 					if (exitGame) {
-						gotoxy(Board::LEFT_F + 2, Board::BOTTOM_F + 5);
+						//gotoxy(Board::LEFT_F + 2, Board::BOTTOM_F + 5);
 						cout << "BYE BYE" << endl;
 					}
 					break;
@@ -195,23 +197,23 @@ bool TetrisGame::checkGameOver(int typeShape, Board board)
 	{
 	case B:
 
-		if (!(board.isValid((Board::GameZone::LEFT + Board::GameZone::RIGHT) / 2, Board::GameZone::TOP)))
+		if (!(board.isValid((board.gameZone.top + board.gameZone.right) / 2, board.gameZone.top)))
 			return false;
 		break;
 	case J:
-		if (!(board.isValid((Board::GameZone::LEFT + Board::GameZone::RIGHT) / 2, Board::GameZone::TOP)))
+		if (!(board.isValid((board.gameZone.top + board.gameZone.right) / 2, board.gameZone.top)))
 			return false;
 		break;
 	case Type::SQ:
-		if (!(board.isValid((Board::GameZone::LEFT + Board::GameZone::RIGHT) / 2, Board::GameZone::TOP)) ||
-			(!(board.isValid((Board::GameZone::LEFT + Board::GameZone::RIGHT) / 2 + 1, Board::GameZone::TOP))) ||
-			(!(board.isValid((Board::GameZone::LEFT + Board::GameZone::RIGHT) / 2, Board::GameZone::TOP + 1))) ||
-				(!(board.isValid((Board::GameZone::LEFT + Board::GameZone::RIGHT) / 2 + 1, Board::GameZone::TOP + 1))))
+		if (!(board.isValid((board.gameZone.top + board.gameZone.right) / 2, board.gameZone.top)) ||
+			(!(board.isValid((board.gameZone.top + board.gameZone.right) / 2 + 1, board.gameZone.top))) ||
+			(!(board.isValid((board.gameZone.top + board.gameZone.right) / 2, board.gameZone.top + 1))) ||
+				(!(board.isValid((board.gameZone.top + board.gameZone.right) / 2 + 1, board.gameZone.top + 1))))
 				return false;
 		break;
 	case Type::R:
 		for (int i = 0; i < 4; i++)
-			if (!(board.isValid((Board::GameZone::LEFT + Board::GameZone::RIGHT) / 2 - 1 + i, Board::GameZone::TOP)))
+			if (!(board.isValid((board.gameZone.top + board.gameZone.right) / 2 - 1 + i, board.gameZone.top)))
 				return false;
 		break;
 	case Type::P:
@@ -241,18 +243,18 @@ void TetrisGame::updateStartBoard(int typeShape, Board board)
 	switch (typeShape)
 	{
 	case Type::Single:
-		board.turnOnPoint((board.gameZone.left + Board::GameZone::RIGHT) / 2, Board::GameZone::TOP, serialNumber);
+		board.turnOnPoint((board.gameZone.left + board.gameZone.right) / 2, board.gameZone.top, serialNumber);
 	
 		break;
 	case Type::SQ:
-		board.turnOnPoint((board.gameZone.left + Board::GameZone::RIGHT) / 2, Board::GameZone::TOP,serialNumber);
-		board.turnOnPoint((board.gameZone.left + Board::GameZone::RIGHT) / 2 + 1, Board::GameZone::TOP,serialNumber);
-		board.turnOnPoint((board.gameZone.left + Board::GameZone::RIGHT) / 2, Board::GameZone::TOP + 1,serialNumber);
-		board.turnOnPoint((board.gameZone.left + Board::GameZone::RIGHT) / 2 + 1, Board::GameZone::TOP + 1,serialNumber);
+		board.turnOnPoint((board.gameZone.left + board.gameZone.right) / 2, board.gameZone.top,serialNumber);
+		board.turnOnPoint((board.gameZone.left + board.gameZone.right) / 2 + 1, board.gameZone.top,serialNumber);
+		board.turnOnPoint((board.gameZone.left + board.gameZone.right) / 2, board.gameZone.top + 1,serialNumber);
+		board.turnOnPoint((board.gameZone.left + board.gameZone.right) / 2 + 1, board.gameZone.top + 1,serialNumber);
 		break;
 	case Type::R:
 		for(int i=0; i<4;i++)
-			board.turnOnPoint((board.gameZone.left + Board::GameZone::RIGHT) / 2 - 1 + i , Board::GameZone::TOP,serialNumber);
+			board.turnOnPoint((board.gameZone.left + board.gameZone.right) / 2 - 1 + i , board.gameZone.top,serialNumber);
 		break;
 	case Type::P:
 		board.turnOnPoint(X_SQ - 1, Y_SQ + 1, serialNumber);

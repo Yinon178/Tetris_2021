@@ -5,7 +5,7 @@ void Bomb::draw(char ch) const
 	body.draw('@');
 }
 
-bool Bomb::move(Board & boardGame, char keyPressed)
+bool Bomb::move(char keyPressed)
 {
 	int addScore;
 

@@ -92,7 +92,7 @@ bool Lshape::move(char keyPressed)
 		case eKEYS::HARD_DOWN:
 			while (true)
 			{
-				if (!(move(boardGame, DEFAULT)))
+				if (!(move(DEFAULT)))
 					break;
 				boardGame.updateScoreBoard(2); // hard_drop x2 Distance 
 			}
@@ -183,7 +183,7 @@ bool Lshape::move(char keyPressed)
 		case eKEYS::HARD_DOWN:
 			while (true)
 			{
-				if (!(move(boardGame, DEFAULT)))
+				if (!(move( DEFAULT)))
 					break;
 				boardGame.updateScoreBoard(2); // hard_drop x2 Distance 
 			}
@@ -269,7 +269,7 @@ bool Lshape::move(char keyPressed)
 		case eKEYS::HARD_DOWN:
 			while (true)
 			{
-				if (!(move(boardGame, DEFAULT)))
+				if (!(move(DEFAULT)))
 					break;
 				boardGame.updateScoreBoard(2); // hard_drop x2 Distance 
 			}
@@ -361,7 +361,7 @@ bool Lshape::move(char keyPressed)
 		case eKEYS::HARD_DOWN:
 			while (true)
 			{
-				if (!(move(boardGame, DEFAULT)))
+				if (!(move(DEFAULT)))
 					break;
 				boardGame.updateScoreBoard(2); // hard_drop x2 Distance 
 			}

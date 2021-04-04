@@ -10,16 +10,15 @@ enum startVal {
 };
 
 class Shape : public GameObjects {
-    Board &boardGame
 protected:
 	enum { SIZE = 4 };
 	Point body[SIZE];
 	int adjust = HORIZON;
 public:
-
+	Board& boardGame;
 	//ctor
-	Shape(int _serial, Board &_board) : GameObjects(_serial) {board = _board};
-	Shape(Board _board) : GameObjects() {board = _board} ;
+	Shape(int _serial, Board& _boardGame) : GameObjects(_serial), boardGame(_boardGame) {};
+	Shape(Board& _boardGame) : GameObjects(), boardGame(_boardGame) {};
     
 	virtual void draw(char ch = '#')const;
 

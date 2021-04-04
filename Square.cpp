@@ -4,7 +4,6 @@
 // ctor 
 Square::Square(Board &_boardGame) : Shape(_boardGame)
 {
-    boardGame = _boardGame;
 	body[0].setPoint(X_SQ, Y_SQ, true, getSerialObj());
 	body[1].setPoint(X_SQ + 1, Y_SQ, true, getSerialObj());
 	body[2].setPoint(X_SQ, Y_SQ + 1, true, getSerialObj());
@@ -12,7 +11,7 @@ Square::Square(Board &_boardGame) : Shape(_boardGame)
 }
 
 // move
-bool Square::move(Board & boardGame, char keyPressed)
+bool Square::move(char keyPressed)
 {
 	bool flag = true;
 	switch (keyPressed)
@@ -72,7 +71,7 @@ bool Square::move(Board & boardGame, char keyPressed)
 	case eKEYS::HARD_DOWN:
 		while (true)
 		{
-			if (!(move(boardGame, DEFAULT)))
+			if (!(move( DEFAULT)))
 				break;
 			boardGame.updateScoreBoard(2); // hard_drop x2 Distance 
 		}

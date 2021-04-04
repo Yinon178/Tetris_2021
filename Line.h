@@ -10,7 +10,7 @@ public:
 	Line(Board &_boardGame);
 
 	//move
-	bool move(Board &boardGame, char keyPressed = DEFAULT) override;
+	bool move(char keyPressed = DEFAULT) override;
 
 	//rotate
 	void rotate() override;
