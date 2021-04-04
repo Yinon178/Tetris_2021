@@ -2,8 +2,8 @@
 
 Joker::Joker() : Special()
 {
-	body.setPoint((Board::GameZone::LEFT + Board::GameZone::RIGHT) / 2, Board::GameZone::TOP, true, getSerialObj(), Sign::J);
-	prevJ.setPoint((Board::GameZone::LEFT + Board::GameZone::RIGHT) / 2, Board::GameZone::TOP, false, getSerialObj(), Sign::J);
+	body.setPoint((boardGame.gameZone.left + boardGame.gameZone.right) / 2, boardGame.gameZone.top, true, getSerialObj(), Sign::J);
+	prevJ.setPoint((boardGame.gameZone.left + boardGame.gameZone.right) / 2, boardGame.gameZone.top, false, getSerialObj(), Sign::J);
 }
 
 void Joker::draw(char ch) const
@@ -15,7 +15,7 @@ bool Joker::move(Board & boardGame, char keyPressed)
 {
 	int addScore;
 
-			if (body.gety() == Board::GameZone::BOTTOM && keyPressed != LEFT && keyPressed != RIGHT)
+			if (body.gety() == boardGame.gameZone.bottom && keyPressed != LEFT && keyPressed != RIGHT)
 				prevJ.setPoint(prevJ.getx(), prevJ.gety(), false, prevJ.getSerialNumber(), prevJ.getSign());
 
 			if (prevJ.isBusy() && keyPressed != JSTOP)
@@ -24,7 +24,7 @@ bool Joker::move(Board & boardGame, char keyPressed)
 			switch (keyPressed)
 			{
 			case eKEYS::DEFAULT:
-				if (body.gety() < Board::GameZone::BOTTOM)
+				if (body.gety() < boardGame.gameZone.bottom)
 				{
 					if (!(prevJ.isBusy()))
 						boardGame.turnOffPoint(body.getx(), body.gety());
@@ -41,7 +41,7 @@ bool Joker::move(Board & boardGame, char keyPressed)
 				}
 				break;
 			case eKEYS::LEFT:
-				if (Board::GameZone::LEFT < body.getx())
+				if (boardGame.gameZone.left < body.getx())
 				{
 					if (!(prevJ.isBusy()))
 						boardGame.turnOffPoint(body.getx(), body.gety());
@@ -52,7 +52,7 @@ bool Joker::move(Board & boardGame, char keyPressed)
 				}
 				break;
 			case eKEYS::RIGHT:
-				if (Board::GameZone::RIGHT > body.getx())
+				if (boardGame.gameZone.right > body.getx())
 				{
 					if (!(prevJ.isBusy()))
 						boardGame.turnOffPoint(body.getx(), body.gety());

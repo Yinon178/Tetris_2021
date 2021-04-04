@@ -4,8 +4,13 @@
 
 class Zshape : public Shape {
 public:
-	//ctor
-	Zshape();
 
-	AllAdjustRotations getPossibleRotations();
+	//ctor
+	Zshape(Board &_boardGame);
+
+	//move
+	bool move(char keyPressed = DEFAULT) override;
+
+	//rotate
+	void rotate() override;
 };

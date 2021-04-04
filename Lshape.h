@@ -4,7 +4,11 @@
 class Lshape : public Shape {
 public:
 	//ctor
-	Lshape();
+	Lshape(Board &_boardGame);
 
-	AllAdjustRotations getPossibleRotations();
+	//move
+	bool move(char keyPressed = DEFAULT) override;
+	
+	//rotate
+	void rotate() override;
 };

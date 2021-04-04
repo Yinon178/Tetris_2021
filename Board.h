@@ -3,22 +3,39 @@
 #include "Point.h"
 
 enum Sign { J = 'O', B = '@' }; // signs on the board of BOMB & JOKER
-enum {ROWS = 15, COLS = 10};
+enum {ROWS = 21, COLS = 12};
 
 class TopBoard;
+
+class GameZone {
+public:
+	int left, right, top, bottom;
+	GameZone(int player);
+};
+
+class GameFrame {
+public:
+	int left_f, right_f, top_f, bottom_f;
+	GameFrame(GameZone gameZone) { left_f = gameZone.left - 1; right_f = gameZone.right + 1; top_f = gameZone.top; bottom_f = gameZone.bottom + 1; }; // the frame of all the board (include menu)
+};
 
 class Board {
 
 	Point boardGame[ROWS][COLS];
-	TopBoard * topB;
+	TopBoard* topB;
+	int player;
 
 public:
-	
-	Board(); // ctr 
+
+	Board(int _player); // ctr 
 	~Board() { delete topB; }; // dctr
-	enum GameZone { LEFT = 10, RIGHT = 19, TOP = 5, BOTTOM = 16 }; //  only the game zone area
-	enum GameFrame { LEFT_F = GameZone::LEFT-1, RIGHT_F = GameZone::RIGHT+1, TOP_F = GameZone::TOP-4, BOTTOM_F = GameZone::BOTTOM+1 }; // the frame of all the board (include menu)
+
+	GameZone gameZone{player};
+
+	GameFrame gameFrame{gameZone};
+
 	void printFrame();
+
 	void setBoard();
 
 	void cleanGameOver();
@@ -35,35 +52,35 @@ public:
 
 	bool checkInGameZone(int x, int y)
 	{
-		return (x >= GameZone::LEFT && x <= GameZone::RIGHT && y >= GameZone::TOP && y <= GameZone::BOTTOM);
+		return (x >= gameZone.left && x <= gameZone.right && y >= gameZone.top && y <= gameZone.bottom);
 	}
 
 	char getSign(int x, int y)
 	{
-		return boardGame[y - GameZone::TOP + 3][x - GameZone::LEFT].getSign();
+		return boardGame[y - gameZone.top + 3][x - gameZone.left].getSign();
 	}
 
 	int getSerial(int x, int y)
 	{
-		return (boardGame[y - GameZone::TOP + 3][x - GameZone::LEFT].getSerialNumber());
+		return (boardGame[y - gameZone.top + 3][x - gameZone.left].getSerialNumber());
 	}
 
 	bool isValid(int x, int y)
 	{
-		return (!(boardGame[y - GameZone::TOP + 3][x - GameZone::LEFT].isBusy()) &&
-			(x >= GameZone::LEFT && x <= GameZone::RIGHT && y >= GameZone::TOP && y <= GameZone::BOTTOM) && (boardGame[y - GameZone::TOP + 3][x - GameZone::LEFT].getSerialNumber() != -2));
+		return (!(boardGame[y - gameZone.top + 3][x - gameZone.left].isBusy()) &&
+			(x >= gameZone.left && x <= gameZone.right && y >= gameZone.top && y <= gameZone.bottom) && (boardGame[y - gameZone.top + 3][x - gameZone.left].getSerialNumber() != -2));
 	}
 
 	void turnOnPoint(int x, int y,int serial=0, char ch = '#')
 	{
-		boardGame[y - GameZone::TOP + 3][x - GameZone::LEFT].setPoint(x, y, true,serial,ch);
-		boardGame[y - GameZone::TOP + 3][x - GameZone::LEFT].draw(ch);
+		boardGame[y - gameZone.top + 3][x - gameZone.left].setPoint(x, y, true,serial,ch);
+		boardGame[y - gameZone.top + 3][x - gameZone.left].draw(ch);
 	}
 	void turnOffPoint(int x, int y)
 	{
-		if (x >= GameZone::LEFT && x <= GameZone::RIGHT && y >= GameZone::TOP && y <= GameZone::BOTTOM) {
-			boardGame[y - GameZone::TOP + 3][x - GameZone::LEFT].setPoint(x, y, false);
-			boardGame[y - GameZone::TOP + 3][x - GameZone::LEFT].draw(' ');
+		if (x >= gameZone.left && x <= gameZone.right && y >= gameZone.top && y <= gameZone.bottom) {
+			boardGame[y - gameZone.top + 3][x - gameZone.left].setPoint(x, y, false);
+			boardGame[y - gameZone.top + 3][x - gameZone.left].draw(' ');
 		}
 	}
 
@@ -82,7 +99,7 @@ public:
 
 	void updateRecord(int newRecord)
 	{
-		gotoxy(Board::RIGHT_F + 5, (Board::BOTTOM_F + Board::TOP_F) / 2 - 3);
+		gotoxy(gameFrame.right_f + 5, (gameFrame.bottom_f + gameFrame.top_f) / 2 - 3);
 		cout << newRecord;
 	}
 

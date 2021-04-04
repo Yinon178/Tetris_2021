@@ -8,6 +8,7 @@ class TopBoard {
 	 //Data members
 	int numOfShapes;
 	int score;
+    Board board
 
 public:
 
@@ -17,7 +18,8 @@ public:
 
 	int getScore() { return score; }
 
-	TopBoard() : numOfShapes(0), score(0) {
+	TopBoard(Board &_board) : numOfShapes(0), score(0) {
+        board = _board
 		printTopBoard();
 	};
 

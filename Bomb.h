@@ -8,7 +8,7 @@ public:
 
 	//ctor
 	Bomb() : Special() {
-		body.setPoint((Board::GameZone::LEFT + Board::GameZone::RIGHT) / 2, Board::GameZone::TOP, true, getSerialObj(), Sign::B);
+		body.setPoint((boardGame.gameZone.left + boardGame.gameZone.right) / 2, boardGame.gameZone.top, true, getSerialObj(), Sign::B);
 	}
 
 	//draw
