@@ -7,7 +7,7 @@ class Bomb : public Special {
 public:
 
 	//ctor
-	Bomb() : Special() {
+	Bomb(Board &_boardGame) : Special(_boardGame) {
 		body.setPoint((boardGame.gameZone.left + boardGame.gameZone.right) / 2, boardGame.gameZone.top, true, getSerialObj(), Sign::B);
 	}
 
@@ -15,7 +15,7 @@ public:
 	void draw(char ch = '#')const override;
 	
 	// move
-	bool move(Board &boardGame, char keyPressed = DEFAULT) override;
+	bool move(char keyPressed = DEFAULT) override;
 
 
 };

@@ -9,14 +9,14 @@ class TopBoard;
 
 class GameZone {
 public:
-	int left, right, top, bottom;
-	GameZone(int player);
+	int left, right, top = 5, bottom = 22;
+	GameZone(int player) : left(player == 1 ? 10 : 50), right(player == 1 ? 21 : 61) {};
 };
 
 class GameFrame {
 public:
 	int left_f, right_f, top_f, bottom_f;
-	GameFrame(GameZone gameZone) { left_f = gameZone.left - 1; right_f = gameZone.right + 1; top_f = gameZone.top; bottom_f = gameZone.bottom + 1; }; // the frame of all the board (include menu)
+	GameFrame(GameZone gameZone) { left_f = gameZone.left - 1; right_f = gameZone.right + 1; top_f = gameZone.top - 4; bottom_f = gameZone.bottom + 1; }; // the frame of all the board (include menu)
 };
 
 class Board {
@@ -26,13 +26,14 @@ class Board {
 	int player;
 
 public:
+	GameZone gameZone;
 
-	Board(int _player); // ctr 
+	GameFrame gameFrame;
+
+	Board(int _player) : player(_player), gameZone(_player), gameFrame(gameZone), topB(new TopBoard(this)) { setBoard(); }; // ctr 
 	~Board() { delete topB; }; // dctr
 
-	GameZone gameZone{player};
-
-	GameFrame gameFrame{gameZone};
+	
 
 	void printFrame();
 

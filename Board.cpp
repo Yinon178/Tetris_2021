@@ -2,12 +2,6 @@
 #include <conio.h>
 #include <Windows.h>
 
-Board::Board(int _player)
-{
-	player = _player;
-	topB = new TopBoard();
-	setBoard();
-}
 
 void Board::printFrame()
 {
@@ -195,7 +189,7 @@ bool Board::updateBoard()
 {
 	Point temp[4];
 	int tempSize;
-	int row = Board::BOTTOM - 1;
+	int row = gameZone.bottom - 1;
 	bool endClean = true;
 	while (row != gameZone.top )
 	{
@@ -288,35 +282,21 @@ void Board::hardDownShape(Point * arr , int size)
 	}
 }
 
-void Board::printMenu()
+void Board::printMenu() //TODO: does not belong here
 {
-	gotoxy(gameFrame.right_f + 5, (gameFrame.bottom_f + gameFrame.top_f) / 2 - 5);
-	cout << "Your highest score is :";
-	gotoxy(gameFrame.right_f + 5, (gameFrame.bottom_f + gameFrame.top_f) / 2);
-	cout << "Press (1) to START" << endl;
-	gotoxy(gameFrame.right_f + 5, ((gameFrame.bottom_f + gameFrame.top_f) / 2) + 1);
-	cout << "Press (2) to PAUSE/RESUME" << endl;
-	gotoxy(gameFrame.right_f + 5, ((gameFrame.bottom_f + gameFrame.top_f) / 2) + 2);
-	cout << "Press (3) to FAST SPEED" << endl;
-	gotoxy(gameFrame.right_f + 5, ((gameFrame.bottom_f + gameFrame.top_f) / 2) + 3);
-	cout << "Press (4) to NORMAL SPEED" << endl;
-	gotoxy(gameFrame.right_f + 5, ((gameFrame.bottom_f + gameFrame.top_f) / 2) + 4);
-	cout << "Press (9) to EXIT" << endl;
-}
-
-GameZone::GameZone(int player) 
-{
-	top = 5;
-	bottom = 22;
 	if (player == 1)
 	{
-		left = 10;
-		right = 21;
-	}
-	else if (player == 2)
-	{
-		left = 50;
-		right = 61;
+		gotoxy(gameFrame.right_f + 5, (gameFrame.bottom_f + gameFrame.top_f) / 2 - 5);
+		cout << "Your highest score is :";
+		gotoxy(gameFrame.right_f + 5, (gameFrame.bottom_f + gameFrame.top_f) / 2);
+		cout << "Press (1) to START" << endl;
+		gotoxy(gameFrame.right_f + 5, ((gameFrame.bottom_f + gameFrame.top_f) / 2) + 1);
+		cout << "Press (2) to PAUSE/RESUME" << endl;
+		gotoxy(gameFrame.right_f + 5, ((gameFrame.bottom_f + gameFrame.top_f) / 2) + 2);
+		cout << "Press (3) to FAST SPEED" << endl;
+		gotoxy(gameFrame.right_f + 5, ((gameFrame.bottom_f + gameFrame.top_f) / 2) + 3);
+		cout << "Press (4) to NORMAL SPEED" << endl;
+		gotoxy(gameFrame.right_f + 5, ((gameFrame.bottom_f + gameFrame.top_f) / 2) + 4);
+		cout << "Press (9) to EXIT" << endl;
 	}
 }
-

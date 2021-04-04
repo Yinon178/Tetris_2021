@@ -9,7 +9,7 @@ Line::Line(Board &_boardGame) : Shape(_boardGame)
 }
 
 //move Line
-bool Line::move(Board & boardGame, char keyPressed)
+bool Line::move(char keyPressed)
 {
 	bool flag = true;
 
@@ -77,7 +77,7 @@ bool Line::move(Board & boardGame, char keyPressed)
 		case eKEYS::HARD_DOWN:
 			while (true)
 			{
-				if (!(move(boardGame, DEFAULT)))
+				if (!(move( DEFAULT)))
 					break;
 				boardGame.updateScoreBoard(2); // hard_drop x2 Distance 
 			}
@@ -158,7 +158,7 @@ bool Line::move(Board & boardGame, char keyPressed)
 		case eKEYS::HARD_DOWN:
 			while (true)
 			{
-				if (!(move(boardGame, DEFAULT)))
+				if (!(move( DEFAULT)))
 					break;
 				boardGame.updateScoreBoard(2); // hard_drop x2 Distance 
 			}
