@@ -9,11 +9,7 @@ public:
 	//ctor
 	Line(Board &_boardGame);
 
-	//move
-	bool move(char keyPressed = DEFAULT) override;
-
-	//rotate
-	void rotate() override;
+	AllAdjustRotations getPossibleRotations() override;
 
 };
 
