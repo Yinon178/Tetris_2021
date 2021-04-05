@@ -4,7 +4,7 @@
 #include <Windows.h>
 using namespace std;
 
-enum eKEYS {LEFT = 'a', RIGHT = 'd', HARD_DOWN = 'x', ROUTE = 'w', JSTOP = 's', DEFAULT = ' ', ESC = 27};
+enum eKEYS { LEFT = 'a', RIGHT = 'd', HARD_DOWN = 'x', ROUTE = 'w', ROUTEC = 'c', JSTOP = 's', DEFAULT = ' ', ESC = 27 };
 
 class Point
 {
