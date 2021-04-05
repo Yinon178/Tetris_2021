@@ -24,16 +24,16 @@ public:
 	AdjustRotations def = { Point(0, 1), Point(0, 1) ,Point(0, 1),  Point(0, 1) };
 	AdjustRotations right = { Point(1, 0), Point(1, 0) , Point(1, 0),  Point(1, 0) };
 	//ctor
-	Shape(int _serial, Board& _boardGame) : GameObjects(_serial), boardGame(_boardGame) {};
-	Shape(Board& _boardGame) : GameObjects(), boardGame(_boardGame) {};
+	Shape(int _serial, Board &_boardGame) : GameObjects(_serial), boardGame(_boardGame) {};
+	Shape(Board &_boardGame) : GameObjects(), boardGame(_boardGame) {};
 
     
 	virtual void draw(char ch = '#')const;
 
-	bool move(Board& boardGame, char keyPressed = DEFAULT);
+	bool move(char keyPressed = DEFAULT);
 	void updateShape(char direction);
 
-	bool moveByDelta(Board& boardGame, char keyPressed, AdjustRotations currentMove, int direction);
+	bool moveByDelta( char keyPressed, AdjustRotations currentMove, int direction);
 
 	//Pure Virtual
 	virtual void rotate(int direction = 1);

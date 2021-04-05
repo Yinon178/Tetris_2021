@@ -17,7 +17,7 @@ AllAdjustRotations Line::getPossibleRotations() {
 			{Point(2, -2), Point(1,-1), Point(0,0),   Point(-1,1) },
 			{Point(-2, 1), Point(-1,0), Point(0,-1),  Point(1,-2)}
 		}
-		}
-);
+	);
 	return possiblePermutations;
 }
+

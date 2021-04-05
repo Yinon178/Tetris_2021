@@ -8,7 +8,7 @@ void Shape::draw(char ch)const
 		p.draw();
 }
 
-bool Shape::move(Board& boardGame, char keyPressed)
+bool Shape::move(char keyPressed)
 {
     bool flag = true;
     AdjustRotations currentMove;
@@ -34,7 +34,7 @@ bool Shape::move(Board& boardGame, char keyPressed)
     case eKEYS::HARD_DOWN:
         while (true)
         {
-            if (!(move(boardGame, DEFAULT)))
+            if (!(move( DEFAULT)))
                 break;
             boardGame.updateScoreBoard(2); // hard_drop x2 Distance 
         }
@@ -44,7 +44,7 @@ bool Shape::move(Board& boardGame, char keyPressed)
         currentMove = def;
         break;
     }
-    return moveByDelta(boardGame, keyPressed, currentMove, direction);
+    return moveByDelta( keyPressed, currentMove, direction);
 
 }
 void Shape::rotate(int direction)
@@ -73,7 +73,7 @@ void Shape::rotate(int direction)
 }
 
 
-bool Shape::moveByDelta(Board& boardGame, char keyPressed, AdjustRotations currentMove, int direction) {
+bool Shape::moveByDelta( char keyPressed, AdjustRotations currentMove, int direction) {
     for (int i = 0; i < SIZE; i++)
     {
         int newX = (body[i].getx() + currentMove[i].getx() * direction);

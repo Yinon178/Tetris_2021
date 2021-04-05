@@ -10,7 +10,7 @@ class TopBoard;
 class GameZone {
 public:
 	int left, right, top = 5, bottom = 22;
-	GameZone(int player) : left(player == 1 ? 10 : 50), right(player == 1 ? 21 : 61) {};
+	GameZone(int player) : left(player == 1 ? 10 : 60), right(player == 1 ? 21 : 71) {};
 };
 
 class GameFrame {
@@ -22,7 +22,7 @@ public:
 class Board {
 
 	Point boardGame[ROWS][COLS];
-	TopBoard* topB;
+	
 	int player;
 
 public:
@@ -30,7 +30,10 @@ public:
 
 	GameFrame gameFrame;
 
+	TopBoard* topB;
+
 	Board(int _player) : player(_player), gameZone(_player), gameFrame(gameZone), topB(new TopBoard(this)) { setBoard(); }; // ctr 
+
 	~Board() { delete topB; }; // dctr
 
 	

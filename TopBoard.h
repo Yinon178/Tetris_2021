@@ -18,6 +18,8 @@ public:
 
 	int getScore() { return score; }
 
+	TopBoard() = delete;
+
 	TopBoard(Board *_board) : numOfShapes(0), score(0), board(_board) {
 		printTopBoard();
 	};
