@@ -34,6 +34,8 @@
     <ClInclude Include="TetrisGame.h" />
     <ClInclude Include="TopBoard.h" />
     <ClInclude Include="Zshape.h" />
+	<ClInclude Include="MirrorZshape.h" />
+	<ClInclude Include="MirrorLshape.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
@@ -51,6 +53,8 @@
     <ClCompile Include="TetrisGame.cpp" />
     <ClCompile Include="TopBoard.cpp" />
     <ClCompile Include="Zshape.cpp" />
+	<ClCompile Include="MirrorZshape.cpp" />
+	<ClCompile Include="MirrorLshape.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FA449C1C-59FA-4550-BF22-6B5382752364}</ProjectGuid>

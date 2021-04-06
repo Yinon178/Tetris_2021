@@ -4,10 +4,10 @@
 // ctor
 Zshape::Zshape(Board &_boardGame) : Shape(_boardGame)
 {
-	body[0].setPoint(X_SQ, Y_SQ, true, getSerialObj());
-	body[1].setPoint(X_SQ + 1, Y_SQ, true, getSerialObj());
-	body[2].setPoint(X_SQ + 1, Y_SQ + 1, true, getSerialObj());
-	body[3].setPoint(X_SQ + 2, Y_SQ + 1, true, getSerialObj());
+	body[0].setPoint(((boardGame.gameZone.left + boardGame.gameZone.right) / 2), boardGame.gameZone.top, true, getSerialObj());
+	body[1].setPoint(((boardGame.gameZone.left + boardGame.gameZone.right) / 2) + 1, boardGame.gameZone.top, true, getSerialObj());
+	body[2].setPoint(((boardGame.gameZone.left + boardGame.gameZone.right) / 2) + 1, boardGame.gameZone.top + 1, true, getSerialObj());
+	body[3].setPoint(((boardGame.gameZone.left + boardGame.gameZone.right) / 2) + 2, boardGame.gameZone.top + 1, true, getSerialObj());
 }
 
 //move
