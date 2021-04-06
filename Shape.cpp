@@ -80,11 +80,18 @@ bool Shape::moveByDelta( char keyPressed, AdjustRotations currentMove, int direc
         int newY = (body[i].gety() + currentMove[i].gety() * direction);
         if (boardGame.isValid(newX, newY) == false && boardGame.getSerial(newX, newY) != this->getSerialObj())
         {
-            while (boardGame.cleanLines(body[i].gety() + 1))
-            {
-                boardGame.updateBoard();
+            if (keyPressed == LEFT || keyPressed == RIGHT) { // wall encountered
+                keyPressed = DEFAULT;
+                return move(keyPressed);
+                 
             }
-            return false;
+            else {
+                while (boardGame.cleanLines(body[i].gety() + 1))
+                {
+                    boardGame.updateBoard();
+                }
+                return false;
+            }
         }
     }
     for (int i = 0; i < SIZE; i++)
@@ -126,6 +133,8 @@ void Shape::updateShape(char direction)
         rotate(-1);
 		break;
 	default:
+        for (Point& p : body)
+            p.setPoint(p.getx(), p.gety() + 1, true, p.getSerialNumber());
 		break;
 	}
 

@@ -65,7 +65,7 @@ void TetrisGame::run() {
 
 						while (objectPlayer1->move(keyPressed))
 						{
-							char keyPressed;
+							keyPressed = DEFAULT;
 							if (_kbhit()) // checks if there is anything in the buffer
 							{
 								keyPressed = _getch(); // take the head of the buffer
@@ -90,9 +90,12 @@ void TetrisGame::run() {
 										}
 									}
 								}
+								Sleep(gameSpeed);
 								if (!(objectPlayer1->move(keyPressed)))
 									break;
+								keyPressed = DEFAULT;
 							}
+
 							Sleep(gameSpeed);
 
 						}
