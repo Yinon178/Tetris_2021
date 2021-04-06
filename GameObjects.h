@@ -23,7 +23,7 @@ public:
 
 	virtual void draw(char ch = '#')const = 0;
 
-	virtual bool move(Board &boardGame, char keyPressed = DEFAULT) = 0;
+	virtual bool move(char keyPressed = DEFAULT) = 0;
 
 	virtual void updateShape(char direction) = 0;
 

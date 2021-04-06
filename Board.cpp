@@ -2,27 +2,22 @@
 #include <conio.h>
 #include <Windows.h>
 
-Board::Board()
-{
-	topB = new TopBoard();
-	setBoard();
-}
 
 void Board::printFrame()
 {
 	for (int i = 1;i <= COLS; i++) // print frame top & bottom 
 	{
-		gotoxy(GameFrame::LEFT_F + i, GameFrame::TOP_F);
+		gotoxy(gameFrame.left_f + i, gameFrame.top_f);
 		cout << "*" << endl;
-		gotoxy(GameFrame::LEFT_F + i, GameFrame::BOTTOM_F);
+		gotoxy(gameFrame.left_f + i, gameFrame.bottom_f);
 		cout << "*" << endl;
 	}
 
 	for (int i = 0;i <= ROWS+1; i++) // print frame left & right
 	{
-		gotoxy(GameFrame::LEFT_F, GameFrame::TOP_F + i);
+		gotoxy(gameFrame.left_f, gameFrame.top_f + i);
 		cout << "|" << endl;
-		gotoxy(GameFrame::RIGHT_F, GameFrame::TOP_F + i);
+		gotoxy(gameFrame.right_f, gameFrame.top_f + i);
 		cout << "|" << endl;
 	}
 
@@ -42,11 +37,11 @@ void Board::setBoard()
 
 			if (i < 2) {
 				boardGame[i][j].setPoint(j, i, false, -2, ' ');
-				turnOffPoint(j + GameZone::LEFT, i + GameZone::TOP);
+				turnOffPoint(j + gameZone.left, i + gameZone.top);
 			}
 			else {
-				boardGame[i][j].setPoint(j + GameZone::LEFT, i + GameZone::TOP, false, -1, ' ');
-				turnOffPoint(j + GameZone::LEFT, i + GameZone::TOP);
+				boardGame[i][j].setPoint(j + gameZone.left, i + gameZone.top, false, -1, ' ');
+				turnOffPoint(j + gameZone.left, i + gameZone.top);
 			}
 		}
 	}
@@ -55,11 +50,11 @@ void Board::setBoard()
 
 void Board::cleanGameOver()
 {
-	gotoxy(Board::LEFT_F + 2, Board::BOTTOM_F + 1);
+	gotoxy(gameFrame.left_f + 2, gameFrame.bottom_f + 1);
 	cout << "              " << endl;
-	gotoxy(Board::LEFT_F - 2, Board::BOTTOM_F + 3);
+	gotoxy(gameFrame.left_f - 2, gameFrame.bottom_f + 3);
 	cout << "                                " << endl;
-	gotoxy(Board::LEFT_F - 2, Board::BOTTOM_F + 5);
+	gotoxy(gameFrame.left_f - 2, gameFrame.bottom_f + 5);
 	cout << "                                " << endl;
 	topB->resetTopBoard();
 	
@@ -76,7 +71,7 @@ bool Board::isFullLine (int curLine , bool & isJokerInLine)
 	isJokerInLine = false;
 
 	//check FULL line
-	for (const Point&p : boardGame[curLine - Board::TOP + 3])
+	for (const Point&p : boardGame[curLine - gameZone.top + 3])
 	{
 		if (p.getSign() == Sign::J)
 			isJokerInLine = true;
@@ -84,14 +79,14 @@ bool Board::isFullLine (int curLine , bool & isJokerInLine)
 			return false;
 	}
 	// marker the line before crush
-	for (Point&p : boardGame[curLine - Board::TOP + 3])
+	for (Point&p : boardGame[curLine - gameZone.top + 3])
 	{
 		turnOnPoint(p.getx(), p.gety(),-3,'x');
 		Sleep(20);
 	}
 
 	// turn OFF line
-	for (Point&p : boardGame[curLine - Board::TOP + 3])
+	for (Point&p : boardGame[curLine - gameZone.top + 3])
 	{
 		turnOffPoint(p.getx(), p.gety());
 	}
@@ -101,7 +96,7 @@ bool Board::isFullLine (int curLine , bool & isJokerInLine)
 
 bool Board::isEmptyLine(int curLine)
 {
-	for (const Point&p : boardGame[curLine - Board::TOP + 3])
+	for (const Point&p : boardGame[curLine - gameZone.top + 3])
 	{
 		if ((p.isBusy()))
 			return false;
@@ -194,11 +189,11 @@ bool Board::updateBoard()
 {
 	Point temp[4];
 	int tempSize;
-	int row = Board::BOTTOM - 1;
+	int row = gameZone.bottom - 1;
 	bool endClean = true;
-	while (row != Board::TOP )
+	while (row != gameZone.top )
 	{
-		for (Point&p : boardGame[row - Board::TOP + 3])
+		for (Point&p : boardGame[row - gameZone.top + 3])
 		{
 			if (p.isBusy() == true && isValid(p.getx(), p.gety() + 1))
 			{
@@ -229,7 +224,7 @@ Point * Board::createSerialShape(int serial, int row, int & shapeSize, Point * r
 	shapeSize = 0;
 	for (int i = 0; i<4; i++)
 	{
-		for (Point&p : boardGame[row - i - Board::TOP + 3])
+		for (Point&p : boardGame[row - i - gameZone.top + 3])
 		{
 			if (serial == p.getSerialNumber())
 			{
@@ -248,7 +243,7 @@ void Board::moveShape(Point * arr, int size)
 	bool flag1 = true;
 	for (int i = 0;i < size; i++)
 	{
-		if (isValid(arr[i].getx(), arr[i].gety() + 1) && arr[i].gety()+1 <= BOTTOM)
+		if (isValid(arr[i].getx(), arr[i].gety() + 1) && arr[i].gety()+1 <= gameZone.bottom)
 			flag = true;
 		else
 		{
@@ -287,19 +282,21 @@ void Board::hardDownShape(Point * arr , int size)
 	}
 }
 
-void Board::printMenu()
+void Board::printMenu() //TODO: does not belong here
 {
-	gotoxy(Board::RIGHT_F + 5, (Board::BOTTOM_F + Board::TOP_F) / 2 - 5);
-	cout << "Your highest score is :";
-	gotoxy(Board::RIGHT_F + 5, (Board::BOTTOM_F + Board::TOP_F) / 2);
-	cout << "Press (1) to START" << endl;
-	gotoxy(Board::RIGHT_F + 5, ((Board::BOTTOM_F + Board::TOP_F) / 2) + 1);
-	cout << "Press (2) to PAUSE/RESUME" << endl;
-	gotoxy(Board::RIGHT_F + 5, ((Board::BOTTOM_F + Board::TOP_F) / 2) + 2);
-	cout << "Press (3) to FAST SPEED" << endl;
-	gotoxy(Board::RIGHT_F + 5, ((Board::BOTTOM_F + Board::TOP_F) / 2) + 3);
-	cout << "Press (4) to NORMAL SPEED" << endl;
-	gotoxy(Board::RIGHT_F + 5, ((Board::BOTTOM_F + Board::TOP_F) / 2) + 4);
-	cout << "Press (9) to EXIT" << endl;
+	if (player == 1)
+	{
+		gotoxy(gameFrame.right_f + 5, (gameFrame.bottom_f + gameFrame.top_f) / 2 - 5);
+		cout << "Your highest score is :";
+		gotoxy(gameFrame.right_f + 5, (gameFrame.bottom_f + gameFrame.top_f) / 2);
+		cout << "Press (1) to START" << endl;
+		gotoxy(gameFrame.right_f + 5, ((gameFrame.bottom_f + gameFrame.top_f) / 2) + 1);
+		cout << "Press (2) to PAUSE/RESUME" << endl;
+		gotoxy(gameFrame.right_f + 5, ((gameFrame.bottom_f + gameFrame.top_f) / 2) + 2);
+		cout << "Press (3) to FAST SPEED" << endl;
+		gotoxy(gameFrame.right_f + 5, ((gameFrame.bottom_f + gameFrame.top_f) / 2) + 3);
+		cout << "Press (4) to NORMAL SPEED" << endl;
+		gotoxy(gameFrame.right_f + 5, ((gameFrame.bottom_f + gameFrame.top_f) / 2) + 4);
+		cout << "Press (9) to EXIT" << endl;
+	}
 }
-

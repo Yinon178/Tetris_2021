@@ -4,8 +4,9 @@
 
 class Zshape : public Shape {
 public:
+
 	//ctor
-	Zshape();
+	Zshape(Board &_boardGame);
 
 	AllAdjustRotations getPossibleRotations();
 };
