@@ -5,7 +5,7 @@
 Line::Line(Board &_boardGame) : Shape(_boardGame)
 {
 	for (int i = 0; i < SIZE; i++)
-		body[i].setPoint(X_ROW + i, Y_ROW, true, getSerialObj());
+		body[i].setPoint(((boardGame.gameZone.left + boardGame.gameZone.right) / 2 - 1) + i, boardGame.gameZone.top, true, getSerialObj());
 }
 
 //move Line

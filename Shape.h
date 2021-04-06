@@ -5,11 +5,6 @@
 
 enum adjust { HORIZON = 0, VERTICAL = 1, UPSIDE_DOWN = 2, UPSIDE_LEFT = 3};
 
-enum startVal {
-	X_SQ = ((10 + 21) / 2), Y_SQ = 5,
-	X_ROW = (10 + 21) / 2 - 1, Y_ROW = 5
-};
-
 using AdjustRotations = std::vector<Point>;
 using AllAdjustRotations = std::vector<AdjustRotations>;
 
