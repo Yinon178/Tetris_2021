@@ -79,9 +79,9 @@ bool Shape::moveByDelta(Board& boardGame, char keyPressed, AdjustRotations curre
 	{
 		int newX = (body[i].getx() + currentMove[i].getx() * direction);
 		int newY = (body[i].gety() + currentMove[i].gety() * direction);
-		if (boardGame.isValid(newX, newY) == false && boardGame.getSerial(newX, newY) != this->getSerialObj())
+		if (boardGame.isValid(newX, newY) == false && boardGame.getSerial(newX, newY) != this->getSerialObj())//check if busy by someone who is not me
 		{
-			while (boardGame.cleanLines(body[i].gety() + 1))
+			while (boardGame.cleanLines(body[i].gety() + 1))//same as before
 			{
 				boardGame.updateBoard();
 			}
@@ -90,9 +90,9 @@ bool Shape::moveByDelta(Board& boardGame, char keyPressed, AdjustRotations curre
 	}
 	for (int i = 0; i < SIZE; i++)
 	{
-		boardGame.turnOffPoint(body[i].getx(), body[i].gety());
+		boardGame.turnOffPoint(body[i].getx(), body[i].gety());//turning of all points of curr shape in board
 	}
-	for (int i = 0; i < SIZE; i++)
+	for (int i = 0; i < SIZE; i++)//turning on all new points in board
 	{
 		int newX = (body[i].getx() + currentMove[i].getx() * direction);
 		int newY = (body[i].gety() + currentMove[i].gety() * direction);
