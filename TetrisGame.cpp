@@ -143,7 +143,7 @@ void TetrisGame::run() {
 GameObjects * TetrisGame::createNewObject(int & type,Board &board )
 {
 	GameObjects * res;
-	int randObj = 8;
+	int randObj = rand() % RAND;
 
 	switch (randObj)
 	{
@@ -253,10 +253,10 @@ bool TetrisGame::checkGameOver(int typeShape, Board &board)
 			return false;
 		break;
 	case Type::ML:
-		if (!(board.isValid(((board.gameZone.left + board.gameZone.right) / 2) - 2, board.gameZone.top)) ||
-			(!(board.isValid(((board.gameZone.left + board.gameZone.right) / 2) - 1, board.gameZone.top)) ||
-			(!(board.isValid(((board.gameZone.left + board.gameZone.right) / 2) + 1, board.gameZone.top)) ||
-			(!(board.isValid(((board.gameZone.left + board.gameZone.right) / 2) + 1, board.gameZone.top - 1))))))
+		if (!(board.isValid(((board.gameZone.left + board.gameZone.right) / 2) - 1, board.gameZone.top + 1)) ||
+			(!(board.isValid(((board.gameZone.left + board.gameZone.right) / 2), board.gameZone.top + 1)) ||
+			(!(board.isValid(((board.gameZone.left + board.gameZone.right) / 2) + 1, board.gameZone.top + 1)) ||
+			(!(board.isValid(((board.gameZone.left + board.gameZone.right) / 2) + 1, board.gameZone.top))))))
 			return false;
 		break;
 	default:
@@ -309,10 +309,10 @@ void TetrisGame::updateStartBoard(int typeShape, Board &board)
 		board.turnOnPoint(((board.gameZone.left + board.gameZone.right) / 2) + 1, board.gameZone.top, serialNumber);
 		break;
 	case Type::ML:
-		board.turnOnPoint(((board.gameZone.left + board.gameZone.right) / 2) - 2, board.gameZone.top, serialNumber);
-		board.turnOnPoint(((board.gameZone.left + board.gameZone.right) / 2) - 1, board.gameZone.top, serialNumber);
+		board.turnOnPoint(((board.gameZone.left + board.gameZone.right) / 2) - 1, board.gameZone.top + 1, serialNumber);
+		board.turnOnPoint(((board.gameZone.left + board.gameZone.right) / 2), board.gameZone.top + 1, serialNumber);
+		board.turnOnPoint(((board.gameZone.left + board.gameZone.right) / 2) + 1, board.gameZone.top + 1, serialNumber);
 		board.turnOnPoint(((board.gameZone.left + board.gameZone.right) / 2) + 1, board.gameZone.top, serialNumber);
-		board.turnOnPoint(((board.gameZone.left + board.gameZone.right) / 2) + 1, board.gameZone.top - 1, serialNumber);
 		break;
 	default:
 		break;
