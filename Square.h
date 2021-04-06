@@ -4,8 +4,7 @@
 
 class Square : public Shape {
 public:
-	// ctor
-	Square(); 
+    Square(Board &_boardGame); // ctor
 
-	AllAdjustRotations getPossibleRotations();
+    AllAdjustRotations getPossibleRotations();
 };

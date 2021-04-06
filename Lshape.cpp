@@ -1,7 +1,7 @@
 #include "Lshape.h"
 
 //ctor
-Lshape::Lshape()
+Lshape::Lshape(Board &_boardGame) : Shape(_boardGame)
 {
 	body[0].setPoint(X_SQ - 1, Y_SQ, true, getSerialObj());
 	body[1].setPoint(X_SQ - 1, Y_SQ + 1, true, getSerialObj());
@@ -9,6 +9,7 @@ Lshape::Lshape()
 	body[3].setPoint(X_SQ + 1, Y_SQ + 1, true, getSerialObj());
 }
 
+//move
 AllAdjustRotations Lshape::getPossibleRotations() {
 	AllAdjustRotations possiblePermutations = AllAdjustRotations(
 		{

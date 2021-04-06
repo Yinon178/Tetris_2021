@@ -4,7 +4,7 @@
 class Lshape : public Shape {
 public:
 	//ctor
-	Lshape();
+	Lshape(Board &_boardGame);
 
 	AllAdjustRotations getPossibleRotations();
 };

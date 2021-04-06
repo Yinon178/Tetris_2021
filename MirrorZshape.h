@@ -2,11 +2,12 @@
 #include "GameObjects.h"
 #include "Shape.h"
 
-class Zshape : public Shape {
+class MirrorZshape : public Shape {
 public:
 
 	//ctor
-	Zshape(Board &_boardGame);
+	MirrorZshape(Board &_boardGame);
 
 	AllAdjustRotations getPossibleRotations();
 };
+

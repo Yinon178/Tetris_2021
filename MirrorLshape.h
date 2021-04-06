@@ -1,12 +1,10 @@
 #pragma once
-#include "GameObjects.h"
 #include "Shape.h"
 
-class Zshape : public Shape {
+class MirrorLshape : public Shape {
 public:
-
 	//ctor
-	Zshape(Board &_boardGame);
+	MirrorLshape(Board& _boardGame);
 
 	AllAdjustRotations getPossibleRotations();
 };

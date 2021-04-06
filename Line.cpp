@@ -1,13 +1,14 @@
 #include "Line.h"
 
+
 //ctor
-Line::Line() 
-	: Shape()
+Line::Line(Board &_boardGame) : Shape(_boardGame)
 {
 	for (int i = 0; i < SIZE; i++)
 		body[i].setPoint(X_ROW + i, Y_ROW, true, getSerialObj());
 }
 
+//move Line
 AllAdjustRotations Line::getPossibleRotations() {
 	AllAdjustRotations possiblePermutations = AllAdjustRotations(
 		{
@@ -19,6 +20,4 @@ AllAdjustRotations Line::getPossibleRotations() {
 	);
 	return possiblePermutations;
 }
-
-
 

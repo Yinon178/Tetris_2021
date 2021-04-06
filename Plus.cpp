@@ -2,7 +2,7 @@
 
 
 //ctor
-Plus::Plus() : Shape()
+Plus::Plus(Board &_boadGame) : Shape(_boadGame)
 {
 	body[0].setPoint(X_SQ - 1, Y_SQ + 1, true, getSerialObj());
 	body[1].setPoint(X_SQ, Y_SQ, true, getSerialObj());

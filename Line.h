@@ -5,10 +5,12 @@
 
 class Line : public Shape {
 public:
+
 	//ctor
-	Line();
+	Line(Board &_boardGame);
 
 	AllAdjustRotations getPossibleRotations() override;
+
 };
 
 
