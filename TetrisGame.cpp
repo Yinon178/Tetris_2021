@@ -17,7 +17,7 @@ enum Speed {Fast = 130, Normal = 200 };
 
 enum MenuKeys {START = '1', PAUSE = '27', FAST_SPEED = '3', NORMAL_SPEED = '4', EXIT = '9'};
 
-int static serialNumber = 0;
+int static serialNumber = 1;
 
 
 //           <<<RUN>>>
@@ -193,6 +193,7 @@ GameObjects * TetrisGame::createNewObject(int & type,Board &board )
 	}
 
 	res->setSerialNumber(serialNumber);
+	serialNumber++;
 	return res;
 }
 
