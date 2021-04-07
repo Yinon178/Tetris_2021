@@ -29,6 +29,8 @@ public:
 
 	void purgeKeyboardBuffer();
 
+	void annonceWinner (int typePlayer1, int typePlayer2);
+
 
 	GameObjects * createNewObject(int & type, Board &board);
 
