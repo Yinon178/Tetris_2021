@@ -25,6 +25,10 @@ public:
 
 	void hideCursor();
 
+	void parseKeysPressed(char &keyPressed, char &keyPressedPlayer1, char &keyPressedPlayer2);
+
+	void purgeKeyboardBuffer();
+
 
 	GameObjects * createNewObject(int & type, Board &board);
 

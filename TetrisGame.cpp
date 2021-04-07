@@ -23,10 +23,10 @@ int static serialNumber = 0;
 //           <<<RUN>>>
 void TetrisGame::run() {
 
-	GameObjects * objectPlayer1;
+	GameObjects *objectPlayer1, *objectPlayer2;
 	int gameSpeed = Normal;
-	char keyPressed = 0;
-	int type = -1;
+	char keyPressed = 0, keyPressedPlayer1 = DEFAULT, keyPressedPlayer2 = DEFAULT;
+	int typePlayer1 = -1, typePlayer2 = -1;
 	bool gameOver = false, exitGame = false;
 	int bestScore = 0;
 	int score = 0;
@@ -48,27 +48,40 @@ void TetrisGame::run() {
 				}
 				if (exitGame)
 					break;
+				objectPlayer1 = createNewObject(typePlayer1, boardGamePlayer1);
+				objectPlayer2 = createNewObject(typePlayer2, boardGamePlayer2);
 				while (true)
 				{
-					while (!gameOver && !exitGame)
-					{
 
-						if (!checkGameOver(type, boardGamePlayer1 ))
+						while (!gameOver && !exitGame)
 						{
-							gameOver = true;
-							break;
-						}
-
-						serialNumber++;
-						objectPlayer1 = createNewObject(type, boardGamePlayer1);
-
-
-						while (objectPlayer1->move(keyPressed))
-						{
-							keyPressed = DEFAULT;
+							if (!(objectPlayer1->move(keyPressedPlayer1)))
+							{
+								if (!checkGameOver(typePlayer1, boardGamePlayer1))
+								{
+									gameOver = true;
+									break;
+								}
+								delete objectPlayer1;
+								objectPlayer1 = createNewObject(typePlayer1, boardGamePlayer1);
+							}
+							if (!(objectPlayer2->move(keyPressedPlayer2)))
+							{
+								if (!checkGameOver(typePlayer2, boardGamePlayer2))
+								{
+									gameOver = true;
+									break;
+								}
+								delete objectPlayer2;
+								objectPlayer2 = createNewObject(typePlayer2, boardGamePlayer2);
+							}
+							keyPressed = 0;
+							keyPressedPlayer1 = DEFAULT; // take the head of the buffer
+							keyPressedPlayer2 = DEFAULT;
+							Sleep(gameSpeed);
 							if (_kbhit()) // checks if there is anything in the buffer
 							{
-								keyPressed = _getch(); // take the head of the buffer
+								parseKeysPressed(keyPressed, keyPressedPlayer1, keyPressedPlayer2);
 								if (keyPressed == EXIT) {
 									exitGame = true;
 									break;
@@ -78,7 +91,7 @@ void TetrisGame::run() {
 								else if (keyPressed == FAST_SPEED)
 									gameSpeed = Speed::Fast;
 
-								if (keyPressed == PAUSE)
+								else if (keyPressed == PAUSE)
 								{
 									while (true)
 									{
@@ -90,20 +103,10 @@ void TetrisGame::run() {
 										}
 									}
 								}
-								Sleep(gameSpeed);
-								if (!(objectPlayer1->move(keyPressed)))
-									break;
-								keyPressed = DEFAULT;
 							}
 
-							Sleep(gameSpeed);
 
 						}
-						delete objectPlayer1;
-
-
-
-					}
 					if (gameOver)
 					{
 						score = boardGamePlayer1.getScore();
@@ -200,23 +203,23 @@ bool TetrisGame::checkGameOver(int typeShape, Board &board)
 	{
 	case B:
 
-		if (!(board.isValid((board.gameZone.top + board.gameZone.right) / 2, board.gameZone.top)))
+		if (!(board.isValid((board.gameZone.left + board.gameZone.right) / 2, board.gameZone.top)))
 			return false;
 		break;
 	case J:
-		if (!(board.isValid((board.gameZone.top + board.gameZone.right) / 2, board.gameZone.top)))
+		if (!(board.isValid((board.gameZone.left + board.gameZone.right) / 2, board.gameZone.top)))
 			return false;
 		break;
 	case Type::SQ:
-		if (!(board.isValid((board.gameZone.top + board.gameZone.right) / 2, board.gameZone.top)) ||
-			(!(board.isValid((board.gameZone.top + board.gameZone.right) / 2 + 1, board.gameZone.top))) ||
-			(!(board.isValid((board.gameZone.top + board.gameZone.right) / 2, board.gameZone.top + 1))) ||
-				(!(board.isValid((board.gameZone.top + board.gameZone.right) / 2 + 1, board.gameZone.top + 1))))
+		if (!(board.isValid((board.gameZone.left + board.gameZone.right) / 2, board.gameZone.top)) ||
+			(!(board.isValid((board.gameZone.left + board.gameZone.right) / 2 + 1, board.gameZone.top))) ||
+			(!(board.isValid((board.gameZone.left + board.gameZone.right) / 2, board.gameZone.top + 1))) ||
+				(!(board.isValid((board.gameZone.left + board.gameZone.right) / 2 + 1, board.gameZone.top + 1))))
 				return false;
 		break;
 	case Type::R:
 		for (int i = 0; i < 4; i++)
-			if (!(board.isValid((board.gameZone.top + board.gameZone.right) / 2 - 1 + i, board.gameZone.top)))
+			if (!(board.isValid((board.gameZone.left + board.gameZone.right) / 2 - 1 + i, board.gameZone.top)))
 				return false;
 		break;
 	case Type::P:
@@ -292,4 +295,56 @@ void TetrisGame::hideCursor()
 	CURSOR.dwSize = 1;
 	CURSOR.bVisible = FALSE;
 	SetConsoleCursorInfo(myconsole, &CURSOR);
+}
+
+void TetrisGame::parseKeysPressed(char &keyPressed, char &keyPressedPlayer1, char &keyPressedPlayer2)
+{
+	char res;
+	std::string player1Keys = "adswx", player2Keys = "jlkim", menuKeys = "1289";
+	while (_kbhit()) {
+		res = std::tolower(_getch());
+		if (player1Keys.find(res) != std::string::npos)
+		{
+			keyPressedPlayer1 = res;
+		}
+		if (menuKeys.find(res) != std::string::npos)
+		{
+			keyPressed = res;
+		}
+		else if (player2Keys.find(res) != std::string::npos)
+		{
+			switch (res)
+			{
+			case 'j':
+				keyPressedPlayer2 = LEFT;
+				break;
+			case 'l':
+				keyPressedPlayer2 = RIGHT;
+				break;
+			case 'k':
+				keyPressedPlayer2 = ROUTE;
+				break;
+			case 'i':
+				keyPressedPlayer2 = ROUTEC;
+				break;
+			case 'm':
+				keyPressedPlayer2 = HARD_DOWN;
+				break;
+			default:
+				cout << "ERORR in parsing player 2 keys";
+				exit(-1);
+				break;
+			}
+		}	
+
+	}
+	purgeKeyboardBuffer();
+}
+
+void TetrisGame::purgeKeyboardBuffer() 
+{
+	while (_kbhit()) {
+		_getch();
+	}
+
 }
