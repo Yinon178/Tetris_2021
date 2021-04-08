@@ -3,4 +3,5 @@
 using namespace std;
 
 void gotoxy(int x, int y);
-void clrscr();
+
+void ClearScreen();
