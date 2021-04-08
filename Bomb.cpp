@@ -23,7 +23,7 @@ bool Bomb::move(char keyPressed)
 		else // explode 
 		{
 			boardGame.turnOffPoint(body.getx(), body.gety());
-			addScore = boardGame.blowUpSquare(body.getx(), body.gety() + 1);
+			addScore = boardGame.blowUpSquare(body.getx(), body.gety());
 			boardGame.updateScoreBoard(addScore);
 			boardGame.updateBoard();
 			if (boardGame.cleanLines(boardGame.gameZone.bottom))
@@ -42,7 +42,7 @@ bool Bomb::move(char keyPressed)
 			return true;
 		else // explode 
 		{
-			addScore = boardGame.blowUpSquare(body.getx() - 1, body.gety() + 1);
+			addScore = boardGame.blowUpSquare(body.getx() - 1, body.gety());
 			boardGame.turnOffPoint(body.getx(), body.gety());
 			boardGame.updateScoreBoard(addScore);
 			boardGame.updateBoard();
@@ -63,7 +63,7 @@ bool Bomb::move(char keyPressed)
 		else // explode 
 		{
 			boardGame.turnOffPoint(body.getx(), body.gety());
-			addScore = boardGame.blowUpSquare(body.getx() + 1, body.gety());
+			addScore = boardGame.blowUpSquare(body.getx(), body.gety());
 			boardGame.updateScoreBoard(addScore);
 			boardGame.updateBoard();
 			if (boardGame.cleanLines(boardGame.gameZone.bottom))

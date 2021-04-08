@@ -23,7 +23,6 @@
     <ClInclude Include="Bomb.h" />
     <ClInclude Include="GameObjects.h" />
     <ClInclude Include="gotoxy.h" />
-    <ClInclude Include="Joker.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="Lshape.h" />
     <ClInclude Include="Plus.h" />
@@ -41,7 +40,6 @@
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="gotoxy.cpp" />
-    <ClCompile Include="Joker.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="Lshape.cpp" />
     <ClCompile Include="main.cpp" />

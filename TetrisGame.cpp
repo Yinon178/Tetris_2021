@@ -1,5 +1,4 @@
 #include "TetrisGame.h"
-#include "Joker.h"
 #include "Board.h"
 #include "Line.h"
 #include "Square.h"
@@ -11,7 +10,7 @@
 #include "MirrorZshape.h"
 
 
-enum {RAND = 9};
+enum {RAND = 7};
 
 enum Type{Single, SQ, R, P, L, Z, MZ, ML};
 
@@ -141,62 +140,56 @@ void TetrisGame::run() {
 // Create new Object Game
 GameObjects * TetrisGame::createNewObject(int & type,Board &board )
 {
-	GameObjects * res;
-	int randObj = rand() % RAND;
-
-	switch (randObj)
-	{
-	case 0:
+	GameObjects * res=NULL;
+	
+	if (rand() % 20 == 1) {
 		res = new Bomb(board);
 		updateStartBoard(B, board);
 		type = B;
-		break;
-	case 1:
-		res = new Joker(board);
-		updateStartBoard(J, board);
-		type = J;
-		break;
-	case 2:
-		res = new Square(board);
-		updateStartBoard(SQ, board);
-		type = SQ;
-		break;
-	case 3:
-		res = new Line(board);
-		updateStartBoard(R, board);
-		type = R;
+	}
+	else
+	{
+		int randObj = rand() % RAND;
 
-		break;
-	case 4:
-		res = new Plus(board);
-		updateStartBoard(P, board);
-		type = P;
-		break;
-	case 5:
-		res = new Zshape(board);
-		updateStartBoard(Z, board);
-		type = Z;
-		break;
-	case 6:
-		res = new Lshape(board);
-		updateStartBoard(L, board);
-		type = L;
-		break;
-	case 7:
-		res = new MirrorZshape(board);
-		updateStartBoard(MZ, board);
-		type = MZ;
-		break;
-	case 8:
-		res = new MirrorLshape(board);
-		updateStartBoard(ML, board);
-		type = ML;
-		break;
-	default:
-		res = new Line(board);
-		updateStartBoard(R, board);
-		type = R;
-		break;
+		switch (randObj)
+		{
+		case 0:
+			res = new Square(board);
+			updateStartBoard(SQ, board);
+			type = SQ;
+			break;
+		case 1:
+			res = new Line(board);
+			updateStartBoard(R, board);
+			type = R;
+
+			break;
+		case 2:
+			res = new Plus(board);
+			updateStartBoard(P, board);
+			type = P;
+			break;
+		case 3:
+			res = new Zshape(board);
+			updateStartBoard(Z, board);
+			type = Z;
+			break;
+		case 4:
+			res = new Lshape(board);
+			updateStartBoard(L, board);
+			type = L;
+			break;
+		case 5:
+			res = new MirrorZshape(board);
+			updateStartBoard(MZ, board);
+			type = MZ;
+			break;
+		case 6:
+			res = new MirrorLshape(board);
+			updateStartBoard(ML, board);
+			type = ML;
+			break;
+		}
 	}
 
 	res->setSerialNumber(serialNumber);
@@ -211,10 +204,6 @@ bool TetrisGame::checkGameOver(int typeShape, Board &board)
 	{
 	case B:
 
-		if (!(board.isValid((board.gameZone.left + board.gameZone.right) / 2, board.gameZone.top)))
-			return false;
-		break;
-	case J:
 		if (!(board.isValid((board.gameZone.left + board.gameZone.right) / 2, board.gameZone.top)))
 			return false;
 		break;

@@ -15,8 +15,6 @@ i worked with *polymorphism* and *abstract classes* for the first time.
 
 ```c``` - rotate
 
-```s``` - stop (JOKER)
-
 ```x``` - hard drop (SHAPES)
 
 #### Score calculation
@@ -25,7 +23,6 @@ i worked with *polymorphism* and *abstract classes* for the first time.
 * Single line clear - 100
 * Double line clear - 300
 * Triple line clear (or more) - 500
-* Single line clear with joker - 50
 * Bomb explode - (-50)  each cube
 
 *The rest of the buttons are listed in the MENU of the game.*
