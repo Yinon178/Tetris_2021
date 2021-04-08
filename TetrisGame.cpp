@@ -16,7 +16,7 @@ enum Type{Single, SQ, R, P, L, Z, MZ, ML};
 
 enum Speed {Fast = 130, Normal = 200 };
 
-enum MenuKeys {START = '1', PAUSE = '27', FAST_SPEED = '3', NORMAL_SPEED = '4', EXIT = '9'};
+enum MenuKeys {START = '1', PAUSE = '\x1b', RESUME = '2',  FAST_SPEED = '3', NORMAL_SPEED = '4', EXIT = '9'};
 
 int static serialNumber = 1;
 
@@ -92,14 +92,27 @@ void TetrisGame::run() {
 
 								else if (keyPressed == PAUSE)
 								{
+									ClearScreen();
+									boardGamePlayer1.printMenu(true);
 									while (true)
 									{
 										if (_kbhit()) {
 
-											keyPressed = _getch();
-											if (keyPressed == PAUSE)
+											parseKeysPressed(keyPressed, keyPressedPlayer1, keyPressedPlayer2);
+											if (keyPressed == EXIT)
+											{
+												gameOver = true;
 												break;
+											}
+												
+											else if (keyPressed == RESUME) {
+												boardGamePlayer1.setBoard(true);
+												boardGamePlayer2.setBoard(true);
+												break;
+											}
+												
 										}
+										Sleep(gameSpeed);
 									}
 								}
 							}
@@ -113,7 +126,7 @@ void TetrisGame::run() {
 						break;
 					}
 					if (exitGame) {
-						gotoxy((boardGamePlayer1.gameFrame.right_f + boardGamePlayer2.gameFrame.left_f) / 2 - 10, boardGamePlayer1.gameFrame.bottom_f + 2);
+						gotoxy((boardGamePlayer1.gameFrame.right_f + boardGamePlayer2.gameFrame.left_f) / 2 - 7, boardGamePlayer1.gameFrame.bottom_f + 2);
 						cout << "BYE BYE" << endl;
 					}
 					break;
@@ -310,7 +323,7 @@ void TetrisGame::hideCursor()
 void TetrisGame::parseKeysPressed(char &keyPressed, char &keyPressedPlayer1, char &keyPressedPlayer2)
 {
 	char res;
-	std::string player1Keys = "adswx", player2Keys = "jlkim", menuKeys = "1289";
+	std::string player1Keys = "adswx", player2Keys = "jlkim", menuKeys = "1289\x1b";
 	while (_kbhit()) {
 		res = std::tolower(_getch());
 		if (player1Keys.find(res) != std::string::npos)

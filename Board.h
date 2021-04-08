@@ -40,7 +40,7 @@ public:
 
 	void printFrame();
 
-	void setBoard();
+	void setBoard(bool pause=false);
 
 	void cleanGameOver();
 
@@ -90,6 +90,8 @@ public:
 
 	bool updateBoard();
 
+	void printShapes();
+
 	void updateScoreBoard(int addScore);
 
 	void updateNumOfShapesBoard();
@@ -107,5 +109,5 @@ public:
 		cout << newRecord;
 	}
 
-	void printMenu();
+	void printMenu(bool pause = false);
 };
