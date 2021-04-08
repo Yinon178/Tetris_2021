@@ -283,7 +283,7 @@ void Board::printMenu(bool pause) //TODO: does not belong here
 	HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);
 	if (player == 1)
 	{
-		SetConsoleTextAttribute(color, 15)
+		SetConsoleTextAttribute(color, 15);
 		if (!pause)
 		{
 			gotoxy(gameFrame.right_f + 5, (gameFrame.bottom_f + gameFrame.top_f) / 2);
