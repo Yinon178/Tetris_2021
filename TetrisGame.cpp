@@ -382,12 +382,12 @@ void TetrisGame::annonceWinner(int typePlayer1, int typePlayer2)
 	SetConsoleTextAttribute(color, 4);
 	if (!player1win && !player2win)
 	{
-		if (boardGamePlayer1.getScore() == boardGamePlayer1.getScore())
+		if (boardGamePlayer1.getScore() == boardGamePlayer2.getScore())
 		{
 			cout << "~~TIE~~";
 		
 		}
-		else if (boardGamePlayer1.getScore() > boardGamePlayer1.getScore()) 
+		else if (boardGamePlayer1.getScore() > boardGamePlayer2.getScore()) 
 		{
 			cout << "~~PLAYER ONE WINS~~";
 		}
