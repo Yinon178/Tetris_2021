@@ -30,8 +30,6 @@ void TetrisGame::run() {
 	char keyPressed = 0, keyPressedPlayer1 = DEFAULT, keyPressedPlayer2 = DEFAULT;
 	int typePlayer1 = -1, typePlayer2 = -1;
 	bool gameOver = false, exitGame = false;
-	int bestScore = 0;
-	int score = 0;
 
 
 	while (keyPressed != EXIT && !exitGame)
@@ -111,27 +109,12 @@ void TetrisGame::run() {
 						}
 					if (gameOver)
 					{
-						score = boardGamePlayer1.getScore();
-						if (score > bestScore) {
-							bestScore = score;
-							//gotoxy(Board::LEFT_F, Board::BOTTOM_F + 5);
-							HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);
-							SetConsoleTextAttribute(color, 4);
-							cout << "~~NEW RECORD~~";
-							SetConsoleTextAttribute(color, 7);
-							boardGamePlayer1.updateRecord(bestScore);
-						}
-						/*
-						gotoxy(Board::LEFT_F + 2, Board::BOTTOM_F + 1);
-						cout << "GAME OVER" << endl;
-						gotoxy(Board::LEFT_F - 2, Board::BOTTOM_F + 3);
-						cout << "YOUR SCORE IS : " << score << endl;
-						*/
+						annonceWinner(typePlayer1, typePlayer2);
 						resetGame();
 						break;
 					}
 					if (exitGame) {
-						//gotoxy(Board::LEFT_F + 2, Board::BOTTOM_F + 5);
+						gotoxy((boardGamePlayer1.gameFrame.right_f + boardGamePlayer2.gameFrame.left_f) / 2 - 10, boardGamePlayer1.gameFrame.bottom_f + 2);
 						cout << "BYE BYE" << endl;
 					}
 					break;
@@ -383,6 +366,44 @@ void TetrisGame::purgeKeyboardBuffer()
 {
 	while (_kbhit()) {
 		_getch();
+	}
+
+}
+
+void TetrisGame::annonceWinner(int typePlayer1, int typePlayer2)
+{
+	bool player1win = true, player2win = true;
+	int xPrintLoc = (boardGamePlayer1.gameFrame.right_f + boardGamePlayer2.gameFrame.left_f) / 2 - 10;
+	int yPrintLoc = boardGamePlayer2.gameFrame.bottom_f;
+	player1win = checkGameOver(typePlayer1, boardGamePlayer1);
+	player2win = checkGameOver(typePlayer2, boardGamePlayer2);
+	gotoxy(xPrintLoc, yPrintLoc);
+	HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(color, 4);
+	if (!player1win && !player2win)
+	{
+		if (boardGamePlayer1.getScore() == boardGamePlayer2.getScore())
+		{
+			cout << "~~TIE~~";
+		
+		}
+		else if (boardGamePlayer1.getScore() > boardGamePlayer2.getScore()) 
+		{
+			cout << "~~PLAYER ONE WINS~~";
+		}
+		else 
+		{
+			cout << "~~PLAYER TWO WINS~~";
+		}
+	
+	}
+	else if (!player1win)
+	{
+		cout << "~~PLAYER TWO WINS~~";
+	}
+	else 
+	{
+		cout << "~~PLAYER ONE WINS~~";
 	}
 
 }
