@@ -2,7 +2,7 @@
 #include "TopBoard.h"
 #include "Point.h"
 
-enum Sign { J = 'O', B = '@' }; // signs on the board of BOMB & JOKER
+enum Sign {B = '@' }; // signs on the board of BOMB
 enum {ROWS = 21, COLS = 12};
 
 class TopBoard;
@@ -46,7 +46,7 @@ public:
 
 	int getScore();
 
-	bool isFullLine (int curLine, bool & isJokerInLine);
+	bool isFullLine (int curLine);
 
 	bool isEmptyLine(int curLine);
 
