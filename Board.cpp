@@ -5,6 +5,9 @@
 
 void Board::printFrame()
 {
+	HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(color, 15);
+
 	for (int i = 1;i <= COLS; i++) // print frame top & bottom 
 	{
 		gotoxy(gameFrame.left_f + i, gameFrame.top_f);
@@ -24,12 +27,15 @@ void Board::printFrame()
 
 }
 
-void Board::setBoard()
+void Board::setBoard(bool pause)
 {
 	printMenu();
 	printFrame();
 	topB->printTopBoard();
-	
+
+	if (pause)
+		printShapes();
+		return;
 	for (int i =0; i < ROWS; i++) 
 	{
 		for (int j = 0; j < COLS; j++)
@@ -207,6 +213,22 @@ bool Board::updateBoard()
 	return endClean;
 }
 
+void Board::printShapes()
+{
+	int row = gameZone.bottom;
+	while (row != gameZone.top)
+	{
+		for (Point& p : boardGame[row - gameZone.top + 3])
+		{
+			if (p.isBusy() == true)
+			{
+				p.draw();
+			}
+		}
+		row--;
+	}
+}
+
 void Board::updateScoreBoard(int addScore)
 {
 	topB->updateScore(addScore);
@@ -282,20 +304,29 @@ void Board::hardDownShape(Point * arr , int size)
 	}
 }
 
-void Board::printMenu() //TODO: does not belong here
+void Board::printMenu(bool pause) //TODO: does not belong here
 {
+	HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);
 	if (player == 1)
+		SetConsoleTextAttribute(color, 15);
 	{
-		gotoxy(gameFrame.right_f + 5, (gameFrame.bottom_f + gameFrame.top_f) / 2 - 5);
-		cout << "Your highest score is :";
-		gotoxy(gameFrame.right_f + 5, (gameFrame.bottom_f + gameFrame.top_f) / 2);
-		cout << "Press (1) to START" << endl;
-		gotoxy(gameFrame.right_f + 5, ((gameFrame.bottom_f + gameFrame.top_f) / 2) + 1);
-		cout << "Press (2) to PAUSE/RESUME" << endl;
-		gotoxy(gameFrame.right_f + 5, ((gameFrame.bottom_f + gameFrame.top_f) / 2) + 2);
-		cout << "Press (3) to FAST SPEED" << endl;
-		gotoxy(gameFrame.right_f + 5, ((gameFrame.bottom_f + gameFrame.top_f) / 2) + 3);
-		cout << "Press (4) to NORMAL SPEED" << endl;
+		if (!pause)
+		{
+			gotoxy(gameFrame.right_f + 5, (gameFrame.bottom_f + gameFrame.top_f) / 2);
+			cout << "Press (1) to START" << endl;
+			gotoxy(gameFrame.right_f + 5, ((gameFrame.bottom_f + gameFrame.top_f) / 2) + 2);
+			cout << "Press (3) to FAST SPEED" << endl;
+			gotoxy(gameFrame.right_f + 5, ((gameFrame.bottom_f + gameFrame.top_f) / 2) + 3);
+			cout << "Press (4) to NORMAL SPEED" << endl;
+			gotoxy(gameFrame.right_f + 5, ((gameFrame.bottom_f + gameFrame.top_f) / 2) + 1);
+			cout << "Press (esc) to PAUSE" << endl;
+		}
+		else 
+		{
+			gotoxy(gameFrame.right_f + 5, ((gameFrame.bottom_f + gameFrame.top_f) / 2) + 1);
+			cout << "Press (2) to RESUME" << endl;
+		}
+
 		gotoxy(gameFrame.right_f + 5, ((gameFrame.bottom_f + gameFrame.top_f) / 2) + 4);
 		cout << "Press (9) to EXIT" << endl;
 	}
