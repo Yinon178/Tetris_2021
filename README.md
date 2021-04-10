@@ -1,23 +1,37 @@
 # Tetris
 Tetris game implemented in C++ to **console**.
-
-This is my first project at *OOP(Object oriented programming)*,
-
-i worked with *polymorphism* and *abstract classes* for the first time.
+ Bounous features:
+ * Score
+ * Colors
+ * Bomb Included
 
 ## Instructions
 
 #### Buttons
 
-```a``` - right
+###### Left Player
 
-```b``` - left
+```a``` - left
 
-```c``` - rotate
+```d``` - right
 
-```s``` - stop (JOKER)
+```s``` - rotate CW
+
+```w``` - rotate CCW
 
 ```x``` - hard drop (SHAPES)
+
+###### Right Player
+
+```j``` - left
+
+```l``` - right
+
+```k``` - rotate CW
+
+```i``` - rotate CCW
+
+```m``` - hard drop (SHAPES)
 
 #### Score calculation
 
@@ -29,8 +43,5 @@ i worked with *polymorphism* and *abstract classes* for the first time.
 * Bomb explode - (-50)  each cube
 
 *The rest of the buttons are listed in the MENU of the game.*
-
-## Demo
-![alt text](https://github.com/naorbakal/Tetris/blob/master/Tetris.gif)
 
 Enjoy :)
