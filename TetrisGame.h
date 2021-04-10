@@ -18,6 +18,10 @@ public:
 	// <<<RUN>>>
 	void run();
 
+	void setColored(bool colored) {
+		boardGamePlayer1.setColored(colored);
+		boardGamePlayer2.setColored(colored);
+	}
 	bool checkGameOver(int typeShapea, Board &board);
 
 	void updateStartBoard(int typeShape, Board &board);

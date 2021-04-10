@@ -22,7 +22,6 @@ public:
 class Board {
 
 	Point boardGame[ROWS][COLS];
-	
 	int player;
 
 public:
@@ -32,11 +31,15 @@ public:
 
 	TopBoard* topB;
 
+	bool colored=true;
+
 	Board(int _player) : player(_player), gameZone(_player), gameFrame(gameZone), topB(new TopBoard(this)) { setBoard(); }; // ctr 
 
 	~Board() { delete topB; }; // dctr
 
-	
+	void setColored(bool _colored) {
+		colored = _colored;
+	}
 
 	void printFrame();
 
@@ -78,13 +81,13 @@ public:
 	void turnOnPoint(int x, int y,int serial=0, char ch = '#')
 	{
 		boardGame[y - gameZone.top + 3][x - gameZone.left].setPoint(x, y, true,serial,ch);
-		boardGame[y - gameZone.top + 3][x - gameZone.left].draw(ch);
+		boardGame[y - gameZone.top + 3][x - gameZone.left].draw(ch,colored);
 	}
 	void turnOffPoint(int x, int y)
 	{
 		if (x >= gameZone.left && x <= gameZone.right && y >= gameZone.top && y <= gameZone.bottom) {
 			boardGame[y - gameZone.top + 3][x - gameZone.left].setPoint(x, y, false);
-			boardGame[y - gameZone.top + 3][x - gameZone.left].draw(' ');
+			boardGame[y - gameZone.top + 3][x - gameZone.left].draw(' ',colored);
 		}
 	}
 

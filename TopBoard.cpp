@@ -5,7 +5,7 @@
 void TopBoard::printTopBoard()
 {
 	HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(color, 15);
+	SetConsoleTextAttribute(color, 7);
 	gotoxy(board->gameFrame.left_f + 1, board->gameFrame.top_f + 1);
 	cout << "          " << endl;
 	gotoxy(board->gameFrame.left_f + 1, board->gameFrame.top_f + 1);

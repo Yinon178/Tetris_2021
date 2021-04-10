@@ -16,7 +16,7 @@ enum Type{Single, SQ, R, P, L, Z, MZ, ML};
 
 enum Speed {Fast = 130, Normal = 200 };
 
-enum MenuKeys {START = '1', PAUSE = '\x1b', RESUME = '2',  FAST_SPEED = '3', NORMAL_SPEED = '4', EXIT = '9'};
+enum MenuKeys {START = '1', STARTNOCOLOR = '5', PAUSE = '\x1b', RESUME = '2',  FAST_SPEED = '3', NORMAL_SPEED = '4', EXIT = '9'};
 
 int static serialNumber = 1;
 
@@ -38,8 +38,10 @@ void TetrisGame::run() {
 		if (_kbhit()) // checks if there is anything in the buffer
 		{
 			keyPressed = _getch();
-			if (keyPressed == START)
+			if (keyPressed == START || keyPressed == STARTNOCOLOR)
 			{
+				setColored(keyPressed == START);
+
 				if (gameOver) {
 					gameOver = false;
 					boardGamePlayer1.cleanGameOver();
@@ -381,7 +383,7 @@ void TetrisGame::annonceWinner(int typePlayer1, int typePlayer2)
 	player2win = checkGameOver(typePlayer2, boardGamePlayer2);
 	gotoxy(xPrintLoc, yPrintLoc);
 	HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(color, 4);
+	SetConsoleTextAttribute(color, 7);
 	if (!player1win && !player2win)
 	{
 		if (boardGamePlayer1.getScore() == boardGamePlayer2.getScore())

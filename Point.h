@@ -30,7 +30,7 @@ public:
 	 char getSign() const{ return ch; };
 
 	 //draw
-	 void draw(char ch = '#')const;
+	 void draw(char ch = '#', bool colored=true) const;
 
 	// get data members of the class
 	int getx() 	{ return x; }
