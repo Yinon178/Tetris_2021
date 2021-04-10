@@ -23,6 +23,7 @@ class Board {
 
 	Point boardGame[ROWS][COLS];
 	int player;
+	bool colored = true;
 
 public:
 	GameZone gameZone;
@@ -31,7 +32,7 @@ public:
 
 	TopBoard* topB;
 
-	bool colored=true;
+	
 
 	Board(int _player) : player(_player), gameZone(_player), gameFrame(gameZone), topB(new TopBoard(this)) { setBoard(); }; // ctr 
 
