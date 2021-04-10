@@ -6,7 +6,7 @@
 void Board::printFrame()
 {
 	HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(color, 15);
+	SetConsoleTextAttribute(color, 7);
 
 	for (int i = 1;i <= COLS; i++) // print frame top & bottom 
 	{
@@ -148,7 +148,7 @@ int Board::blowUpSquare(int x, int y)
 		for (int j = -4; j <= 4; j++) // Y
 		{
 			HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);
-			SetConsoleTextAttribute(color, 12);
+			SetConsoleTextAttribute(color, 7);
 			// count score
 			if (checkInGameZone(x + i, y + j) && (!(*this).isValid(x + i, y + j)))
 			{
@@ -196,7 +196,7 @@ void Board::printShapes()
 		{
 			if (p.isBusy() == true)
 			{
-				p.draw();
+				p.draw(colored);
 			}
 		}
 		row--;
@@ -283,17 +283,20 @@ void Board::printMenu(bool pause) //TODO: does not belong here
 	HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);
 	if (player == 1)
 	{
-		SetConsoleTextAttribute(color, 15);
+		SetConsoleTextAttribute(color, 7);
 		if (!pause)
 		{
 			gotoxy(gameFrame.right_f + 5, (gameFrame.bottom_f + gameFrame.top_f) / 2);
 			cout << "Press (1) to START" << endl;
+			gotoxy(gameFrame.right_f + 5, (gameFrame.bottom_f + gameFrame.top_f) / 2 + 1);
+			cout << "Press (5) to START B&W mode" << endl;
 			gotoxy(gameFrame.right_f + 5, ((gameFrame.bottom_f + gameFrame.top_f) / 2) + 2);
-			cout << "Press (3) to FAST SPEED" << endl;
-			gotoxy(gameFrame.right_f + 5, ((gameFrame.bottom_f + gameFrame.top_f) / 2) + 3);
-			cout << "Press (4) to NORMAL SPEED" << endl;
-			gotoxy(gameFrame.right_f + 5, ((gameFrame.bottom_f + gameFrame.top_f) / 2) + 1);
 			cout << "Press (esc) to PAUSE" << endl;
+			gotoxy(gameFrame.right_f + 5, ((gameFrame.bottom_f + gameFrame.top_f) / 2) + 3);
+			cout << "Press (3) to FAST SPEED" << endl;
+			gotoxy(gameFrame.right_f + 5, ((gameFrame.bottom_f + gameFrame.top_f) / 2) + 4);
+			cout << "Press (4) to NORMAL SPEED" << endl;
+			
 		}
 		else 
 		{
