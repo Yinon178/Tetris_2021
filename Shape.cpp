@@ -1,12 +1,7 @@
 #include "Shape.h"
 
 void Shape::draw(char ch)const
-{
-	HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(color,getSerialObj() % 4 + 10);
-	for (const Point&p : body)
-		p.draw();
-}
+{}
 
 bool Shape::move(char keyPressed)
 {
