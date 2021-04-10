@@ -44,7 +44,7 @@ public:
 
 	void printFrame();
 
-	void setBoard(bool pause=false);
+	void setBoard(bool pause = false);
 
 	void cleanGameOver();
 
@@ -81,8 +81,8 @@ public:
 
 	void turnOnPoint(int x, int y,int serial=0, char ch = '#')
 	{
-		boardGame[y - gameZone.top + 3][x - gameZone.left].setPoint(x, y, true,serial,ch);
-		boardGame[y - gameZone.top + 3][x - gameZone.left].draw(ch,colored);
+		boardGame[y - gameZone.top + 3][x - gameZone.left].setPoint(x, y, true, serial,ch);
+		boardGame[y - gameZone.top + 3][x - gameZone.left].draw(ch, colored);
 	}
 	void turnOffPoint(int x, int y)
 	{
@@ -113,5 +113,4 @@ public:
 		cout << newRecord;
 	}
 
-	void printMenu(bool pause = false);
 };

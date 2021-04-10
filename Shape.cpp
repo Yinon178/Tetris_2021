@@ -81,7 +81,7 @@ bool Shape::moveByDelta( char keyPressed, AdjustRotations currentMove, int direc
                  
             }
             else {
-                while (boardGame.cleanLines(body[i].gety() + 1))
+                while (boardGame.cleanLines(body[i].gety()))
                 {
                     boardGame.updateBoard();
                 }

@@ -29,20 +29,19 @@ void Board::printFrame()
 
 void Board::setBoard(bool pause)
 {
-	printMenu();
 	printFrame();
 	topB->printTopBoard();
 
-	if (pause)
+	if (pause) {
 		printShapes();
 		return;
-	for (int i =0; i < ROWS; i++) 
+	}
+	for (int i = 0; i < ROWS - 2; i++)
 	{
 		for (int j = 0; j < COLS; j++)
 		{
-
 			if (i < 2) {
-				boardGame[i][j].setPoint(j, i, false, -2, ' ');
+				boardGame[i][j].setPoint(j + gameZone.left, i + gameZone.top, false, -1, ' ');
 				turnOffPoint(j + gameZone.left, i + gameZone.top);
 			}
 			else {
@@ -51,7 +50,6 @@ void Board::setBoard(bool pause)
 			}
 		}
 	}
-
 }
 
 void Board::cleanGameOver()
@@ -72,7 +70,7 @@ return topB->getScore();
 }
 
 //check if the line is full
-bool Board::isFullLine (int curLine)
+bool Board::isFullLine(int curLine)
 {
 
 	//check FULL line
@@ -155,8 +153,8 @@ int Board::blowUpSquare(int x, int y)
 				turnOnPoint(x + i, y + j, -3, '*');
 				scoreCounter -= 50;
 				(*this).turnOffPoint(x + i, y + j);
-				Sleep(150);
-
+		Sleep(150);
+	
 			}
 		}
 	}
@@ -275,36 +273,5 @@ void Board::hardDownShape(Point * arr , int size)
 	{
 		turnOffPoint(arr[i].getx(), arr[i].gety());
 		turnOnPoint(arr[i].getx(), arr[i].gety() + 1, arr[i].getSerialNumber(), arr[i].getSign());
-	}
-}
-
-void Board::printMenu(bool pause) //TODO: does not belong here
-{
-	HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);
-	if (player == 1)
-	{
-		SetConsoleTextAttribute(color, 7);
-		if (!pause)
-		{
-			gotoxy(gameFrame.right_f + 5, (gameFrame.bottom_f + gameFrame.top_f) / 2);
-			cout << "Press (1) to START" << endl;
-			gotoxy(gameFrame.right_f + 5, (gameFrame.bottom_f + gameFrame.top_f) / 2 + 1);
-			cout << "Press (5) to START B&W mode" << endl;
-			gotoxy(gameFrame.right_f + 5, ((gameFrame.bottom_f + gameFrame.top_f) / 2) + 2);
-			cout << "Press (esc) to PAUSE" << endl;
-			gotoxy(gameFrame.right_f + 5, ((gameFrame.bottom_f + gameFrame.top_f) / 2) + 3);
-			cout << "Press (3) to FAST SPEED" << endl;
-			gotoxy(gameFrame.right_f + 5, ((gameFrame.bottom_f + gameFrame.top_f) / 2) + 4);
-			cout << "Press (4) to NORMAL SPEED" << endl;
-			
-		}
-		else 
-		{
-			gotoxy(gameFrame.right_f + 5, ((gameFrame.bottom_f + gameFrame.top_f) / 2) + 1);
-			cout << "Press (2) to RESUME" << endl;
-		}
-
-		gotoxy(gameFrame.right_f + 5, ((gameFrame.bottom_f + gameFrame.top_f) / 2) + 4);
-		cout << "Press (9) to EXIT" << endl;
 	}
 }
