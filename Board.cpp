@@ -72,15 +72,12 @@ return topB->getScore();
 }
 
 //check if the line is full
-bool Board::isFullLine (int curLine , bool & isJokerInLine)
+bool Board::isFullLine (int curLine)
 {
-	isJokerInLine = false;
 
 	//check FULL line
 	for (const Point&p : boardGame[curLine - gameZone.top + 3])
 	{
-		if (p.getSign() == Sign::J)
-			isJokerInLine = true;
 		if (!(p.isBusy()))
 			return false;
 	}
@@ -115,24 +112,17 @@ bool Board::cleanLines(int startLine)
 {
 	int inARow = 0;
 	bool res = false;
-	bool checkJ;
 	for (int i = 0; i < 6 && (startLine - i) >= 5; i++)
 	{
-		bool fullLine = isFullLine(startLine - i, checkJ);
+		bool fullLine = isFullLine(startLine - i);
 
-		if ( fullLine == true && checkJ == false)
+		if ( fullLine == true)
 		{
 			res = true;
 			inARow++;
 			Sleep(200);
 		}
-		else if (fullLine == true && checkJ == true)
-		{
-			topB->updateScore(SCORE::JOKER_LINE);
-			res = true;
-			inARow = 0;
-			Sleep(200);
-		}
+
 		else if (inARow != 0)
 		{
 			if (inARow == 1)
@@ -153,38 +143,22 @@ bool Board::cleanLines(int startLine)
 int Board::blowUpSquare(int x, int y)
 {
 	int scoreCounter = 0;
-	for (int i = 0; i < 3; i++) //blow up 3x3 square.
+	for (int i = -4; i <= 4; i++) // X
 	{
-		HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);
-		SetConsoleTextAttribute(color, 12);
-
-		// count score
-		if ((!(*this).isValid(x - 1 + i, y - 1)) && checkInGameZone(x - 1 + i, y - 1))
+		for (int j = -4; j <= 4; j++) // Y
 		{
-			turnOnPoint(x - 1 + i, y - 1, -3, '*');
-			scoreCounter -= 50;
+			HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);
+			SetConsoleTextAttribute(color, 12);
+			// count score
+			if (checkInGameZone(x + i, y + j) && (!(*this).isValid(x + i, y + j)))
+			{
+				turnOnPoint(x + i, y + j, -3, '*');
+				scoreCounter -= 50;
+				(*this).turnOffPoint(x + i, y + j);
+				Sleep(150);
+
+			}
 		}
-		if ((!(*this).isValid(x - 1 + i, y)) && checkInGameZone(x - 1 + i, y))
-		{
-			turnOnPoint(x - 1 + i, y, -3, '*');
-			scoreCounter -= 50;
-		}
-		if ((!(*this).isValid(x - 1 + i, y + 1)) && checkInGameZone(x - 1 + i, y + 1))
-		{
-			turnOnPoint(x - 1 + i, y +1, -3, '*');
-			scoreCounter -= 50;
-		}
-
-		Sleep(150);
-	
-		// turn OFF points relevant
-		(*this).turnOffPoint(x - 1 + i, y-1);
-		(*this).turnOffPoint(x - 1 + i, y);
-		(*this).turnOffPoint(x - 1 + i, y+1);
-
-		
-
-
 	}
 
 	return scoreCounter; // return the score to be reduced

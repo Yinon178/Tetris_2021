@@ -39,7 +39,6 @@ Tetris game implemented in C++ to **console**.
 * Single line clear - 100
 * Double line clear - 300
 * Triple line clear (or more) - 500
-* Single line clear with joker - 50
 * Bomb explode - (-50)  each cube
 
 *The rest of the buttons are listed in the MENU of the game.*
