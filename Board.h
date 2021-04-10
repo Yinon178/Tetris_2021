@@ -43,7 +43,7 @@ public:
 
 	void printFrame();
 
-	void setBoard(bool pause=false);
+	void setBoard(bool pause = false);
 
 	void cleanGameOver();
 
@@ -112,5 +112,4 @@ public:
 		cout << newRecord;
 	}
 
-	void printMenu(bool pause = false);
 };

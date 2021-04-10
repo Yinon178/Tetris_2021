@@ -3,6 +3,7 @@ Tetris game implemented in C++ to **console**.
  Bounous features:
  * Score
  * Colors
+ * Game Speed
  * Bomb Included
 
 ## Instructions

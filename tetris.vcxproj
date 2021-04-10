@@ -35,6 +35,7 @@
     <ClInclude Include="Zshape.h" />
 	<ClInclude Include="MirrorZshape.h" />
 	<ClInclude Include="MirrorLshape.h" />
+	<ClInclude Include="Menu.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
@@ -53,6 +54,7 @@
     <ClCompile Include="Zshape.cpp" />
 	<ClCompile Include="MirrorZshape.cpp" />
 	<ClCompile Include="MirrorLshape.cpp" />
+	<ClCompile Include="Menu.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FA449C1C-59FA-4550-BF22-6B5382752364}</ProjectGuid>

@@ -16,12 +16,10 @@ enum Type{Single, SQ, R, P, L, Z, MZ, ML};
 
 enum Speed {Fast = 130, Normal = 200 };
 
-enum MenuKeys {START = '1', STARTNOCOLOR = '5', PAUSE = '\x1b', RESUME = '2',  FAST_SPEED = '3', NORMAL_SPEED = '4', EXIT = '9'};
-
 int static serialNumber = 1;
 
 
-//           <<<RUN>>>
+//<<<RUN>>>
 void TetrisGame::run() {
 
 	GameObjects *objectPlayer1, *objectPlayer2;
@@ -38,9 +36,28 @@ void TetrisGame::run() {
 		if (_kbhit()) // checks if there is anything in the buffer
 		{
 			keyPressed = _getch();
+			if (keyPressed == INSTRUCTIONS) 
+			{
+				mainMenu.printInstructions();
+				while (true)
+				{
+					Sleep(100);
+					if (_kbhit()) {
+
+						parseKeysPressed(keyPressed, keyPressedPlayer1, keyPressedPlayer2);
+						if (keyPressed == EXIT)
+						{
+							keyPressed = 0;
+							mainMenu.printMenu();
+							break;
+						}
+					}
+				}
+			}
 			if (keyPressed == START || keyPressed == STARTNOCOLOR)
 			{
 				setColored(keyPressed == START);
+				mainMenu.gameStarted();
 
 				if (gameOver) {
 					gameOver = false;
@@ -94,8 +111,7 @@ void TetrisGame::run() {
 
 								else if (keyPressed == PAUSE)
 								{
-									ClearScreen();
-									boardGamePlayer1.printMenu(true);
+									mainMenu.pauseGame();
 									while (true)
 									{
 										if (_kbhit()) {
@@ -110,6 +126,7 @@ void TetrisGame::run() {
 											else if (keyPressed == RESUME) {
 												boardGamePlayer1.setBoard(true);
 												boardGamePlayer2.setBoard(true);
+												mainMenu.resumeGame();
 												break;
 											}
 												
@@ -125,10 +142,11 @@ void TetrisGame::run() {
 					{
 						annonceWinner(typePlayer1, typePlayer2);
 						resetGame();
+						mainMenu.gameFinished();
 						break;
 					}
 					if (exitGame) {
-						gotoxy((boardGamePlayer1.gameFrame.right_f + boardGamePlayer2.gameFrame.left_f) / 2 - 7, boardGamePlayer1.gameFrame.bottom_f + 2);
+						gotoxy((boardGamePlayer1.gameFrame.right_f + boardGamePlayer2.gameFrame.left_f) / 2 - 5, boardGamePlayer1.gameFrame.bottom_f);
 						cout << "BYE BYE" << endl;
 					}
 					break;
@@ -325,7 +343,7 @@ void TetrisGame::hideCursor()
 void TetrisGame::parseKeysPressed(char &keyPressed, char &keyPressedPlayer1, char &keyPressedPlayer2)
 {
 	char res;
-	std::string player1Keys = "adswx", player2Keys = "jlkim", menuKeys = "1289\x1b";
+	std::string player1Keys = "adswx", player2Keys = "jlkim", menuKeys = "1289534\x1b";
 	while (_kbhit()) {
 		res = std::tolower(_getch());
 		if (player1Keys.find(res) != std::string::npos)
