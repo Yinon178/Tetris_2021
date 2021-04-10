@@ -70,7 +70,7 @@ void Menu::clearMenu()
 	for (int i = 0; i < 14; i++)
 	{
 		gotoxy(startX, startY + i);
-		cout << "                               " << endl;
+		cout << "                                " << endl;
 	}
 
 }

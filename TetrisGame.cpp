@@ -167,7 +167,7 @@ GameObjects * TetrisGame::createNewObject(int & type,Board &board )
 	}
 	else
 	{
-		int randObj = rand() % RAND;
+		int randObj = 1/*rand() % RAND*/;
 
 		switch (randObj)
 		{
@@ -289,7 +289,7 @@ void TetrisGame::updateStartBoard(int typeShape, Board &board)
 		break;
 	case Type::R:
 		for(int i=0; i<4;i++)
-			board.turnOnPoint((board.gameZone.left + board.gameZone.right) / 2 - 1 + i , board.gameZone.top,serialNumber);
+			board.turnOnPoint((board.gameZone.left + board.gameZone.right) / 2, board.gameZone.top + i,serialNumber);
 		break;
 	case Type::P:
 		board.turnOnPoint(((board.gameZone.left + board.gameZone.right) / 2) - 1, board.gameZone.top + 1, serialNumber);
