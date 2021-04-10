@@ -36,13 +36,12 @@ void Board::setBoard(bool pause)
 		printShapes();
 		return;
 	}
-	for (int i =0; i < ROWS; i++) 
+	for (int i = 0; i < ROWS - 2; i++)
 	{
 		for (int j = 0; j < COLS; j++)
 		{
-
 			if (i < 2) {
-				boardGame[i][j].setPoint(j, i, false, -2, ' ');
+				boardGame[i][j].setPoint(j + gameZone.left, i + gameZone.top, false, -1, ' ');
 				turnOffPoint(j + gameZone.left, i + gameZone.top);
 			}
 			else {
@@ -196,10 +195,6 @@ void Board::printShapes()
 			if (p.isBusy() == true)
 			{
 				p.draw(colored);
-			}
-			else 
-			{
-				p.draw(' ', false);
 			}
 		}
 		row--;

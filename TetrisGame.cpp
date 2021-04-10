@@ -27,6 +27,7 @@ void TetrisGame::run() {
 	char keyPressed = 0, keyPressedPlayer1 = DEFAULT, keyPressedPlayer2 = DEFAULT;
 	int typePlayer1 = -1, typePlayer2 = -1;
 	bool gameOver = false, exitGame = false;
+	srand(time(NULL));
 
 
 	while (keyPressed != EXIT && !exitGame)
@@ -61,8 +62,7 @@ void TetrisGame::run() {
 
 				if (gameOver) {
 					gameOver = false;
-					boardGamePlayer1.cleanGameOver();
-                    boardGamePlayer2.cleanGameOver();
+					resetGame();
 				}
 				if (exitGame)
 					break;
@@ -141,7 +141,6 @@ void TetrisGame::run() {
 					if (gameOver)
 					{
 						annonceWinner(typePlayer1, typePlayer2);
-						resetGame();
 						mainMenu.gameFinished();
 						break;
 					}
@@ -161,7 +160,6 @@ void TetrisGame::run() {
 GameObjects * TetrisGame::createNewObject(int & type,Board &board )
 {
 	GameObjects * res=NULL;
-	
 	if (rand() % 20 == 1) {
 		res = new Bomb(board);
 		updateStartBoard(B, board);
@@ -396,7 +394,7 @@ void TetrisGame::annonceWinner(int typePlayer1, int typePlayer2)
 {
 	bool player1win = true, player2win = true;
 	int xPrintLoc = (boardGamePlayer1.gameFrame.right_f + boardGamePlayer2.gameFrame.left_f) / 2 - 10;
-	int yPrintLoc = boardGamePlayer2.gameFrame.bottom_f;
+	int yPrintLoc = boardGamePlayer2.gameFrame.top_f;
 	player1win = checkGameOver(typePlayer1, boardGamePlayer1);
 	player2win = checkGameOver(typePlayer2, boardGamePlayer2);
 	gotoxy(xPrintLoc, yPrintLoc);

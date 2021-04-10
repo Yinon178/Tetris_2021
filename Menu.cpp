@@ -11,7 +11,7 @@ void Menu::printMenu()
 		gotoxy(startX, startY);
 		cout << "(" << START - '0' << ") to START" << endl;
 		gotoxy(startX, startY + 1);
-		cout << "(" << STARTNOCOLOR - '0' << ") to disable colors" << endl;
+		cout << "(" << STARTNOCOLOR - '0' << ") to START without colors" << endl;
 		gotoxy(startX, startY + 2);
 		cout << "(" << INSTRUCTIONS - '0' << ") Present keys" << endl;
 
