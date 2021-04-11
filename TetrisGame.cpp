@@ -167,7 +167,7 @@ GameObjects * TetrisGame::createNewObject(int & type,Board &board )
 	}
 	else
 	{
-		int randObj = 1/*rand() % RAND*/;
+		int randObj = rand() % RAND;
 
 		switch (randObj)
 		{
