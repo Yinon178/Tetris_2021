@@ -44,4 +44,7 @@ Tetris game implemented in C++ to **console**.
 
 *The rest of the buttons are listed in the MENU of the game.*
 
+Yinon Horev 319038758
+Chen Kotler 315614263
+
 Enjoy :)
