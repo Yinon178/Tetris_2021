@@ -4,7 +4,6 @@
 //ctor
 Line::Line(Board &_boardGame) : Shape(_boardGame)
 {
-	//for (int i = 0; i < SIZE; i++)
 	body[0].setPoint(((boardGame.gameZone.left + boardGame.gameZone.right) / 2 ), boardGame.gameZone.top, true, getSerialObj());
 	body[1].setPoint(((boardGame.gameZone.left + boardGame.gameZone.right) / 2 ), boardGame.gameZone.top + 1, true, getSerialObj());
 	body[2].setPoint(((boardGame.gameZone.left + boardGame.gameZone.right) / 2 ), boardGame.gameZone.top + 2, true, getSerialObj());
