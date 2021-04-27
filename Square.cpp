@@ -9,7 +9,7 @@ Square::Square(Board &_boardGame) : Shape(_boardGame)
 	body[2].setPoint(((boardGame.gameZone.left + boardGame.gameZone.right) / 2), boardGame.gameZone.top + 1, true, getSerialObj());
 	body[3].setPoint(((boardGame.gameZone.left + boardGame.gameZone.right) / 2) + 1, boardGame.gameZone.top + 1, true, getSerialObj());
 }
-AllAdjustRotations Square::getPossibleRotations() {
+AllAdjustRotations Square::getPossibleRotations() const {
 	AllAdjustRotations possiblePermutations = AllAdjustRotations(
 		{
 			{Point(0, 0), Point(0, 0), Point(0, 0), Point(0, 0) }

@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
-using namespace std;
+
+enum eKEYS { LEFT = 'a', RIGHT = 'd', HARD_DOWN = 'x', ROUTE = 's', ROUTEC = 'w', JSTOP = 's', DEFAULT = ' ', ESC = 27 };
 
 void gotoxy(int x, int y);
 

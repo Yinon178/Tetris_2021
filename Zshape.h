@@ -8,5 +8,5 @@ public:
 	//ctor
 	Zshape(Board &_boardGame);
 
-	AllAdjustRotations getPossibleRotations();
+	AllAdjustRotations getPossibleRotations() const;
 };

@@ -8,7 +8,7 @@
 class GameObjects {
 
 protected:
-	int serial;
+	int serial = 0;
 
 public:
 	
@@ -16,7 +16,6 @@ public:
 		serial = _serial;
 	}
 
-	//empty ctr
 	GameObjects() {};
 
 	int getSerialObj() const{ return serial; };

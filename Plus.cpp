@@ -10,7 +10,7 @@ Plus::Plus(Board &_boadGame) : Shape(_boadGame)
 	body[3].setPoint(((boardGame.gameZone.left + boardGame.gameZone.right) / 2) + 1, boardGame.gameZone.top + 1, true, getSerialObj());
 }
 
-AllAdjustRotations Plus::getPossibleRotations() {
+AllAdjustRotations Plus::getPossibleRotations() const {
 	AllAdjustRotations possiblePermutations = AllAdjustRotations(
 		{
 			{Point(1, -1), Point(0, 1), Point(1, 0), Point(-1, 1) },

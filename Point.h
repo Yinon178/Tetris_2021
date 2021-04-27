@@ -2,27 +2,23 @@
 #include "gotoxy.h"
 #include <iostream>
 #include <Windows.h>
-using namespace std;
-
-enum eKEYS { LEFT = 'a', RIGHT = 'd', HARD_DOWN = 'x', ROUTE = 's', ROUTEC = 'w', JSTOP = 's', DEFAULT = ' ', ESC = 27 };
 
 class Point
 {
-	//Date members
-	int x;
-	int y;
-	bool busy;
-	char ch;
-	int serialNumber;
+	//Data members
+	int x = 0;
+	int y = 0;
+	bool busy = false;
+	char ch = 0;
+	int serialNumber = 0;
 
 public:
 	
 	//ctor 
-	Point(int _x, int _y, bool _busy = false, char _ch = '#') : x(_x) ,y(_y), busy(_busy), ch(_ch) {};
+	Point(int _x, int _y, bool _busy = false, char _ch = '#', int _serialNumber = 0) : x(_x), y(_y), busy(_busy), ch(_ch), serialNumber(_serialNumber) {};
 
-	Point() {}; // empty constructor
+	Point() {};
 
-	
 	void setPoint(int _x, int _y, bool _busy = false, int _serialNumber = 0, char _ch = '#') { x = _x; y = _y; busy = _busy; serialNumber = _serialNumber; ch = _ch; }
 
 	void setSerialNumber(int _serialNumber) { serialNumber = _serialNumber; }
@@ -33,9 +29,9 @@ public:
 	 void draw(char ch = '#', bool colored=true) const;
 
 	// get data members of the class
-	int getx() 	{ return x; }
+	int getx() const 	{ return x; }
 
-	int gety() 	{ return y; }
+	int gety() const	{ return y; }
 	
 	bool isBusy() const { return busy; }
 

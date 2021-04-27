@@ -3,7 +3,7 @@
 #include <Windows.h>
 
 
-void Board::printFrame()
+void Board::printFrame() const
 {
 	HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(color, 7);
@@ -11,17 +11,17 @@ void Board::printFrame()
 	for (int i = 1;i <= COLS; i++) // print frame top & bottom 
 	{
 		gotoxy(gameFrame.left_f + i, gameFrame.top_f);
-		cout << "*" << endl;
+		std::cout << "*" << std::endl;
 		gotoxy(gameFrame.left_f + i, gameFrame.bottom_f);
-		cout << "*" << endl;
+		std::cout << "*" << std::endl;
 	}
 
 	for (int i = 0;i <= ROWS+1; i++) // print frame left & right
 	{
 		gotoxy(gameFrame.left_f, gameFrame.top_f + i);
-		cout << "|" << endl;
+		std::cout << "|" << std::endl;
 		gotoxy(gameFrame.right_f, gameFrame.top_f + i);
-		cout << "|" << endl;
+		std::cout << "|" << std::endl;
 	}
 
 
@@ -55,17 +55,17 @@ void Board::setBoard(bool pause)
 void Board::cleanGameOver()
 {
 	gotoxy(gameFrame.left_f + 2, gameFrame.bottom_f + 1);
-	cout << "              " << endl;
+	std::cout << "              " << std::endl;
 	gotoxy(gameFrame.left_f - 2, gameFrame.bottom_f + 3);
-	cout << "                                " << endl;
+	std::cout << "                                " << std::endl;
 	gotoxy(gameFrame.left_f - 2, gameFrame.bottom_f + 5);
-	cout << "                                " << endl;
+	std::cout << "                                " << std::endl;
 	topB->resetTopBoard();
 	
 
 }
 
-int Board::getScore() {
+int Board::getScore() const {
 return topB->getScore();	
 }
 
@@ -95,7 +95,7 @@ bool Board::isFullLine(int curLine)
 	return true;
 }
 
-bool Board::isEmptyLine(int curLine)
+bool Board::isEmptyLine(int curLine) const
 {
 	for (const Point&p : boardGame[curLine - gameZone.top + 3])
 	{

@@ -11,7 +11,7 @@ Line::Line(Board &_boardGame) : Shape(_boardGame)
 }
 
 //move Line
-AllAdjustRotations Line::getPossibleRotations() {
+AllAdjustRotations Line::getPossibleRotations() const {
 	AllAdjustRotations possiblePermutations = AllAdjustRotations(
 		{
 			{Point(-1, 2), Point(0,1),  Point(1,0),   Point(2, -1) },

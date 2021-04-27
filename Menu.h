@@ -6,14 +6,16 @@ enum MenuKeys { START = '1', STARTNOCOLOR = '5', PAUSE = '\x1b', RESUME = '2',
 
 class Menu
 {
+	inline static const std::string_view player1Keys= "adswx";
+	inline static const std::string_view player2Keys = "jlkim";
+	inline static const std::string_view menuKeys = "1289534\x1b";
 	bool pause = false;
 	bool gameRunning = false;
 	int startX, startY;
-	void clearMenu();
+	void clearMenu() const;
 
 
 public:
-	Menu() = delete; // del defualt ctr
 
 	Menu(int x, int y) : startX(x), startY(y) { printMenu(); };
 
@@ -23,13 +25,15 @@ public:
 
 	void gameFinished();
 
-	bool isPaused();
+	bool isPaused() const;
 
 	void pauseGame();
 
 	void resumeGame();
 
-	void printInstructions();
+	void printInstructions() const;
+
+	void parseKeysPressed(char& keyPressed, char& keyPressedPlayer1, char& keyPressedPlayer2);
 
 };
 

@@ -9,5 +9,5 @@ public:
 	//ctor
 	Plus(Board &_boadGame);
 
-	AllAdjustRotations getPossibleRotations();
+	AllAdjustRotations getPossibleRotations() const;
 };
