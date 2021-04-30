@@ -37,117 +37,139 @@ void TetrisGame::run() {
 		if (_kbhit()) // checks if there is anything in the buffer
 		{
 			keyPressed = _getch();
-			if (keyPressed == INSTRUCTIONS) 
+			
+			instructionsHandeling(keyPressed, keyPressedPlayer1, keyPressedPlayer2);
+
+			int retflag;
+			gameHandeling(keyPressed, gameOver, exitGame, objectPlayer1, typePlayer1, objectPlayer2, typePlayer2, keyPressedPlayer1, keyPressedPlayer2, gameSpeed, retflag);
+			if (retflag == 2) break;
+		}
+	}
+}
+
+void TetrisGame::gameHandeling(char& keyPressed, bool& gameOver, bool& exitGame, GameObjects*& objectPlayer1, int& typePlayer1, GameObjects*& objectPlayer2, int& typePlayer2, char& keyPressedPlayer1, char& keyPressedPlayer2, int& gameSpeed, int& retflag)
+{
+	retflag = 1;
+	if (keyPressed == START || keyPressed == STARTNOCOLOR)
+	{
+		setColored(keyPressed == START);
+		mainMenu.gameStarted();
+
+		if (gameOver) {
+			gameOver = false;
+			resetGame();
+		}
+		if (exitGame)
+		{
+			retflag = 2; return;
+		};
+		objectPlayer1 = createNewObject(typePlayer1, boardGamePlayer1);
+		objectPlayer2 = createNewObject(typePlayer2, boardGamePlayer2);
+		while (true)
+		{
+
+			userGameInputHandeling(gameOver, exitGame, objectPlayer1, keyPressedPlayer1, typePlayer1, objectPlayer2, keyPressedPlayer2, typePlayer2, keyPressed, gameSpeed);
+			if (gameOver)
 			{
-				mainMenu.printInstructions();
+				annonceWinner(typePlayer1, typePlayer2);
+				mainMenu.gameFinished();
+				break;
+			}
+			if (exitGame) {
+				gotoxy((boardGamePlayer1.gameFrame.right_f + boardGamePlayer2.gameFrame.left_f) / 2 - 5, boardGamePlayer1.gameFrame.bottom_f);
+				std::cout << "BYE BYE" << std::endl;
+			}
+			break;
+		}
+	}
+}
+
+void TetrisGame::userGameInputHandeling(bool& gameOver, bool& exitGame, GameObjects*& objectPlayer1, char& keyPressedPlayer1, int& typePlayer1, GameObjects*& objectPlayer2, char& keyPressedPlayer2, int& typePlayer2, char& keyPressed, int& gameSpeed)
+{
+	while (!gameOver && !exitGame)
+	{
+		if (!(objectPlayer1->move(keyPressedPlayer1)))
+		{
+			if (!checkGameOver(typePlayer1, boardGamePlayer1))
+			{
+				gameOver = true;
+				break;
+			}
+			delete objectPlayer1;
+			objectPlayer1 = createNewObject(typePlayer1, boardGamePlayer1);
+		}
+		if (!(objectPlayer2->move(keyPressedPlayer2)))
+		{
+			if (!checkGameOver(typePlayer2, boardGamePlayer2))
+			{
+				gameOver = true;
+				break;
+			}
+			delete objectPlayer2;
+			objectPlayer2 = createNewObject(typePlayer2, boardGamePlayer2);
+		}
+		keyPressed = 0;
+		keyPressedPlayer1 = DEFAULT; // take the head of the buffer
+		keyPressedPlayer2 = DEFAULT;
+		Sleep(gameSpeed);
+		if (_kbhit()) // checks if there is anything in the buffer
+		{
+			mainMenu.parseKeysPressed(keyPressed, keyPressedPlayer1, keyPressedPlayer2);
+			if (keyPressed == EXIT) {
+				exitGame = true;
+				break;
+			}
+			else if (keyPressed == NORMAL_SPEED)
+				gameSpeed = Speed::Normal;
+			else if (keyPressed == FAST_SPEED)
+				gameSpeed = Speed::Fast;
+
+			else if (keyPressed == PAUSE)
+			{
+				mainMenu.pauseGame();
 				while (true)
 				{
-					Sleep(100);
 					if (_kbhit()) {
 
 						mainMenu.parseKeysPressed(keyPressed, keyPressedPlayer1, keyPressedPlayer2);
 						if (keyPressed == EXIT)
 						{
-							keyPressed = 0;
-							mainMenu.printMenu();
+							gameOver = true;
 							break;
 						}
+
+						else if (keyPressed == RESUME) {
+							boardGamePlayer1.setBoard(true);
+							boardGamePlayer2.setBoard(true);
+							mainMenu.resumeGame();
+							break;
+						}
+
 					}
+					Sleep(gameSpeed);
 				}
 			}
-			if (keyPressed == START || keyPressed == STARTNOCOLOR)
-			{
-				setColored(keyPressed == START);
-				mainMenu.gameStarted();
+		}
 
-				if (gameOver) {
-					gameOver = false;
-					resetGame();
-				}
-				if (exitGame)
-					break;
-				objectPlayer1 = createNewObject(typePlayer1, boardGamePlayer1);
-				objectPlayer2 = createNewObject(typePlayer2, boardGamePlayer2);
-				while (true)
+
+	}
+}
+
+void TetrisGame::instructionsHandeling(char keyPressed, char keyPressedPlayer1, char keyPressedPlayer2)
+{
+	if (keyPressed == INSTRUCTIONS)
+	{
+		mainMenu.printInstructions();
+		while (true)
+		{
+			Sleep(100);
+			if (_kbhit()) {
+
+				mainMenu.parseKeysPressed(keyPressed, keyPressedPlayer1, keyPressedPlayer2);
+				if (keyPressed == EXIT)
 				{
-
-						while (!gameOver && !exitGame)
-						{
-							if (!(objectPlayer1->move(keyPressedPlayer1)))
-							{
-								if (!checkGameOver(typePlayer1, boardGamePlayer1))
-								{
-									gameOver = true;
-									break;
-								}
-								delete objectPlayer1;
-								objectPlayer1 = createNewObject(typePlayer1, boardGamePlayer1);
-							}
-							if (!(objectPlayer2->move(keyPressedPlayer2)))
-							{
-								if (!checkGameOver(typePlayer2, boardGamePlayer2))
-								{
-									gameOver = true;
-									break;
-								}
-								delete objectPlayer2;
-								objectPlayer2 = createNewObject(typePlayer2, boardGamePlayer2);
-							}
-							keyPressed = 0;
-							keyPressedPlayer1 = DEFAULT; // take the head of the buffer
-							keyPressedPlayer2 = DEFAULT;
-							Sleep(gameSpeed);
-							if (_kbhit()) // checks if there is anything in the buffer
-							{
-								mainMenu.parseKeysPressed(keyPressed, keyPressedPlayer1, keyPressedPlayer2);
-								if (keyPressed == EXIT) {
-									exitGame = true;
-									break;
-								}
-								else if (keyPressed == NORMAL_SPEED)
-									gameSpeed = Speed::Normal;
-								else if (keyPressed == FAST_SPEED)
-									gameSpeed = Speed::Fast;
-
-								else if (keyPressed == PAUSE)
-								{
-									mainMenu.pauseGame();
-									while (true)
-									{
-										if (_kbhit()) {
-
-											mainMenu.parseKeysPressed(keyPressed, keyPressedPlayer1, keyPressedPlayer2);
-											if (keyPressed == EXIT)
-											{
-												gameOver = true;
-												break;
-											}
-												
-											else if (keyPressed == RESUME) {
-												boardGamePlayer1.setBoard(true);
-												boardGamePlayer2.setBoard(true);
-												mainMenu.resumeGame();
-												break;
-											}
-												
-										}
-										Sleep(gameSpeed);
-									}
-								}
-							}
-
-
-						}
-					if (gameOver)
-					{
-						annonceWinner(typePlayer1, typePlayer2);
-						mainMenu.gameFinished();
-						break;
-					}
-					if (exitGame) {
-						gotoxy((boardGamePlayer1.gameFrame.right_f + boardGamePlayer2.gameFrame.left_f) / 2 - 5, boardGamePlayer1.gameFrame.bottom_f);
-						std::cout << "BYE BYE" << std::endl;
-					}
+					keyPressed = 0;
+					mainMenu.printMenu();
 					break;
 				}
 			}
