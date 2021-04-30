@@ -10,7 +10,7 @@ MirrorLshape::MirrorLshape(Board& _boardGame) : Shape(_boardGame)
 }
 
 //move
-AllAdjustRotations MirrorLshape::getPossibleRotations() {
+AllAdjustRotations MirrorLshape::getPossibleRotations() const {
 	AllAdjustRotations possiblePermutations = AllAdjustRotations(
 		{
 			{Point(1, -1),Point(0, 0),Point(-1, 1),Point(0, 2) },

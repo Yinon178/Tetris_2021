@@ -11,7 +11,7 @@ Zshape::Zshape(Board &_boardGame) : Shape(_boardGame)
 }
 
 //move
-AllAdjustRotations Zshape::getPossibleRotations() {
+AllAdjustRotations Zshape::getPossibleRotations() const {
 	AllAdjustRotations possibleRotations = AllAdjustRotations(
 		{ 
 			{Point(2, -1),Point(1, 0),Point(0, -1),Point(-1, 0) },

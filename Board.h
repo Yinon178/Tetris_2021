@@ -36,50 +36,54 @@ public:
 
 	Board(int _player) : player(_player), gameZone(_player), gameFrame(gameZone), topB(new TopBoard(this)) { setBoard(); }; // ctr 
 
+	Board(const Board& b) : player(b.player), gameZone(b.player), gameFrame(gameZone), topB(new TopBoard(this)) { setBoard(); }; // copy ctr
+
 	~Board() { delete topB; }; // dctr
+
+	bool operator=(const Board& board) = delete;
 
 	void setColored(bool _colored) {
 		colored = _colored;
 	}
 
-	void printFrame();
+	void printFrame() const;
 
 	void setBoard(bool pause = false);
 
 	void cleanGameOver();
 
-	int getScore();
+	int getScore() const;
 
 	bool isFullLine (int curLine);
 
-	bool isEmptyLine(int curLine);
+	bool isEmptyLine(int curLine) const;
 
 	bool cleanLines(int startLine);
 
 	int blowUpSquare(int x, int y);
 
-	bool checkInGameZone(int x, int y)
+	bool checkInGameZone(int x, int y) const
 	{
 		return (x >= gameZone.left && x <= gameZone.right && y >= gameZone.top && y <= gameZone.bottom);
 	}
 
-	char getSign(int x, int y)
+	char getSign(int x, int y) const
 	{
 		return boardGame[y - gameZone.top + 3][x - gameZone.left].getSign();
 	}
 
-	int getSerial(int x, int y)
+	int getSerial(int x, int y) const
 	{
 		return (boardGame[y - gameZone.top + 3][x - gameZone.left].getSerialNumber());
 	}
 
-	bool isValid(int x, int y)
+	bool isValid(int x, int y) const
 	{
 		return (!(boardGame[y - gameZone.top + 3][x - gameZone.left].isBusy()) &&
 			(x >= gameZone.left && x <= gameZone.right && y >= gameZone.top && y <= gameZone.bottom) && (boardGame[y - gameZone.top + 3][x - gameZone.left].getSerialNumber() != -2));
 	}
 
-	void turnOnPoint(int x, int y,int serial=0, char ch = '#')
+	void turnOnPoint(int x, int y, int serial=0, char ch = '#')
 	{
 		boardGame[y - gameZone.top + 3][x - gameZone.left].setPoint(x, y, true, serial,ch);
 		boardGame[y - gameZone.top + 3][x - gameZone.left].draw(ch, colored);
@@ -110,7 +114,7 @@ public:
 	void updateRecord(int newRecord)
 	{
 		gotoxy(gameFrame.right_f + 5, (gameFrame.bottom_f + gameFrame.top_f) / 2 - 3);
-		cout << newRecord;
+		std::cout << newRecord;
 	}
 
 };

@@ -10,7 +10,7 @@ Lshape::Lshape(Board &_boardGame) : Shape(_boardGame)
 }
 
 //move
-AllAdjustRotations Lshape::getPossibleRotations() {
+AllAdjustRotations Lshape::getPossibleRotations() const {
 	AllAdjustRotations possiblePermutations = AllAdjustRotations(
 		{
 			{Point(2, 0),Point(1, -1),Point(0, 0),Point(-1, 1) },

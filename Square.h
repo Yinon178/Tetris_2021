@@ -6,5 +6,5 @@ class Square : public Shape {
 public:
     Square(Board &_boardGame); // ctor
 
-    AllAdjustRotations getPossibleRotations();
+    AllAdjustRotations getPossibleRotations() const;
 };

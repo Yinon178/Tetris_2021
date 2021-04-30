@@ -6,5 +6,5 @@ public:
 	//ctor
 	MirrorLshape(Board& _boardGame);
 
-	AllAdjustRotations getPossibleRotations();
+	AllAdjustRotations getPossibleRotations() const;
 };

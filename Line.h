@@ -9,7 +9,7 @@ public:
 	//ctor
 	Line(Board &_boardGame);
 
-	AllAdjustRotations getPossibleRotations() override;
+	AllAdjustRotations getPossibleRotations() const override;
 
 };
 

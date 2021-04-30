@@ -6,5 +6,5 @@ public:
 	//ctor
 	Lshape(Board &_boardGame);
 
-	AllAdjustRotations getPossibleRotations();
+	AllAdjustRotations getPossibleRotations() const;
 };

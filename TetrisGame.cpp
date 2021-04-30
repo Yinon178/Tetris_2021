@@ -45,7 +45,7 @@ void TetrisGame::run() {
 					Sleep(100);
 					if (_kbhit()) {
 
-						parseKeysPressed(keyPressed, keyPressedPlayer1, keyPressedPlayer2);
+						mainMenu.parseKeysPressed(keyPressed, keyPressedPlayer1, keyPressedPlayer2);
 						if (keyPressed == EXIT)
 						{
 							keyPressed = 0;
@@ -99,7 +99,7 @@ void TetrisGame::run() {
 							Sleep(gameSpeed);
 							if (_kbhit()) // checks if there is anything in the buffer
 							{
-								parseKeysPressed(keyPressed, keyPressedPlayer1, keyPressedPlayer2);
+								mainMenu.parseKeysPressed(keyPressed, keyPressedPlayer1, keyPressedPlayer2);
 								if (keyPressed == EXIT) {
 									exitGame = true;
 									break;
@@ -116,7 +116,7 @@ void TetrisGame::run() {
 									{
 										if (_kbhit()) {
 
-											parseKeysPressed(keyPressed, keyPressedPlayer1, keyPressedPlayer2);
+											mainMenu.parseKeysPressed(keyPressed, keyPressedPlayer1, keyPressedPlayer2);
 											if (keyPressed == EXIT)
 											{
 												gameOver = true;
@@ -146,7 +146,7 @@ void TetrisGame::run() {
 					}
 					if (exitGame) {
 						gotoxy((boardGamePlayer1.gameFrame.right_f + boardGamePlayer2.gameFrame.left_f) / 2 - 5, boardGamePlayer1.gameFrame.bottom_f);
-						cout << "BYE BYE" << endl;
+						std::cout << "BYE BYE" << std::endl;
 					}
 					break;
 				}
@@ -338,50 +338,6 @@ void TetrisGame::hideCursor()
 	SetConsoleCursorInfo(myconsole, &CURSOR);
 }
 
-void TetrisGame::parseKeysPressed(char &keyPressed, char &keyPressedPlayer1, char &keyPressedPlayer2)
-{
-	char res;
-	std::string player1Keys = "adswx", player2Keys = "jlkim", menuKeys = "1289534\x1b";
-	while (_kbhit()) {
-		res = std::tolower(_getch());
-		if (player1Keys.find(res) != std::string::npos)
-		{
-			keyPressedPlayer1 = res;
-		}
-		if (menuKeys.find(res) != std::string::npos)
-		{
-			keyPressed = res;
-		}
-		else if (player2Keys.find(res) != std::string::npos)
-		{
-			switch (res)
-			{
-			case 'j':
-				keyPressedPlayer2 = LEFT;
-				break;
-			case 'l':
-				keyPressedPlayer2 = RIGHT;
-				break;
-			case 'k':
-				keyPressedPlayer2 = ROUTE;
-				break;
-			case 'i':
-				keyPressedPlayer2 = ROUTEC;
-				break;
-			case 'm':
-				keyPressedPlayer2 = HARD_DOWN;
-				break;
-			default:
-				cout << "ERORR in parsing player 2 keys";
-				exit(-1);
-				break;
-			}
-		}	
-
-	}
-	purgeKeyboardBuffer();
-}
-
 void TetrisGame::purgeKeyboardBuffer() 
 {
 	while (_kbhit()) {
@@ -404,26 +360,26 @@ void TetrisGame::annonceWinner(int typePlayer1, int typePlayer2)
 	{
 		if (boardGamePlayer1.getScore() == boardGamePlayer2.getScore())
 		{
-			cout << "~~TIE~~";
+			std::cout << "~~TIE~~";
 		
 		}
 		else if (boardGamePlayer1.getScore() > boardGamePlayer2.getScore()) 
 		{
-			cout << "~~PLAYER ONE WINS~~";
+			std::cout << "~~PLAYER ONE WINS~~";
 		}
 		else 
 		{
-			cout << "~~PLAYER TWO WINS~~";
+			std::cout << "~~PLAYER TWO WINS~~";
 		}
 	
 	}
 	else if (!player1win)
 	{
-		cout << "~~PLAYER TWO WINS~~";
+		std::cout << "~~PLAYER TWO WINS~~";
 	}
 	else 
 	{
-		cout << "~~PLAYER ONE WINS~~";
+		std::cout << "~~PLAYER ONE WINS~~";
 	}
 
 }

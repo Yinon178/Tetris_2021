@@ -11,7 +11,7 @@ MirrorZshape::MirrorZshape(Board &_boardGame) : Shape(_boardGame)
 }
 
 //move
-AllAdjustRotations MirrorZshape::getPossibleRotations() {
+AllAdjustRotations MirrorZshape::getPossibleRotations() const {
 	AllAdjustRotations possibleRotations = AllAdjustRotations(
 		{
 			{Point(0, -1),Point(-1, 0),Point(0, 1),Point(-1, 2) },

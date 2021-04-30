@@ -33,7 +33,7 @@ public:
 	//Pure Virtual
 	virtual void rotate(int direction = 1);
 
-	virtual AllAdjustRotations getPossibleRotations() = 0;
+	virtual AllAdjustRotations getPossibleRotations() const = 0;
 
 
 };
