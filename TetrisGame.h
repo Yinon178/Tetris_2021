@@ -25,6 +25,10 @@ public:
 	// <<<RUN>>>
 	void run();
 
+	void gameHandeling(char& keyPressed, bool& gameOver, bool& exitGame, GameObjects*& objectPlayer1, int& typePlayer1, GameObjects*& objectPlayer2, int& typePlayer2, char& keyPressedPlayer1, char& keyPressedPlayer2, int& gameSpeed, int& retflag);
+
+	void userGameInputHandeling(bool& gameOver, bool& exitGame, GameObjects*& objectPlayer1, char& keyPressedPlayer1, int& typePlayer1, GameObjects*& objectPlayer2, char& keyPressedPlayer2, int& typePlayer2, char& keyPressed, int& gameSpeed);
+
 	void setColored(bool colored)
 	{
 		boardGamePlayer1.setColored(colored);
@@ -35,6 +39,7 @@ public:
 
 	void updateStartBoard(int typeShape, Board &board);
 
+	void instructionsHandeling(char keyPressed, char keyPressedPlayer1, char keyPressedPlayer2);
 
 	void hideCursor();
 
