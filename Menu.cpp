@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <conio.h>
 
+
 void Menu::playersPickingMenu(bool& AI1, bool& AI2)
 {
     char keyPressed = 0;

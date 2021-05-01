@@ -13,6 +13,8 @@ public:
 
 	//draw
 	void draw(char ch = '#')const override;
+    
+    A *clone() { return new Bomb(*this); }
 	
 	// move
 	bool move(char keyPressed = DEFAULT) override;

@@ -25,6 +25,8 @@ public:
 	virtual bool move(char keyPressed = DEFAULT) = 0;
 
 	virtual void updateShape(char direction) = 0;
+    
+    virtual GameObjects *clone () = 0;
 
 	void setSerialNumber(int _serial) {
 		serial = _serial;
