@@ -52,6 +52,20 @@ void Board::setBoard(bool pause)
 	}
 }
 
+void Board::copygrid(const Board& b)
+{
+	for (int i = 0; i < ROWS - 2; i++)
+	{
+		for (int j = 0; j < COLS; j++)
+		{
+			if (b.isPointInBoardGameBusy(i, j))
+				boardGame[i][j].setPoint(j + gameZone.left, i + gameZone.top, true , b.getSerial(i, j), b.getSign(i, j));
+			else
+				boardGame[i][j].setPoint(j + gameZone.left, i + gameZone.top, false, -1, ' ');
+		}
+	}
+}
+
 void Board::cleanGameOver()
 {
 	gotoxy(gameFrame.left_f + 2, gameFrame.bottom_f + 1);

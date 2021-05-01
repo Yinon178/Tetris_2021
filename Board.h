@@ -36,7 +36,7 @@ public:
 
 	Board(int _player) : player(_player), gameZone(_player), gameFrame(gameZone), topB(new TopBoard(this)) { setBoard(); }; // ctr 
 
-	Board(const Board& b) : player(b.player), gameZone(b.player), gameFrame(gameZone), topB(new TopBoard(this)) { setBoard(); }; // copy ctr
+	Board(const Board& b) : player(b.player), gameZone(b.player), gameFrame(gameZone), topB(new TopBoard(this)) { copygrid(b); }; // copy ctr
 
 	~Board() { delete topB; }; // dctr
 
@@ -49,6 +49,8 @@ public:
 	void printFrame() const;
 
 	void setBoard(bool pause = false);
+
+	void copygrid(const Board& b);
 
 	void cleanGameOver();
 
@@ -65,6 +67,11 @@ public:
 	bool checkInGameZone(int x, int y) const
 	{
 		return (x >= gameZone.left && x <= gameZone.right && y >= gameZone.top && y <= gameZone.bottom);
+	}
+
+	bool isPointInBoardGameBusy(int x, int y) const
+	{
+		return boardGame[x][y].isBusy();
 	}
 
 	char getSign(int x, int y) const
