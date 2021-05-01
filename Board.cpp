@@ -194,7 +194,7 @@ void Board::printShapes()
 		{
 			if (p.isBusy() == true)
 			{
-				p.draw(colored);
+				p.draw('#', colored);
 			}
 		}
 		row--;
