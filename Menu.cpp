@@ -6,11 +6,11 @@ void Menu::playersPickingMenu(bool& AI1, bool& AI2)
 {
     char keyPressed = 0;
     gotoxy(startX, startY);
-    std::cout << "(" << +PLAYERVSPLAYER << ") to PLAYERVSPLAYER" << std::endl;
+    std::cout << "(" << PLAYERVSPLAYER << ") to PLAYERVSPLAYER" << std::endl;
     gotoxy(startX, startY + 1);
-    std::cout << "(" << +AIVSPLAYER << ") to AIVSPLAYER" << std::endl;
+    std::cout << "(" << AIVSPLAYER << ") to AIVSPLAYER" << std::endl;
     gotoxy(startX, startY + 2);
-    std::cout << "(" << +AIVSAI << ") AIVSAI" << std::endl;
+    std::cout << "(" << AIVSAI << ") AIVSAI" << std::endl;
     
     while (true) {
         if (_kbhit()) // checks if there is anything in the buffer
