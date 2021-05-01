@@ -48,7 +48,7 @@ public:
 
 	void printFrame() const;
 
-	void setBoard(bool pause = false);
+	void setBoard(bool pause = true);
 
 	void copygrid(const Board& b);
 
@@ -56,7 +56,9 @@ public:
 
 	int getScore() const;
 
-	bool isFullLine (int curLine);
+	bool isFullLine (int curLine, bool cleanIfFound = false);
+    
+    void cleanLine(int curLine);
 
 	bool isEmptyLine(int curLine) const;
 
@@ -123,5 +125,15 @@ public:
 		gotoxy(gameFrame.right_f + 5, (gameFrame.bottom_f + gameFrame.top_f) / 2 - 3);
 		std::cout << newRecord;
 	}
+    
+    int aggregateHeight();
+    
+    int columnHeight(int column);
+    
+    int lines();
+    
+    int holes();
+    
+    int bumpiness();
 
 };

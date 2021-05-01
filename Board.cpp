@@ -84,7 +84,7 @@ return topB->getScore();
 }
 
 //check if the line is full
-bool Board::isFullLine(int curLine)
+bool Board::isFullLine(int curLine, bool cleanIfFound)
 {
 
 	//check FULL line
@@ -93,20 +93,29 @@ bool Board::isFullLine(int curLine)
 		if (!(p.isBusy()))
 			return false;
 	}
-	// marker the line before crush
-	for (Point&p : boardGame[curLine - gameZone.top + 3])
-	{
-		turnOnPoint(p.getx(), p.gety(),-3,'x');
-		Sleep(20);
-	}
-
-	// turn OFF line
-	for (Point&p : boardGame[curLine - gameZone.top + 3])
-	{
-		turnOffPoint(p.getx(), p.gety());
-	}
-
+    
+    if (cleanIfFound) {
+        cleanLine(curLine);
+    }
+    
 	return true;
+}
+
+void Board::cleanLine(int curLine)
+{
+    // marker the line before crush
+    for (Point&p : boardGame[curLine - gameZone.top + 3])
+    {
+        turnOnPoint(p.getx(), p.gety(),-3,'x');
+        Sleep(20);
+    }
+
+    // turn OFF line
+    for (Point&p : boardGame[curLine - gameZone.top + 3])
+    {
+        turnOffPoint(p.getx(), p.gety());
+    }
+    
 }
 
 bool Board::isEmptyLine(int curLine) const
@@ -288,4 +297,58 @@ void Board::hardDownShape(Point * arr , int size)
 		turnOffPoint(arr[i].getx(), arr[i].gety());
 		turnOnPoint(arr[i].getx(), arr[i].gety() + 1, arr[i].getSerialNumber(), arr[i].getSign());
 	}
+}
+
+int Board::aggregateHeight()
+{
+    int total = 0;
+    for(int c = 0; c < COLS; c++)
+    {
+        total += columnHeight(c);
+    }
+    return total;
+}
+
+int Board::columnHeight(int column)
+{
+    int r = 0;
+    for(; r < ROWS && !boardGame[r][column].isBusy(); r++);
+    return ROWS - r;
+}
+
+int Board::lines()
+{
+    int count = 0;
+    for(int r = 0; r < ROWS; r++){
+        if (isFullLine(r)){
+            count++;
+        }
+    }
+    return count;
+}
+
+int Board::holes()
+{
+    int count = 0;
+    for(int c = 0; c < COLS; c++){
+        bool block = false;
+        for(int r = 0; r < ROWS; r++){
+            if (boardGame[r][c].isBusy()) {
+                block = true;
+            }
+            else if (!boardGame[r][c].isBusy() && block){
+                count++;
+            }
+        }
+    }
+    return count;
+}
+
+int Board::bumpiness()
+{
+    int total = 0;
+    for(int c = 0; c < COLS - 1; c++){
+        total += std::abs(columnHeight(c) - columnHeight(c+ 1));
+    }
+    return total;
 }

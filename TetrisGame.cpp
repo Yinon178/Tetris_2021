@@ -28,7 +28,8 @@ void TetrisGame::run() {
 	int typePlayer1 = -1, typePlayer2 = -1;
 	bool gameOver = false, exitGame = false;
 	srand(time(NULL));
-
+    
+    mainMenu.playersPickingMenu(isPlayer1AI, isPlayer2AI);
 
 	while (keyPressed != EXIT && !exitGame)
 	{
@@ -44,6 +45,7 @@ void TetrisGame::run() {
 			gameHandeling(keyPressed, gameOver, exitGame, objectPlayer1, typePlayer1, objectPlayer2, typePlayer2, keyPressedPlayer1, keyPressedPlayer2, gameSpeed, retflag);
 			if (retflag == 2) break;
 		}
+        Sleep(100); // avoid overloading computer
 	}
 }
 
@@ -61,8 +63,9 @@ void TetrisGame::gameHandeling(char& keyPressed, bool& gameOver, bool& exitGame,
 		}
 		if (exitGame)
 		{
-			retflag = 2; return;
-		};
+			retflag = 2;
+            return;
+		}
 		objectPlayer1 = createNewObject(typePlayer1, boardGamePlayer1);
 		objectPlayer2 = createNewObject(typePlayer2, boardGamePlayer2);
 		while (true)
@@ -179,7 +182,7 @@ void TetrisGame::instructionsHandeling(char keyPressed, char keyPressedPlayer1, 
 
 
 // Create new Object Game
-GameObjects * TetrisGame::createNewObject(int & type,Board &board )
+GameObjects * TetrisGame::createNewObject(int & type, Board &board )
 {
 	GameObjects * res=NULL;
 	if (rand() % 20 == 1) {

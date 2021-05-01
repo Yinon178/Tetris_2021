@@ -2,6 +2,33 @@
 #include <Windows.h>
 #include <conio.h>
 
+void Menu::playersPickingMenu(bool& AI1, bool& AI2)
+{
+    char keyPressed = 0;
+    gotoxy(startX, startY);
+    std::cout << "(" << +PLAYERVSPLAYER << ") to PLAYERVSPLAYER" << std::endl;
+    gotoxy(startX, startY + 1);
+    std::cout << "(" << +AIVSPLAYER << ") to AIVSPLAYER" << std::endl;
+    gotoxy(startX, startY + 2);
+    std::cout << "(" << +AIVSAI << ") AIVSAI" << std::endl;
+    
+    while (true) {
+        if (_kbhit()) // checks if there is anything in the buffer
+        {
+            keyPressed = _getch();
+            if (keyPressed == PLAYERVSPLAYER || keyPressed == AIVSPLAYER ||keyPressed == AIVSAI) {
+                if (keyPressed == AIVSPLAYER) {
+                    AI1 = true;
+                } else if (keyPressed == AIVSAI) {
+                    AI1 = true;
+                    AI2 = true;
+                }
+                break;
+            }
+        }
+    }
+}
+
 void Menu::printMenu()
 {
 	HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);

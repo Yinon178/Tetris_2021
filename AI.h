@@ -11,12 +11,14 @@ class AI
 	double holesWeight;
    
 	double bumpinessWeight;
+    
+    auto _best(Board board, Shape shape);
 
 
 public:
 	AI(double _heightWeight, double _linesWeight, double _holesWeight, double _bumpinessWeight) : heightWeight(_heightWeight),
 		linesWeight(_linesWeight), holesWeight(_holesWeight), bumpinessWeight(_bumpinessWeight) {};
 
-	auto best(Board board, Shape shape)
+    auto best(Board board, Shape shape);
 };
 

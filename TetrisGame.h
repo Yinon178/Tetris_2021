@@ -8,10 +8,12 @@
 
 
 class TetrisGame {
-
+    
 	Board boardGamePlayer1, boardGamePlayer2;
 	Menu mainMenu;
 public:
+    bool isPlayer1AI = false;
+    bool isPlayer2AI = false;
 	TetrisGame() : boardGamePlayer1(Board(1)),
 		boardGamePlayer2(Board(2)),
 		mainMenu(Menu(boardGamePlayer1.gameFrame.right_f + 5, (boardGamePlayer1.gameFrame.bottom_f + boardGamePlayer1.gameFrame.top_f) / 2)) {};
