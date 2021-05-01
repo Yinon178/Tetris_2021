@@ -17,7 +17,7 @@ class Menu
 
 public:
 
-	Menu(int x, int y) : startX(x), startY(y) { printMenu(); };
+	Menu(int x, int y) : startX(x), startY(y) {};
 
     void playersPickingMenu(bool& AI1, bool& AI2);
     

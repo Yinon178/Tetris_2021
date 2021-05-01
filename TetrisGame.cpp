@@ -30,6 +30,7 @@ void TetrisGame::run() {
 	srand(time(NULL));
     
     mainMenu.playersPickingMenu(isPlayer1AI, isPlayer2AI);
+    mainMenu.printMenu();
 
 	while (keyPressed != EXIT && !exitGame)
 	{
