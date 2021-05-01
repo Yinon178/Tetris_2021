@@ -2,7 +2,7 @@
 #include "gotoxy.h"
 
 enum MenuKeys { START = '1', STARTNOCOLOR = '5', PAUSE = '\x1b', RESUME = '2',
-	FAST_SPEED = '3', NORMAL_SPEED = '4', EXIT = '9', INSTRUCTIONS ='8', PLAYERVSPLAYER = 'V', AIVSPLAYER = 'B', AIVSAI = 'N'};
+	FAST_SPEED = '3', NORMAL_SPEED = '4', EXIT = '9', INSTRUCTIONS ='8', PLAYERVSPLAYER = '1', AIVSPLAYER = '2', AIVSAI = '3'};
 
 class Menu
 {
