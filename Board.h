@@ -34,9 +34,11 @@ public:
 
 	
 
-	Board(int _player) : player(_player), gameZone(_player), gameFrame(gameZone), topB(new TopBoard(this)) { setBoard(); }; // ctr 
+	Board(int _player) : player(_player), gameZone(_player),
+    gameFrame(gameZone), topB(new TopBoard(this)) { setBoard(); }; // ctr
 
-	Board(const Board& b) : player(b.player), gameZone(b.player), gameFrame(gameZone), topB(new TopBoard(this)) { copygrid(b); }; // copy ctr
+	Board(const Board& b) : player(b.player), gameZone(b.player),
+    gameFrame(gameZone), topB(new TopBoard(this)) { copygrid(b); }; // copy ctr
 
 	~Board() { delete topB; }; // dctr
 

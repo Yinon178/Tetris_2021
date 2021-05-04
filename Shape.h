@@ -13,15 +13,15 @@ protected:
 	enum { SIZE = 4 };
 	Point body[SIZE];
 	int adjust = HORIZON;
+    
 public:
-	Board& boardGame;
 	AdjustRotations left = { Point(-1, 0), Point(-1, 0) , Point(-1, 0),  Point(-1, 0) };
 	AdjustRotations def = { Point(0, 1), Point(0, 1) ,Point(0, 1),  Point(0, 1) };
 	AdjustRotations right = { Point(1, 0), Point(1, 0) , Point(1, 0),  Point(1, 0) };
     
 	//ctor
-	Shape(int _serial, Board &_boardGame) : GameObjects(_serial), boardGame(_boardGame) {};
-	Shape(Board &_boardGame) : GameObjects(), boardGame(_boardGame) {};
+	Shape(int _serial, Board &_boardGame) : GameObjects(_serial, _boardGame){};
+	Shape(Board &_boardGame) : GameObjects(_boardGame) {};
 
 	virtual void draw(char ch = '#')const;
 
@@ -30,6 +30,8 @@ public:
 	void updateShape(char direction);
 
 	bool moveByDelta( char keyPressed, AdjustRotations currentMove, int direction);
+    
+    BASE_CLONEABLE(Shape)
 
 	//Pure Virtual
 	virtual void rotate(int direction = 1);

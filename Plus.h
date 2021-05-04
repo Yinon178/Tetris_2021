@@ -8,6 +8,8 @@ public:
 
 	//ctor
 	Plus(Board &_boadGame);
+    
+    CLONEABLE(Plus)
 
 	AllAdjustRotations getPossibleRotations() const;
 };

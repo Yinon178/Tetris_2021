@@ -14,7 +14,7 @@ public:
 	//draw
 	void draw(char ch = '#')const override;
     
-    A *clone() { return new Bomb(*this); }
+    CLONEABLE(Bomb)
 	
 	// move
 	bool move(char keyPressed = DEFAULT) override;

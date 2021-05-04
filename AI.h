@@ -14,9 +14,7 @@ class AI
    
 	double bumpinessWeight = -0.184483;
     
-    std::queue<char> bestMovesQueue;
-    
-    
+    std::queue<char> bestMovesQueue, movesQueue;
     
     auto _best(Board board, Shape shape);
 
@@ -34,47 +32,70 @@ public:
     {
         std::queue<char> movesQueue;
         auto bestScore = 0;
-        clear(movesQueue);
+        
         for(int rotation = 0; rotation < 4; rotation++){
-            Board _board(board);
-            GameObjects *_piece = piece.clone();
-            for(int i = 0; i < rotation; i++)
-            {
-                if(!_piece->move(eKEYS::ROUTE))
-                    continue;
-                movesQueue.push(eKEYS::ROUTE)
+            for (int leftMoves = 0; leftMoves < COLS/2; leftMoves++) {
+                for (int rightMoves = 0; rightMoves < COLS/2; rightMoves++) {
+                    double score = 0;
+                    score = moveAndCalcScore(piece, board, leftMoves, rightMoves, rotation)
+                    if (score > bestScore || bestScore == 0){
+                        bestScore = score;
+                        std::swap(bestMovesQueue, movesQueue);
+                    }
+                    
+                }
             }
+        }
 
-               while(_piece.move(eKEYS::LEFT))
-                   movesQueue.push(eKEYS::LEFT);
-
-               while(board.valid(_piece)){
-                   GameObjects * _pieceSet = _piece.clone();
-                   while(_pieceSet.moveDown(board));
-
-                   Board _board(board);
-                   _board.addPiece(_pieceSet);
-
-                   double score = 0;
-                   score = -heightWeight * _board.aggregateHeight() + linesWeight * _board.lines() - holesWeight * _board.holes() - bumpinessWeight * _board.bumpiness();
-
-                   if (score > bestScore || bestScore == 0){
-                       bestScore = score;
-                       std::swap(bestMovesQueue, movesQueue);
-                   }
-
-                   _piece.column++;
-               }
-            delete _piece;
-           }
-        
-        
     }
     
-    void clear( std::queue<char> &q )
+    void clear(std::queue<char> &q)
     {
        std::queue<char> empty;
        std::swap( q, empty );
     }
-};
+    
+    int calculateScore()
+    {
+        double score = 0;
+        score = -heightWeight * _board.aggregateHeight() + linesWeight * _board.lines() - holesWeight * _board.holes() - bumpinessWeight * _board.bumpiness();
+        
+    }
+    
+    int moveAndCalcScore(GameObjects const *piece, Board cosnt &board,
+                         int leftSteps, int rightSteps, int roatateSteps)
+    {
+        Board _board(board);
+        GameObjects *_piece = piece.clone();
+        _piece.setBoard(_board);
+        clear(movesQueue);
+        int score = 0
+        for(int step = 0; step < roatateSteps; step++)
+        {
+            if(!_piece->move(eKEYS::ROUTE))
+                return score;
+            movesQueue.push(eKEYS::ROUTE);
+            
+        }
+        for(int step = 0; step < rightSteps; step++)
+        {
+            if(!_piece->move(eKEYS::LEFT))
+                return score;
+            movesQueue.push(eKEYS::LEFT);
+            
+        }
+        for(int step = 0; step < leftSteps; step++)
+        {
+            if(!_piece->move(eKEYS::RIGHT))
+                return score;
+            movesQueue.push(eKEYS::RIGHT);
+            
+        }
+        
+        score = -heightWeight * _board.aggregateHeight() + linesWeight * _board.lines() - holesWeight * _board.holes() - bumpinessWeight * _board.bumpiness();
+        
+        return score;
+        delete _piece;
+    }
+}
 
