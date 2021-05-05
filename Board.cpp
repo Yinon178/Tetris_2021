@@ -64,6 +64,7 @@ void Board::copygrid(const Board& b)
 				boardGame[i][j].setPoint(j + gameZone.left, i + gameZone.top, false, -1, ' ');
 		}
 	}
+	//printShapes();
 }
 
 void Board::cleanGameOver()

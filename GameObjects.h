@@ -7,7 +7,7 @@
 
 #define BASE_CLONEABLE(Type) virtual Type *clone() const = 0;
 
-#define CLONEABLE(Type) virtual Type *clone() const { return new Type(*this); }
+#define CLONEABLE(Type) virtual Type *clone() const {return new Type(*this); std::cout << "cloned";}
 
 class GameObjects {
 
@@ -30,7 +30,7 @@ public:
 
 	virtual void updateShape(char direction) = 0;
     
-    BASE_CLONEABLE(GameObjects);
+    BASE_CLONEABLE(GameObjects)
     
 	void setBoard(Board const& _boardGame) { boardGame = _boardGame; };
 

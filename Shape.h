@@ -23,7 +23,7 @@ public:
 	Shape(int _serial, Board &_boardGame) : GameObjects(_serial, _boardGame){};
 	Shape(Board &_boardGame) : GameObjects(_boardGame) {};
 
-	virtual void draw(char ch = '#')const;
+	virtual void draw(char ch = '#') const ;
 
 	bool move(char keyPressed = DEFAULT);
     
