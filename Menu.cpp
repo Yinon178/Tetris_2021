@@ -1,6 +1,8 @@
 #include "Menu.h"
 #include <Windows.h>
 #include <conio.h>
+#include <queue>
+
 
 
 void Menu::playersPickingMenu(bool& AI1, bool& AI2)
@@ -167,4 +169,46 @@ void Menu::parseKeysPressed(char& keyPressed, char& keyPressedPlayer1, char& key
 		}
 
 	}
+}
+
+void Menu::parseKeysPressed(char& keyPressed, char& keyPressedPlayer1,
+                            char& keyPressedPlayer2, AI const &AIPlayer1)
+{
+    char res;
+    while (_kbhit()) {
+        res = std::tolower(_getch());
+        if (AIPlayer1.bestMovesQueue.)
+        {
+            keyPressedPlayer1 = res;
+        }
+        if (menuKeys.find(res) != std::string::npos)
+        {
+            keyPressed = res;
+        }
+        else if (player2Keys.find(res) != std::string::npos)
+        {
+            switch (res)
+            {
+            case 'j':
+                keyPressedPlayer2 = LEFT;
+                break;
+            case 'l':
+                keyPressedPlayer2 = RIGHT;
+                break;
+            case 'k':
+                keyPressedPlayer2 = ROUTE;
+                break;
+            case 'i':
+                keyPressedPlayer2 = ROUTEC;
+                break;
+            case 'm':
+                keyPressedPlayer2 = HARD_DOWN;
+                break;
+            default:
+                std::cout << "ERORR in parsing player 2 keys";
+                break;
+            }
+        }
+
+    }
 }

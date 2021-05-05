@@ -14,10 +14,11 @@ class AI
    
 	double bumpinessWeight = -0.184483;
     
-    std::queue<char> bestMovesQueue, movesQueue;
+    std::queue<char> movesQueue;
 
 
 public:
+    std::queue<char> bestMovesQueue;
     
 	AI(double _heightWeight, double _linesWeight, double _holesWeight, double _bumpinessWeight) : heightWeight(_heightWeight),
 		linesWeight(_linesWeight), holesWeight(_holesWeight), bumpinessWeight(_bumpinessWeight) {};
