@@ -83,7 +83,7 @@ public:
 
         score = -heightWeight * _board.aggregateHeight() + linesWeight * _board.lines() - holesWeight * _board.holes() - bumpinessWeight * _board.bumpiness();
 
-        return score;
         delete _piece;
+        return score;
     }
 };

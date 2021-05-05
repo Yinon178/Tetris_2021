@@ -116,9 +116,9 @@ void TetrisGame::userGameInputHandeling(bool& gameOver, bool& exitGame, GameObje
 		keyPressedPlayer1 = DEFAULT; // take the head of the buffer
 		keyPressedPlayer2 = DEFAULT;
 		Sleep(gameSpeed);
-		if (_kbhit()) // checks if there is anything in the buffer
+		if (_kbhit() || isPlayer1AI) // checks if there is anything in the buffer
 		{
-			mainMenu.parseKeysPressed(keyPressed, keyPressedPlayer1, keyPressedPlayer2);
+            getInputFromUsers(keyPressed, keyPressedPlayer1, keyPressedPlayer2);
 			if (keyPressed == EXIT) {
 				exitGame = true;
 				break;
@@ -183,7 +183,7 @@ void TetrisGame::instructionsHandeling(char keyPressed, char keyPressedPlayer1, 
 
 
 // Create new Object Game
-GameObjects * TetrisGame::createNewObject(int & type, Board &board )
+GameObjects * TetrisGame::createNewObject(int &type, Board &board )
 {
 	GameObjects * res=NULL;
 	if (rand() % 20 == 1) {
@@ -235,9 +235,13 @@ GameObjects * TetrisGame::createNewObject(int & type, Board &board )
 			break;
 		}
 	}
-
+    
 	res->setSerialNumber(serialNumber);
 	serialNumber++;
+    if (board.getPlayer() == 1 && isPlayer1AI)
+        AIPlayer1.findBestPath(res, board);
+    else if (board.getPlayer() == 2 && isPlayer2AI)
+        AIPlayer2.findBestPath(res, board);
 	return res;
 }
 
@@ -364,12 +368,21 @@ void TetrisGame::hideCursor()
 	SetConsoleCursorInfo(myconsole, &CURSOR);
 }
 
-void TetrisGame::purgeKeyboardBuffer() 
+void getInputFromUsers(char &keyPressed, char &keyPressedPlayer1, char &keyPressedPlayer2)
 {
-	while (_kbhit()) {
-		_getch();
-	}
-
+    if (isPlayer1AI && isPlayer2AI) {
+        mainMenu.parseKeysPressed(keyPressed, keyPressedPlayer1, keyPressedPlayer2, AIPlayer1, AIPlayer2);
+        
+    }
+    else if (isPlayer1AI)
+    {
+        mainMenu.parseKeysPressed(keyPressed, keyPressedPlayer1, keyPressedPlayer2, AIPlayer1);
+        
+    }
+    
+    else {
+        mainMenu.parseKeysPressed(keyPressed, keyPressedPlayer1, keyPressedPlayer2);
+    }
 }
 
 void TetrisGame::annonceWinner(int typePlayer1, int typePlayer2)

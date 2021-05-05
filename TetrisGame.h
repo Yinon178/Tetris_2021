@@ -49,9 +49,9 @@ public:
 
 	void hideCursor();
 
-	void purgeKeyboardBuffer();
-
 	void annonceWinner (int typePlayer1, int typePlayer2);
+    
+    void getInputFromUsers(char &keyPressed, char &keyPressedPlayer1, char &keyPressedPlayer2);
 
 	GameObjects * createNewObject(int & type, Board &board);
 

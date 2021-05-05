@@ -82,6 +82,11 @@ public:
 	{
 		return boardGame[y - gameZone.top + 3][x - gameZone.left].getSign();
 	}
+    
+    char getPlayer() const
+    {
+        return player;
+    }
 
 	int getSerial(int x, int y) const
 	{
