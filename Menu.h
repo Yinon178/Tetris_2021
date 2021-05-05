@@ -44,10 +44,10 @@ public:
 	void parseKeysPressed(char& keyPressed, char& keyPressedPlayer1, char& keyPressedPlayer2);
     
     void parseKeysPressed(char& keyPressed, char& keyPressedPlayer1, char& keyPressedPlayer2,
-                          AI const &AIPlayer1);
+                          AI &AIPlayer1);
     
     void parseKeysPressed(char& keyPressed, char& keyPressedPlayer1, char& keyPressedPlayer2,
-                          AI const &AIPlayer1, AI const &AIPlayer2);
+                          AI &AIPlayer1, AI &AIPlayer2);
     
 
 };

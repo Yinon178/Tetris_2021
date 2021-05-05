@@ -42,7 +42,7 @@ public:
 
 	~Board() { delete topB; }; // dctr
 
-	bool operator=(const Board& board) = delete;
+	Board operator=(const Board& board) const { return Board(board); };
 
 	void setColored(bool _colored) {
 		colored = _colored;

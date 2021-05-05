@@ -7,8 +7,7 @@ protected:
 	//data member
 	Point body;
 public:
-	Board& boardGame;
-	Special(Board& _boardGame, int _serial) : GameObjects(_serial, _boardGame), boardGame(_boardGame) {};
+	Special(Board& _boardGame, int _serial) : GameObjects(_serial, _boardGame) {};
 	Special(Board& _boardGame) : GameObjects(_boardGame) {};
 
 	//draw - Pure virtual

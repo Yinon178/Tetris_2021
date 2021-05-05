@@ -172,14 +172,15 @@ void Menu::parseKeysPressed(char& keyPressed, char& keyPressedPlayer1, char& key
 }
 
 void Menu::parseKeysPressed(char& keyPressed, char& keyPressedPlayer1,
-                            char& keyPressedPlayer2, AI const &AIPlayer1)
+                            char& keyPressedPlayer2, AI &AIPlayer1)
 {
     char res;
     while (_kbhit()) {
         res = std::tolower(_getch());
-        if (AIPlayer1.bestMovesQueue.)
+        if (!AIPlayer1.bestMovesQueue.empty())
         {
-            keyPressedPlayer1 = res;
+            keyPressedPlayer1 = AIPlayer1.bestMovesQueue.front();
+			AIPlayer1.bestMovesQueue.pop();
         }
         if (menuKeys.find(res) != std::string::npos)
         {
@@ -209,6 +210,30 @@ void Menu::parseKeysPressed(char& keyPressed, char& keyPressedPlayer1,
                 break;
             }
         }
+
+    }
+}
+
+void Menu::parseKeysPressed(char& keyPressed, char& keyPressedPlayer1,
+    char& keyPressedPlayer2, AI &AIPlayer1, AI &AIPlayer2)
+{
+    char res;
+    while (_kbhit()) {
+        res = std::tolower(_getch());
+        if (!AIPlayer1.bestMovesQueue.empty())
+        {
+            keyPressedPlayer1 = AIPlayer1.bestMovesQueue.front();
+			AIPlayer1.bestMovesQueue.pop();
+        }
+        if (menuKeys.find(res) != std::string::npos)
+        {
+            keyPressed = res;
+        }
+		if (!AIPlayer2.bestMovesQueue.empty())
+		{
+			keyPressedPlayer2 = AIPlayer2.bestMovesQueue.front();
+			AIPlayer2.bestMovesQueue.pop();
+		}
 
     }
 }

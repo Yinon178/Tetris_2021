@@ -5,11 +5,9 @@
 #include "Point.h"
 
 
-#define BASE_CLONEABLE(Type) \
-    virtual Type *clone() const = 0;
+#define BASE_CLONEABLE(Type) virtual Type *clone() const = 0;
 
-#define CLONEABLE(Type) \
-    virtual Type *clone() const { return new Type(*this); }
+#define CLONEABLE(Type) virtual Type *clone() const { return new Type(*this); }
 
 class GameObjects {
 
@@ -34,7 +32,7 @@ public:
     
     BASE_CLONEABLE(GameObjects);
     
-    void setBoard(Board const &boardGame) {boardGame(Board(boardGame));};
+	void setBoard(Board const& _boardGame) { boardGame = _boardGame; };
 
 	void setSerialNumber(int _serial) {
 		serial = _serial;
