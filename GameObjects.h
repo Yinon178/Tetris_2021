@@ -22,7 +22,7 @@ public:
 	
     GameObjects(int _serial, Board &_boardGame) : serial(_serial), boardGame(_boardGame) {};
 
-	GameObjects() {};
+	GameObjects(Board &_boardGame) : boardGame(_boardGame) {};
 
 	int getSerialObj() const{ return serial; };
 
@@ -34,7 +34,7 @@ public:
     
     BASE_CLONEABLE(GameObjects);
     
-    void setBoard(Board const &boardGame) {boardGame = Board(boardGame);};
+    void setBoard(Board const &boardGame) {boardGame(Board(boardGame));};
 
 	void setSerialNumber(int _serial) {
 		serial = _serial;

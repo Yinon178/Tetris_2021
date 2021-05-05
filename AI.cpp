@@ -2,8 +2,8 @@
 #include "Shape.h"
 
 
-void AI::informShape(GameObjects const &piece)
-{
-    
-    
-}
+//void AI::informShape(GameObjects const &piece)
+//{
+//
+//
+//}

@@ -15,8 +15,6 @@ class AI
 	double bumpinessWeight = -0.184483;
     
     std::queue<char> bestMovesQueue, movesQueue;
-    
-    auto _best(Board board, Shape shape);
 
 
 public:
@@ -25,10 +23,8 @@ public:
 		linesWeight(_linesWeight), holesWeight(_holesWeight), bumpinessWeight(_bumpinessWeight) {};
     
     AI();
-
-//    auto best(Board board, Shape shape);
     
-    findBestPath(GameObjects *piece, Board const &board)
+    void findBestPath(GameObjects *piece, Board const &board)
     {
         std::queue<char> movesQueue;
         auto bestScore = 0;
