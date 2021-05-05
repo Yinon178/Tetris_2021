@@ -103,7 +103,7 @@ public:
 	{
 		if (x >= gameZone.left && x <= gameZone.right && y >= gameZone.top && y <= gameZone.bottom) {
 			boardGame[y - gameZone.top + 3][x - gameZone.left].setPoint(x, y, false);
-			boardGame[y - gameZone.top + 3][x - gameZone.left].draw(' ',colored);
+			boardGame[y - gameZone.top + 3][x - gameZone.left].draw(' ', colored);
 		}
 	}
 

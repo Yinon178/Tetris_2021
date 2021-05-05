@@ -36,32 +36,26 @@ void Board::setBoard(bool pause)
 		printShapes();
 		return;
 	}
-	for (int i = 0; i < ROWS - 2; i++)
+	for (int i = 0; i < ROWS; i++)
 	{
 		for (int j = 0; j < COLS; j++)
 		{
-			if (i < 2) {
-				boardGame[i][j].setPoint(j + gameZone.left, i + gameZone.top, false, -1, ' ');
-				turnOffPoint(j + gameZone.left, i + gameZone.top);
-			}
-			else {
-				boardGame[i][j].setPoint(j + gameZone.left, i + gameZone.top, false, -1, ' ');
-				turnOffPoint(j + gameZone.left, i + gameZone.top);
-			}
+            if (i<2) {
+                boardGame[i][j].setPoint(j + gameZone.left, i + 2, false, -1, ' ');
+            } else {
+                turnOffPoint(j + gameZone.left, i + gameZone.top - 3);
+            }
 		}
 	}
 }
 
 void Board::copygrid(const Board& b)
 {
-	for (int i = 0; i < ROWS - 2; i++)
+	for (int i = 0; i < ROWS; i++)
 	{
 		for (int j = 0; j < COLS; j++)
 		{
-			if (b.isPointInBoardGameBusy(i, j))
-				boardGame[i][j].setPoint(j + gameZone.left, i + gameZone.top, true , b.getSerial(i, j), b.getSign(i, j));
-			else
-				boardGame[i][j].setPoint(j + gameZone.left, i + gameZone.top, false, -1, ' ');
+            boardGame[i][j].setPoint(b.boardGame[i][j].getx(), b.boardGame[i][j].gety(), b.isPointInBoardGameBusy(i, j) , b.getSerial(i, j), b.getSign(i, j));
 		}
 	}
 	//printShapes();
