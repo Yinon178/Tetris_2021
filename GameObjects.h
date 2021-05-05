@@ -13,7 +13,7 @@ class GameObjects {
 
 protected:
 	int serial = 0;
-    Board boardGame;
+    Board &boardGame;
     
 
 public:

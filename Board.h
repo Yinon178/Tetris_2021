@@ -50,7 +50,7 @@ public:
 
 	void printFrame() const;
 
-	void setBoard(bool pause = true);
+	void setBoard(bool pause = false);
 
 	void copygrid(const Board& b);
 

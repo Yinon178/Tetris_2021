@@ -40,7 +40,7 @@ void Board::setBoard(bool pause)
 	{
 		for (int j = 0; j < COLS; j++)
 		{
-            if (i<2) {
+            if (i<=2) {
                 boardGame[i][j].setPoint(j + gameZone.left, i + 2, false, -1, ' ');
             } else {
                 turnOffPoint(j + gameZone.left, i + gameZone.top - 3);
