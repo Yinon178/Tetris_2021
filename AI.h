@@ -1,5 +1,4 @@
 #pragma once
-#include "GameObjects.h"
 #include "board.h"
 #include "GameObjects.h"
 #include <queue>
@@ -23,7 +22,7 @@ public:
     AI(double _heightWeight, double _linesWeight, double _holesWeight, double _bumpinessWeight) : heightWeight(_heightWeight),
         linesWeight(_linesWeight), holesWeight(_holesWeight), bumpinessWeight(_bumpinessWeight) {};
 
-    AI();
+    AI() {};
 
     void findBestPath(GameObjects* piece, Board const& board)
     {
