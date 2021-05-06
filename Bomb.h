@@ -17,7 +17,7 @@ public:
     CLONEABLE(Bomb)
 	
 	// move
-	bool move(char keyPressed = DEFAULT) override;
+	bool move(char keyPressed = DEFAULT, bool mark = true) override;
 
 
 };

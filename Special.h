@@ -16,7 +16,7 @@ public:
     BASE_CLONEABLE(Special)
 
 	//move 
-	bool move(char keyPressed = DEFAULT) = 0;
+	bool move(char keyPressed = DEFAULT, bool mark = true) = 0;
 
 	//update shape
 	virtual void updateShape(char direction) {

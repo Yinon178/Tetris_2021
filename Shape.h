@@ -25,11 +25,11 @@ public:
 
 	virtual void draw(char ch = '#') const ;
 
-	bool move(char keyPressed = DEFAULT);
+	bool move(char keyPressed = DEFAULT, bool mark = true);
     
 	void updateShape(char direction);
 
-	bool moveByDelta( char keyPressed, AdjustRotations currentMove, int direction);
+	bool moveByDelta( char keyPressed, AdjustRotations currentMove, int direction, bool mark = true);
     
     BASE_CLONEABLE(Shape)
 

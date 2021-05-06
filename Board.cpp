@@ -51,14 +51,15 @@ void Board::setBoard(bool pause)
 
 void Board::copygrid(const Board& b)
 {
-	for (int i = 0; i < ROWS; i++)
+	/*for (int i = 0; i < ROWS; i++)
 	{
 		for (int j = 0; j < COLS; j++)
 		{
             boardGame[i][j].setPoint(b.boardGame[i][j].getx(), b.boardGame[i][j].gety(), b.isPointInBoardGameBusy(i, j) , b.getSerial(i, j), b.getSign(i, j));
 		}
-	}
+	}*/
 	//printShapes();
+	std::copy(&b.boardGame[0][0], &b.boardGame[0][0] + ROWS * COLS, &boardGame[0][0]);
 }
 
 void Board::cleanGameOver()
@@ -124,19 +125,18 @@ bool Board::isEmptyLine(int curLine) const
 }
 
 // clean all the full lines
-bool Board::cleanLines(int startLine)
+bool Board::cleanLines(int startLine, bool mark)
 {
 	int inARow = 0;
 	bool res = false;
 	for (int i = 0; i < 6 && (startLine - i) >= 5; i++)
 	{
-		bool fullLine = isFullLine(startLine - i);
+		bool fullLine = isFullLine(startLine - i, mark);
 
 		if ( fullLine == true)
 		{
 			res = true;
 			inARow++;
-			Sleep(200);
 		}
 
 		else if (inARow != 0)
@@ -200,7 +200,7 @@ bool Board::updateBoard()
 		row--;
 	}
 
-	return endClean;
+	return endClean; // exception
 }
 
 void Board::printShapes()
@@ -315,7 +315,7 @@ int Board::lines()
 {
     int count = 0;
     for(int r = 0; r < ROWS; r++){
-        if (isFullLine(r)){
+        if (isFullLine(r, false)){
             count++;
         }
     }
@@ -324,7 +324,7 @@ int Board::lines()
 
 int Board::holes()
 {
-    int count = 0;
+    double count = 0;
     for(int c = 0; c < COLS; c++){
         bool block = false;
         for(int r = 0; r < ROWS; r++){
@@ -341,7 +341,7 @@ int Board::holes()
 
 int Board::bumpiness()
 {
-    int total = 0;
+    double total = 0;
     for(int c = 0; c < COLS - 1; c++){
         total += std::abs(columnHeight(c) - columnHeight(c+ 1));
     }

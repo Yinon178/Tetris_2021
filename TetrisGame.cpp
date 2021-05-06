@@ -368,7 +368,7 @@ void TetrisGame::hideCursor()
 	SetConsoleCursorInfo(myconsole, &CURSOR);
 }
 
-void getInputFromUsers(char &keyPressed, char &keyPressedPlayer1, char &keyPressedPlayer2)
+void TetrisGame::getInputFromUsers(char &keyPressed, char &keyPressedPlayer1, char &keyPressedPlayer2)
 {
     if (isPlayer1AI && isPlayer2AI) {
         mainMenu.parseKeysPressed(keyPressed, keyPressedPlayer1, keyPressedPlayer2, AIPlayer1, AIPlayer2);

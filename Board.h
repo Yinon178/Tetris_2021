@@ -1,6 +1,7 @@
 #pragma once
 #include "TopBoard.h"
 #include "Point.h"
+#include "GameObjects.h"
 
 enum Sign {B = '@' }; // signs on the board of BOMB
 enum {ROWS = 21, COLS = 12};
@@ -11,6 +12,7 @@ class GameZone {
 public:
 	int left, right, top = 5, bottom = 22;
 	GameZone(int player) : left(player == 1 ? 10 : 60), right(player == 1 ? 21 : 71) {};
+
 };
 
 class GameFrame {
@@ -32,19 +34,42 @@ public:
 
 	TopBoard* topB;
 
-	
+	Board() : player(1), gameZone(player), gameFrame(gameZone), topB(nullptr) {};
 
 	Board(int _player) : player(_player), gameZone(_player),
     gameFrame(gameZone), topB(new TopBoard(this)) { setBoard(); }; // ctr
 
-	Board(const Board& b) : player(b.player), gameZone(b.player),
-    gameFrame(gameZone), topB(new TopBoard(this)) { copygrid(b); }; // copy ctr
+	Board(const Board& b) : player(b.getPlayer()), gameZone(b.getPlayer()),
+		gameFrame(gameZone), topB(new TopBoard(this)) { copygrid(b); }; // copy ctr
 
 	~Board() { delete topB; }; // dctr
 
-	Board operator=(const Board& board) const { return Board(board); };
+	friend void swap(Board& first, Board& second) // nothrow
+	{
+		using std::swap;
+		swap(first.player, second.player);
+		swap(first.colored, second.colored);
+		swap(first.boardGame, second.boardGame);
+		swap(first.gameZone, second.gameZone);
+		swap(first.gameFrame, second.gameFrame);
+		swap(first.topB, second.topB);
 
-	void setColored(bool _colored) {
+	}
+	Board& operator=(Board other)
+	{
+		swap(*this, other);
+
+		return *this;
+	}
+
+	Board(Board&& other) noexcept
+		: Board() // initialize via default constructor, C++11 only
+	{
+		swap(*this, other);
+	}
+
+	void setColored(bool _colored)
+	{
 		colored = _colored;
 	}
 
@@ -58,13 +83,13 @@ public:
 
 	int getScore() const;
 
-	bool isFullLine (int curLine, bool cleanIfFound = false);
+	bool isFullLine (int curLine, bool cleanIfFound = true);
     
     void cleanLine(int curLine);
 
 	bool isEmptyLine(int curLine) const;
 
-	bool cleanLines(int startLine);
+	bool cleanLines(int startLine, bool mark = true);
 
 	int blowUpSquare(int x, int y);
 
@@ -99,16 +124,18 @@ public:
 			(x >= gameZone.left && x <= gameZone.right && y >= gameZone.top && y <= gameZone.bottom) && (boardGame[y - gameZone.top + 3][x - gameZone.left].getSerialNumber() != -2));
 	}
 
-	void turnOnPoint(int x, int y, int serial=0, char ch = '#')
+	void turnOnPoint(int x, int y, int serial=0, char ch = '#', bool mark = true)
 	{
 		boardGame[y - gameZone.top + 3][x - gameZone.left].setPoint(x, y, true, serial,ch);
-		boardGame[y - gameZone.top + 3][x - gameZone.left].draw(ch, colored);
+		if (mark)
+			boardGame[y - gameZone.top + 3][x - gameZone.left].draw(ch, colored);
 	}
-	void turnOffPoint(int x, int y)
+	void turnOffPoint(int x, int y,bool mark=true)
 	{
 		if (x >= gameZone.left && x <= gameZone.right && y >= gameZone.top && y <= gameZone.bottom) {
 			boardGame[y - gameZone.top + 3][x - gameZone.left].setPoint(x, y, false);
-			boardGame[y - gameZone.top + 3][x - gameZone.left].draw(' ', colored);
+			if (mark)
+				boardGame[y - gameZone.top + 3][x - gameZone.left].draw(' ', colored);
 		}
 	}
 
@@ -135,12 +162,12 @@ public:
     
     int aggregateHeight();
     
-    int columnHeight(int column);
+	int columnHeight(int column);
     
-    int lines();
+	int lines();
     
-    int holes();
+	int holes();
     
-    int bumpiness();
+	int bumpiness();
 
 };
