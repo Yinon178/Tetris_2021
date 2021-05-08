@@ -8,6 +8,8 @@
 
 void Menu::playersPickingMenu(bool& AI1, bool& AI2)
 {
+	HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(color, 7);
     char keyPressed = 0;
     gotoxy(startX, startY);
     std::cout << "(" << PLAYERVSPLAYER - '0' << ") to PLAYERVSPLAYER" << std::endl;

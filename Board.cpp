@@ -64,14 +64,8 @@ void Board::copygrid(const Board& b)
 
 void Board::cleanGameOver()
 {
-	gotoxy(gameFrame.left_f + 2, gameFrame.bottom_f + 1);
-	std::cout << "              " << std::endl;
-	gotoxy(gameFrame.left_f - 2, gameFrame.bottom_f + 3);
-	std::cout << "                                " << std::endl;
-	gotoxy(gameFrame.left_f - 2, gameFrame.bottom_f + 5);
-	std::cout << "                                " << std::endl;
+	setBoard();
 	topB->resetTopBoard();
-	
 
 }
 
@@ -139,7 +133,7 @@ bool Board::cleanLines(int startLine, bool mark)
 			inARow++;
 		}
 
-		else if (inARow != 0)
+		else if (inARow != 0 && mark)
 		{
 			if (inARow == 1)
 				topB->updateScore(SCORE::SINGLE_LINE);

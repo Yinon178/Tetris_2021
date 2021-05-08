@@ -238,6 +238,7 @@ GameObjects * TetrisGame::createNewObject(int &type, Board &board )
     
 	res->setSerialNumber(serialNumber);
 	serialNumber++;
+	board.updateNumOfShapesBoard();
     if (board.getPlayer() == 1 && isPlayer1AI)
         AIPlayer1.findBestPath(res, board);
     else if (board.getPlayer() == 2 && isPlayer2AI)

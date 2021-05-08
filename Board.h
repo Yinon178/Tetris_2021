@@ -52,7 +52,7 @@ public:
 		swap(first.boardGame, second.boardGame);
 		swap(first.gameZone, second.gameZone);
 		swap(first.gameFrame, second.gameFrame);
-		swap(first.topB, second.topB);
+		//swap(first.topB, second.topB); // not needed for all program usages.
 
 	}
 	Board& operator=(Board other)
@@ -96,6 +96,16 @@ public:
 	bool checkInGameZone(int x, int y) const
 	{
 		return (x >= gameZone.left && x <= gameZone.right && y >= gameZone.top && y <= gameZone.bottom);
+	}
+
+	void enableDummyTopBoard()
+	{
+		topB->enableDummy();
+	}
+
+	void disablesDummyTopBoard()
+	{
+		topB->disableDummy();
 	}
 
 	bool isPointInBoardGameBusy(int x, int y) const

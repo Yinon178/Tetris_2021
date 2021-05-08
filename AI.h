@@ -1,6 +1,8 @@
 #pragma once
 #include "board.h"
 #include "GameObjects.h"
+
+#include <memory>
 #include <queue>
 
 class AI
@@ -24,76 +26,16 @@ public:
 
     AI() {};
 
-    void findBestPath(GameObjects* piece, Board &board)
-    {
-        double bestScore = -200;
-        double score = 0;
+    void findBestPath(GameObjects* piece, Board& board);
 
-        for (int rotation = 0; rotation < 4; rotation++)
-        {
-            for (int leftMoves = 0; leftMoves < COLS / 2; leftMoves++) {
-                score = moveAndCalcScore(piece, board, leftMoves, 0, rotation);
-                if (score > bestScore) {
-                    bestScore = score;
-                    std::swap(bestMovesQueue, movesQueue);
-                }
-            }
-                for (int rightMoves = 0; rightMoves <= COLS / 2; rightMoves++)
-                {    
-                    score = moveAndCalcScore(piece, board, 0, rightMoves, rotation);
-                    if (score > bestScore) {
-                        bestScore = score;
-                        std::swap(bestMovesQueue, movesQueue);
-                    }
-
-                }
-        }
-    }
-
-    void clear(std::queue<char> &q)
+    void clear(std::queue<char>& q)
     {
         std::queue<char> empty;
         std::swap(q, empty);
     }
 
-    int moveAndCalcScore(GameObjects const *piece, Board &board,
-        int leftSteps, int rightSteps, int roatateSteps)
-    {
-        Board _board = board;
-        GameObjects* _piece = piece->clone();
-        bool mark = false;
-        clear(movesQueue);
-        int score = -10000;
-        if (!_piece->move(eKEYS::DEFAULT, mark)) // workaround for some of the shapes that can't rotate in the start
-            return score;
-        movesQueue.push(eKEYS::DEFAULT);
-        for (int step = 0; step < roatateSteps; step++)
-        {
-            if (!_piece->move(eKEYS::ROUTE, mark))
-                return score;
-            movesQueue.push(eKEYS::ROUTE);
+    int moveAndCalcScore(GameObjects const* piece, Board& board,
+        int leftSteps, int rightSteps, int roatateSteps);
 
-        }
-        for (int step = 0; step < rightSteps; step++)
-        {
-            if (!_piece->move(eKEYS::RIGHT, mark))
-                return score;
-            movesQueue.push(eKEYS::RIGHT);
-
-        }
-        for (int step = 0; step < leftSteps; step++)
-        {
-            if (!_piece->move(eKEYS::LEFT, mark))
-                return score;
-            movesQueue.push(eKEYS::LEFT);
-
-        }
-        _piece->move(eKEYS::HARD_DOWN, mark);
-        movesQueue.push(eKEYS::HARD_DOWN);
-        score = -heightWeight * board.aggregateHeight() + linesWeight * board.lines() - holesWeight * board.holes() - bumpinessWeight * board.bumpiness();
-        board = _board; // setting the board back
-        
-        delete _piece;
-        return score;
-    }
+    int resetAfterDummyMovements(Board& realBoard, Board& snapshotOfOriginalBoard);
 };

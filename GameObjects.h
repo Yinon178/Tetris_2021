@@ -24,7 +24,7 @@ public:
 
 	int getSerialObj() const{ return serial; };
 
-	virtual void draw(char ch = '#')const = 0;
+	virtual void draw(char ch = '#') const = 0;
 
 	virtual bool move(char keyPressed = DEFAULT, bool mark = true) = 0;
 

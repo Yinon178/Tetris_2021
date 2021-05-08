@@ -24,7 +24,8 @@ bool Bomb::move(char keyPressed, bool mark)
 		{
 			boardGame.turnOffPoint(body.getx(), body.gety(), mark);
 			addScore = boardGame.blowUpSquare(body.getx(), body.gety());
-			boardGame.updateScoreBoard(addScore);
+			if (mark)
+				boardGame.updateScoreBoard(addScore);
 			boardGame.updateBoard();
 			if (boardGame.cleanLines(boardGame.gameZone.bottom, mark))
 				boardGame.updateBoard();
@@ -44,7 +45,8 @@ bool Bomb::move(char keyPressed, bool mark)
 		{
 			addScore = boardGame.blowUpSquare(body.getx() - 1, body.gety());
 			boardGame.turnOffPoint(body.getx(), body.gety(), mark);
-			boardGame.updateScoreBoard(addScore);
+			if (mark)
+				boardGame.updateScoreBoard(addScore);
 			boardGame.updateBoard();
 			if (boardGame.cleanLines(boardGame.gameZone.bottom, mark))
 				boardGame.updateBoard();
@@ -64,7 +66,8 @@ bool Bomb::move(char keyPressed, bool mark)
 		{
 			boardGame.turnOffPoint(body.getx(), body.gety(), mark);
 			addScore = boardGame.blowUpSquare(body.getx(), body.gety());
-			boardGame.updateScoreBoard(addScore);
+			if(mark)
+				boardGame.updateScoreBoard(addScore);
 			boardGame.updateBoard();
 			if (boardGame.cleanLines(boardGame.gameZone.bottom, mark))
 				boardGame.updateBoard();

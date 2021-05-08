@@ -25,8 +25,8 @@ public:
 	void resetGame(){
 		gotoxy((boardGamePlayer1.gameFrame.right_f + boardGamePlayer2.gameFrame.left_f) / 2 - 10, boardGamePlayer1.gameFrame.top_f);
 		std::cout << "                           " << std::endl;
-		boardGamePlayer1.setBoard();
-		boardGamePlayer2.setBoard();
+		boardGamePlayer1.cleanGameOver();
+		boardGamePlayer2.cleanGameOver();
 	}
 	// <<<RUN>>>
 	void run();
