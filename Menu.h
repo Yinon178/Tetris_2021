@@ -3,7 +3,7 @@
 #include "AI.h"
 
 enum MenuKeys { START = '1', STARTNOCOLOR = '5', PAUSE = '\x1b', RESUME = '2',
-	FAST_SPEED = '3', NORMAL_SPEED = '4', EXIT = '9', INSTRUCTIONS ='8', PLAYERVSPLAYER = '1', AIVSPLAYER = '2', AIVSAI = '3'};
+	FAST_SPEED = '3', NORMAL_SPEED = '4', EXIT = '9', INSTRUCTIONS ='8', PLAYERVSPLAYER = '1', PLAYERVSAI = '2', AIVSAI = '3', BEST = 'a', GOOD = 'b', NOVICE = 'c'};
 
 class Menu
 {
@@ -21,7 +21,7 @@ public:
 
 	Menu(int x, int y) : startX(x), startY(y) {};
 
-    void playersPickingMenu(bool& AI1, bool& AI2);
+    void playersPickingMenu(int& AI1, int& AI2);
     
     bool isPlayer1AI() const {return player1AI;};
     
@@ -48,6 +48,8 @@ public:
     
     void parseKeysPressed(char& keyPressed, char& keyPressedPlayer1, char& keyPressedPlayer2,
                           AI &AIPlayer1, AI &AIPlayer2);
+    
+    void ComputerLevelPickingMenu(int& AI2);
     
 
 };

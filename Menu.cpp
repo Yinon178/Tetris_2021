@@ -6,34 +6,66 @@
 
 
 
-void Menu::playersPickingMenu(bool& AI1, bool& AI2)
+void Menu::playersPickingMenu(int& AI1, int& AI2)
 {
+    clearMenu();
 	HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(color, 7);
     char keyPressed = 0;
     gotoxy(startX, startY);
-    std::cout << "(" << PLAYERVSPLAYER - '0' << ") to PLAYERVSPLAYER" << std::endl;
+    std::cout << "Please choose game mode:" << std::endl;
     gotoxy(startX, startY + 1);
-    std::cout << "(" << AIVSPLAYER - '0' << ") to AIVSPLAYER" << std::endl;
+    std::cout << "(" << PLAYERVSPLAYER - '0' << ") Human vs Human" << std::endl;
     gotoxy(startX, startY + 2);
-    std::cout << "(" << AIVSAI - '0' << ") AIVSAI" << std::endl;
+    std::cout << "(" << PLAYERVSAI - '0' << ") Human vs Computer" << std::endl;
+    gotoxy(startX, startY + 3);
+    std::cout << "(" << AIVSAI - '0' << ") Computer vs Computer" << std::endl;
     
     while (true) {
         if (_kbhit()) // checks if there is anything in the buffer
         {
             keyPressed = _getch();
-            if (keyPressed == PLAYERVSPLAYER || keyPressed == AIVSPLAYER ||keyPressed == AIVSAI) {
-                if (keyPressed == AIVSPLAYER)
+            if (keyPressed == PLAYERVSPLAYER || keyPressed == PLAYERVSAI ||keyPressed == AIVSAI) {
+                if (keyPressed == PLAYERVSAI)
                 {
-                    AI1 = true;
+                    ComputerLevelPickingMenu(AI2);
                 }
                 else if (keyPressed == AIVSAI)
                 {
-                    AI1 = true;
-                    AI2 = true;
+                    AI1 = 1;
+                    AI2 = 1;
                 }
                 return;
             }
+        }
+        Sleep(100);
+    }
+}
+
+void Menu::ComputerLevelPickingMenu(int& AI2)
+{
+    clearMenu();
+    HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(color, 7);
+    char keyPressed = 0;
+    gotoxy(startX, startY);
+    std::cout << "Please choose computer level:" << std::endl;
+    gotoxy(startX, startY + 1);
+    std::cout << " (a) BEST" << std::endl;
+    gotoxy(startX, startY + 2);
+    std::cout << "(b) GOOD" << std::endl;
+    gotoxy(startX, startY + 3);
+    std::cout << "(c) NOVICE" << std::endl;
+    
+    while (true) {
+        if (_kbhit()) // checks if there is anything in the buffer
+        {
+            keyPressed = std::tolower(_getch());
+            if (keyPressed == BEST || keyPressed == GOOD ||keyPressed == NOVICE)
+            {
+                AI2 = keyPressed - 96; // 97 = 'a'
+            }
+                return;
         }
         Sleep(100);
     }
@@ -175,45 +207,24 @@ void Menu::parseKeysPressed(char& keyPressed, char& keyPressedPlayer1, char& key
 }
 
 void Menu::parseKeysPressed(char& keyPressed, char& keyPressedPlayer1,
-                            char& keyPressedPlayer2, AI &AIPlayer1)
+                            char& keyPressedPlayer2, AI &AIPlayer2)
 {
     char res;
-	if (!AIPlayer1.bestMovesQueue.empty())
+	if (!AIPlayer2.bestMovesQueue.empty())
 	{
-		keyPressedPlayer1 = AIPlayer1.bestMovesQueue.front();
-		AIPlayer1.bestMovesQueue.pop();
+        keyPressedPlayer2 = AIPlayer2.bestMovesQueue.front();
+        AIPlayer2.bestMovesQueue.pop();
 	}
     while (_kbhit()) {
         res = std::tolower(_getch());
-        if (menuKeys.find(res) != std::string::npos)
+        if (player1Keys.find(res) != std::string::npos)
+        {
+            keyPressedPlayer1 = res;
+        }
+        else if (menuKeys.find(res) != std::string::npos)
         {
             keyPressed = res;
         }
-        else if (player2Keys.find(res) != std::string::npos)
-        {
-            switch (res)
-            {
-            case 'j':
-                keyPressedPlayer2 = LEFT;
-                break;
-            case 'l':
-                keyPressedPlayer2 = RIGHT;
-                break;
-            case 'k':
-                keyPressedPlayer2 = ROUTE;
-                break;
-            case 'i':
-                keyPressedPlayer2 = ROUTEC;
-                break;
-            case 'm':
-                keyPressedPlayer2 = HARD_DOWN;
-                break;
-            default:
-                std::cout << "ERORR in parsing player 2 keys";
-                break;
-            }
-        }
-
     }
 }
 

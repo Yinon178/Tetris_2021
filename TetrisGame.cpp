@@ -29,7 +29,7 @@ void TetrisGame::run() {
 	bool gameOver = false, exitGame = false;
 	srand(time(NULL));
     
-    mainMenu.playersPickingMenu(isPlayer1AI, isPlayer2AI);
+    mainMenu.playersPickingMenu(player1AIlevel, player2AIlevel);
     mainMenu.printMenu();
 
 	while (keyPressed != EXIT && !exitGame)
@@ -116,7 +116,7 @@ void TetrisGame::userGameInputHandeling(bool& gameOver, bool& exitGame, GameObje
 		keyPressedPlayer1 = DEFAULT; // take the head of the buffer
 		keyPressedPlayer2 = DEFAULT;
 		Sleep(gameSpeed);
-		if (_kbhit() || isPlayer1AI) // checks if there is anything in the buffer
+		if (_kbhit() || player1AIlevel || player2AIlevel) // checks if there is anything in the buffer
 		{
             getInputFromUsers(keyPressed, keyPressedPlayer1, keyPressedPlayer2);
 			if (keyPressed == EXIT) {
@@ -371,13 +371,13 @@ void TetrisGame::hideCursor()
 
 void TetrisGame::getInputFromUsers(char &keyPressed, char &keyPressedPlayer1, char &keyPressedPlayer2)
 {
-    if (isPlayer1AI && isPlayer2AI) {
+    if (player1AIlevel && player2AIlevel) {
         mainMenu.parseKeysPressed(keyPressed, keyPressedPlayer1, keyPressedPlayer2, AIPlayer1, AIPlayer2);
         
     }
-    else if (isPlayer1AI)
+    else if (player2AIlevel)
     {
-        mainMenu.parseKeysPressed(keyPressed, keyPressedPlayer1, keyPressedPlayer2, AIPlayer1);
+        mainMenu.parseKeysPressed(keyPressed, keyPressedPlayer1, keyPressedPlayer2, AIPlayer2);
         
     }
     
