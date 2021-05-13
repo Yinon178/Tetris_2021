@@ -8,12 +8,12 @@ void AI::findBestPath(GameObjects* piece, Board& board)
     double bestScore = -200;
     double score = 0;
     clear(bestMovesQueue);
-    if (rand() % levelMap[level] == 1 && level != 1) // once every some moves random path will be generated insted of smart move
+    if (level != 1 && rand() % levelMap[level] == 1 || (piece->isBomb() && level != 1)) // once every some moves random path will be generated insted of smart move
     {
-        int left = rand() % 1;
-        int horizontal = rand() % (COLS /2)
+        int left = rand() % 2;
+        int horizontal = rand() % (COLS / 2);
         if (left)
-            generateRandomPath(piece, board, 0, horizontal, rand() % 4)
+            generateRandomPath(piece, board, 0, horizontal, rand() % 4);
         else
             generateRandomPath(piece, board, horizontal, 0, rand() % 4);
         return;

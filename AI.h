@@ -4,6 +4,7 @@
 
 #include <memory>
 #include <queue>
+#include <map>
 
 class AI
 {
@@ -14,17 +15,10 @@ class AI
     double holesWeight = 0.35663;
 
     double bumpinessWeight = 0.184483;
-    
-    void initLevelMap()
-    {
-        AI::levelMap[1] = 0;
-        AI::levelMap[2] = 40;
-        AI::levelMap[3] = 10;
-    }
 
     std::queue<char> movesQueue;
     
-    static std::map<int,int> levelMap;
+    inline static std::map<int,int> levelMap = {{2, 40}, {3, 10}};
     
     int level = 1; // BEST = 1, GOOD = 2, NOVICE = 3
 
@@ -33,9 +27,9 @@ public:
     std::queue<char> bestMovesQueue;
 
     AI(double _heightWeight, double _linesWeight, double _holesWeight, double _bumpinessWeight) : heightWeight(_heightWeight),
-    linesWeight(_linesWeight), holesWeight(_holesWeight), bumpinessWeight(_bumpinessWeight) {initLevelMap();};
+    linesWeight(_linesWeight), holesWeight(_holesWeight), bumpinessWeight(_bumpinessWeight) {};
 
-    AI() {initLevelMap();};
+    AI() {};
 
     void findBestPath(GameObjects* piece, Board& board);
     

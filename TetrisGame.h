@@ -6,6 +6,8 @@
 #include "AI.h"
 #include <Windows.h>
 #include <conio.h>
+#include <chrono>
+#include <thread>
 
 
 
@@ -39,6 +41,12 @@ public:
 	{
 		boardGamePlayer1.setColored(colored);
 		boardGamePlayer2.setColored(colored);
+	}
+
+	auto now() { return std::chrono::steady_clock::now(); }
+
+	auto awakeTime(std::chrono::steady_clock::time_point start, int ms) {
+		return start + std::chrono::milliseconds(ms);
 	}
 
 	bool checkGameOver(int typeShapea, Board &board);

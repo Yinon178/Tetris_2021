@@ -9,6 +9,7 @@
 #include "MirrorLshape.h"
 #include "MirrorZshape.h"
 
+using std::chrono::system_clock;
 
 enum {RAND = 7};
 
@@ -30,6 +31,8 @@ void TetrisGame::run() {
 	srand(time(NULL));
     
     mainMenu.playersPickingMenu(player1AIlevel, player2AIlevel);
+	if (player2AIlevel != 1)
+		AIPlayer2.setLevel(player2AIlevel);
     mainMenu.printMenu();
 
 	while (keyPressed != EXIT && !exitGame)
@@ -90,8 +93,10 @@ void TetrisGame::gameHandeling(char& keyPressed, bool& gameOver, bool& exitGame,
 
 void TetrisGame::userGameInputHandeling(bool& gameOver, bool& exitGame, GameObjects*& objectPlayer1, char& keyPressedPlayer1, int& typePlayer1, GameObjects*& objectPlayer2, char& keyPressedPlayer2, int& typePlayer2, char& keyPressed, int& gameSpeed)
 {
+	auto startMoveTime = now();
 	while (!gameOver && !exitGame)
 	{
+		startMoveTime = now();
 		if (!(objectPlayer1->move(keyPressedPlayer1)))
 		{
 			if (!checkGameOver(typePlayer1, boardGamePlayer1))
@@ -150,7 +155,8 @@ void TetrisGame::userGameInputHandeling(bool& gameOver, bool& exitGame, GameObje
 						}
 
 					}
-					Sleep(gameSpeed);
+					// AI compute time can make round time inconsistent, solved using sleeping until an explicit time.
+					std::this_thread::sleep_until(awakeTime(startMoveTime, gameSpeed));
 				}
 			}
 		}
@@ -239,9 +245,9 @@ GameObjects * TetrisGame::createNewObject(int &type, Board &board )
 	res->setSerialNumber(serialNumber);
 	serialNumber++;
 	board.updateNumOfShapesBoard();
-    if (board.getPlayer() == 1 && isPlayer1AI)
+    if (board.getPlayer() == 1 && player1AIlevel)
         AIPlayer1.findBestPath(res, board);
-    else if (board.getPlayer() == 2 && isPlayer2AI)
+    else if (board.getPlayer() == 2 && player2AIlevel)
         AIPlayer2.findBestPath(res, board);
 	return res;
 }

@@ -19,5 +19,7 @@ public:
 	// move
 	bool move(char keyPressed = DEFAULT, bool mark = true) override;
 
+	bool isBomb() override { return true; };
+
 
 };

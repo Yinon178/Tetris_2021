@@ -27,6 +27,8 @@ public:
 	virtual void draw(char ch = '#') const = 0;
 
 	virtual bool move(char keyPressed = DEFAULT, bool mark = true) = 0;
+	
+	virtual bool isBomb() { return false; }
 
 	virtual void updateShape(char direction) = 0;
     

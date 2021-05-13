@@ -51,7 +51,7 @@ void Menu::ComputerLevelPickingMenu(int& AI2)
     gotoxy(startX, startY);
     std::cout << "Please choose computer level:" << std::endl;
     gotoxy(startX, startY + 1);
-    std::cout << " (a) BEST" << std::endl;
+    std::cout << "(a) BEST" << std::endl;
     gotoxy(startX, startY + 2);
     std::cout << "(b) GOOD" << std::endl;
     gotoxy(startX, startY + 3);
@@ -64,8 +64,9 @@ void Menu::ComputerLevelPickingMenu(int& AI2)
             if (keyPressed == BEST || keyPressed == GOOD ||keyPressed == NOVICE)
             {
                 AI2 = keyPressed - 96; // 97 = 'a'
+				return;
             }
-                return;
+                
         }
         Sleep(100);
     }
