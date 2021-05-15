@@ -3,7 +3,7 @@
 void Shape::draw(char ch)const
 {}
 
-bool Shape::move(char keyPressed)
+bool Shape::move(char keyPressed, bool mark)
 {
     bool flag = true;
     AdjustRotations currentMove;
@@ -29,9 +29,10 @@ bool Shape::move(char keyPressed)
     case eKEYS::HARD_DOWN:
         while (true)
         {
-            if (!(move( DEFAULT)))
+            if (!(move( DEFAULT, mark)))
                 break;
-            boardGame.updateScoreBoard(2); // hard_drop x2 Distance 
+            if (mark)
+                boardGame.updateScoreBoard(2); // hard_drop x2 Distance 
         }
         return true;
         break;
@@ -39,7 +40,7 @@ bool Shape::move(char keyPressed)
         currentMove = def;
         break;
     }
-    return moveByDelta( keyPressed, currentMove, direction);
+    return moveByDelta( keyPressed, currentMove, direction, mark);
 
 }
 void Shape::rotate(int direction)
@@ -68,37 +69,40 @@ void Shape::rotate(int direction)
 }
 
 
-bool Shape::moveByDelta( char keyPressed, AdjustRotations currentMove, int direction) {
+bool Shape::moveByDelta( char keyPressed, AdjustRotations currentMove, int direction, bool mark) {
+    bool validMovement = true;
     for (int i = 0; i < SIZE; i++)
     {
         int newX = (body[i].getx() + currentMove[i].getx() * direction);
         int newY = (body[i].gety() + currentMove[i].gety() * direction);
         if (boardGame.isValid(newX, newY) == false && boardGame.getSerial(newX, newY) != this->getSerialObj())
         {
+            validMovement = false;
             if (keyPressed == LEFT || keyPressed == RIGHT) { // wall encountered
                 keyPressed = DEFAULT;
-                return move(keyPressed);
+                return move(keyPressed, mark);
                  
             }
             else {
-                while (boardGame.cleanLines(body[i].gety()))
+                if (boardGame.cleanLines(body[i].gety(), mark))
                 {
                     boardGame.updateBoard();
                 }
-                return false;
             }
         }
     }
+    if (!validMovement)
+        return validMovement;
     for (int i = 0; i < SIZE; i++)
     {
-        boardGame.turnOffPoint(body[i].getx(), body[i].gety());
+        boardGame.turnOffPoint(body[i].getx(), body[i].gety(), mark);
     }
     for (int i = 0; i < SIZE; i++)
     {
         int newX = (body[i].getx() + currentMove[i].getx() * direction);
         int newY = (body[i].gety() + currentMove[i].gety() * direction);
 
-        boardGame.turnOnPoint(newX, newY, getSerialObj());
+        boardGame.turnOnPoint(newX, newY, getSerialObj(), '#', mark);
     }
     updateShape(keyPressed);
     return true;

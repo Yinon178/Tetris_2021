@@ -13,9 +13,13 @@ public:
 
 	//draw
 	void draw(char ch = '#')const override;
+    
+    CLONEABLE(Bomb)
 	
 	// move
-	bool move(char keyPressed = DEFAULT) override;
+	bool move(char keyPressed = DEFAULT, bool mark = true) override;
+
+	bool isBomb() override { return true; };
 
 
 };

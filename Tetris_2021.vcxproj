@@ -106,6 +106,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AI.cpp" />
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="gotoxy.cpp" />
@@ -125,6 +126,7 @@
     <ClCompile Include="Zshape.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AI.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="Bomb.h" />
     <ClInclude Include="GameObjects.h" />
@@ -142,6 +144,9 @@
     <ClInclude Include="TetrisGame.h" />
     <ClInclude Include="TopBoard.h" />
     <ClInclude Include="Zshape.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

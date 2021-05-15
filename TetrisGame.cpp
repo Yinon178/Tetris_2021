@@ -9,6 +9,7 @@
 #include "MirrorLshape.h"
 #include "MirrorZshape.h"
 
+using std::chrono::system_clock;
 
 enum {RAND = 7};
 
@@ -28,7 +29,11 @@ void TetrisGame::run() {
 	int typePlayer1 = -1, typePlayer2 = -1;
 	bool gameOver = false, exitGame = false;
 	srand(time(NULL));
-
+    
+    mainMenu.playersPickingMenu(player1AIlevel, player2AIlevel);
+	if (player2AIlevel != 1)
+		AIPlayer2.setLevel(player2AIlevel);
+    mainMenu.printMenu();
 
 	while (keyPressed != EXIT && !exitGame)
 	{
@@ -44,6 +49,7 @@ void TetrisGame::run() {
 			gameHandeling(keyPressed, gameOver, exitGame, objectPlayer1, typePlayer1, objectPlayer2, typePlayer2, keyPressedPlayer1, keyPressedPlayer2, gameSpeed, retflag);
 			if (retflag == 2) break;
 		}
+        Sleep(100); // avoid overloading computer
 	}
 }
 
@@ -61,8 +67,9 @@ void TetrisGame::gameHandeling(char& keyPressed, bool& gameOver, bool& exitGame,
 		}
 		if (exitGame)
 		{
-			retflag = 2; return;
-		};
+			retflag = 2;
+            return;
+		}
 		objectPlayer1 = createNewObject(typePlayer1, boardGamePlayer1);
 		objectPlayer2 = createNewObject(typePlayer2, boardGamePlayer2);
 		while (true)
@@ -86,8 +93,10 @@ void TetrisGame::gameHandeling(char& keyPressed, bool& gameOver, bool& exitGame,
 
 void TetrisGame::userGameInputHandeling(bool& gameOver, bool& exitGame, GameObjects*& objectPlayer1, char& keyPressedPlayer1, int& typePlayer1, GameObjects*& objectPlayer2, char& keyPressedPlayer2, int& typePlayer2, char& keyPressed, int& gameSpeed)
 {
+	auto startMoveTime = now();
 	while (!gameOver && !exitGame)
 	{
+		startMoveTime = now();
 		if (!(objectPlayer1->move(keyPressedPlayer1)))
 		{
 			if (!checkGameOver(typePlayer1, boardGamePlayer1))
@@ -112,9 +121,9 @@ void TetrisGame::userGameInputHandeling(bool& gameOver, bool& exitGame, GameObje
 		keyPressedPlayer1 = DEFAULT; // take the head of the buffer
 		keyPressedPlayer2 = DEFAULT;
 		Sleep(gameSpeed);
-		if (_kbhit()) // checks if there is anything in the buffer
+		if (_kbhit() || player1AIlevel || player2AIlevel) // checks if there is anything in the buffer
 		{
-			mainMenu.parseKeysPressed(keyPressed, keyPressedPlayer1, keyPressedPlayer2);
+            getInputFromUsers(keyPressed, keyPressedPlayer1, keyPressedPlayer2);
 			if (keyPressed == EXIT) {
 				exitGame = true;
 				break;
@@ -146,7 +155,8 @@ void TetrisGame::userGameInputHandeling(bool& gameOver, bool& exitGame, GameObje
 						}
 
 					}
-					Sleep(gameSpeed);
+					// AI compute time can make round time inconsistent, solved using sleeping until an explicit time.
+					std::this_thread::sleep_until(awakeTime(startMoveTime, gameSpeed));
 				}
 			}
 		}
@@ -179,7 +189,7 @@ void TetrisGame::instructionsHandeling(char keyPressed, char keyPressedPlayer1, 
 
 
 // Create new Object Game
-GameObjects * TetrisGame::createNewObject(int & type,Board &board )
+GameObjects * TetrisGame::createNewObject(int &type, Board &board )
 {
 	GameObjects * res=NULL;
 	if (rand() % 20 == 1) {
@@ -231,9 +241,14 @@ GameObjects * TetrisGame::createNewObject(int & type,Board &board )
 			break;
 		}
 	}
-
+    
 	res->setSerialNumber(serialNumber);
 	serialNumber++;
+	board.updateNumOfShapesBoard();
+    if (board.getPlayer() == 1 && player1AIlevel)
+        AIPlayer1.findBestPath(res, board);
+    else if (board.getPlayer() == 2 && player2AIlevel)
+        AIPlayer2.findBestPath(res, board);
 	return res;
 }
 
@@ -360,12 +375,21 @@ void TetrisGame::hideCursor()
 	SetConsoleCursorInfo(myconsole, &CURSOR);
 }
 
-void TetrisGame::purgeKeyboardBuffer() 
+void TetrisGame::getInputFromUsers(char &keyPressed, char &keyPressedPlayer1, char &keyPressedPlayer2)
 {
-	while (_kbhit()) {
-		_getch();
-	}
-
+    if (player1AIlevel && player2AIlevel) {
+        mainMenu.parseKeysPressed(keyPressed, keyPressedPlayer1, keyPressedPlayer2, AIPlayer1, AIPlayer2);
+        
+    }
+    else if (player2AIlevel)
+    {
+        mainMenu.parseKeysPressed(keyPressed, keyPressedPlayer1, keyPressedPlayer2, AIPlayer2);
+        
+    }
+    
+    else {
+        mainMenu.parseKeysPressed(keyPressed, keyPressedPlayer1, keyPressedPlayer2);
+    }
 }
 
 void TetrisGame::annonceWinner(int typePlayer1, int typePlayer2)

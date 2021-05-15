@@ -2,7 +2,7 @@
 
 
 
-void Point::draw(char ch,bool colored) const
+void Point::draw(char ch, bool colored) const
 {
 	int colorShape = 7;
 	if (colored) {

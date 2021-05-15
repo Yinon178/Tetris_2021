@@ -1,6 +1,5 @@
 #include "Square.h"
 
-
 // ctor 
 Square::Square(Board &_boardGame) : Shape(_boardGame)
 {

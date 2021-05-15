@@ -1,6 +1,76 @@
 #include "Menu.h"
 #include <Windows.h>
 #include <conio.h>
+#include <queue>
+#include "AI.h"
+
+
+
+void Menu::playersPickingMenu(int& AI1, int& AI2)
+{
+    clearMenu();
+	HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(color, 7);
+    char keyPressed = 0;
+    gotoxy(startX, startY);
+    std::cout << "Please choose game mode:" << std::endl;
+    gotoxy(startX, startY + 1);
+    std::cout << "(" << PLAYERVSPLAYER - '0' << ") Human vs Human" << std::endl;
+    gotoxy(startX, startY + 2);
+    std::cout << "(" << PLAYERVSAI - '0' << ") Human vs Computer" << std::endl;
+    gotoxy(startX, startY + 3);
+    std::cout << "(" << AIVSAI - '0' << ") Computer vs Computer" << std::endl;
+    
+    while (true) {
+        if (_kbhit()) // checks if there is anything in the buffer
+        {
+            keyPressed = _getch();
+            if (keyPressed == PLAYERVSPLAYER || keyPressed == PLAYERVSAI ||keyPressed == AIVSAI) {
+                if (keyPressed == PLAYERVSAI)
+                {
+                    ComputerLevelPickingMenu(AI2);
+                }
+                else if (keyPressed == AIVSAI)
+                {
+                    AI1 = 1;
+                    AI2 = 1;
+                }
+                return;
+            }
+        }
+        Sleep(100);
+    }
+}
+
+void Menu::ComputerLevelPickingMenu(int& AI2)
+{
+    clearMenu();
+    HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(color, 7);
+    char keyPressed = 0;
+    gotoxy(startX, startY);
+    std::cout << "Please choose computer level:" << std::endl;
+    gotoxy(startX, startY + 1);
+    std::cout << "(a) BEST" << std::endl;
+    gotoxy(startX, startY + 2);
+    std::cout << "(b) GOOD" << std::endl;
+    gotoxy(startX, startY + 3);
+    std::cout << "(c) NOVICE" << std::endl;
+    
+    while (true) {
+        if (_kbhit()) // checks if there is anything in the buffer
+        {
+            keyPressed = std::tolower(_getch());
+            if (keyPressed == BEST || keyPressed == GOOD ||keyPressed == NOVICE)
+            {
+                AI2 = keyPressed - 96; // 97 = 'a'
+				return;
+            }
+                
+        }
+        Sleep(100);
+    }
+}
 
 void Menu::printMenu()
 {
@@ -135,4 +205,49 @@ void Menu::parseKeysPressed(char& keyPressed, char& keyPressedPlayer1, char& key
 		}
 
 	}
+}
+
+void Menu::parseKeysPressed(char& keyPressed, char& keyPressedPlayer1,
+                            char& keyPressedPlayer2, AI &AIPlayer2)
+{
+    char res;
+	if (!AIPlayer2.bestMovesQueue.empty())
+	{
+        keyPressedPlayer2 = AIPlayer2.bestMovesQueue.front();
+        AIPlayer2.bestMovesQueue.pop();
+	}
+    while (_kbhit()) {
+        res = std::tolower(_getch());
+        if (player1Keys.find(res) != std::string::npos)
+        {
+            keyPressedPlayer1 = res;
+        }
+        else if (menuKeys.find(res) != std::string::npos)
+        {
+            keyPressed = res;
+        }
+    }
+}
+
+void Menu::parseKeysPressed(char& keyPressed, char& keyPressedPlayer1,
+    char& keyPressedPlayer2, AI &AIPlayer1, AI &AIPlayer2)
+{
+    char res;
+	if (!AIPlayer1.bestMovesQueue.empty())
+	{
+		keyPressedPlayer1 = AIPlayer1.bestMovesQueue.front();
+		AIPlayer1.bestMovesQueue.pop();
+	}
+	if (!AIPlayer2.bestMovesQueue.empty())
+	{
+		keyPressedPlayer2 = AIPlayer2.bestMovesQueue.front();
+		AIPlayer2.bestMovesQueue.pop();
+	}
+    while (_kbhit()) {
+        res = std::tolower(_getch());
+        if (menuKeys.find(res) != std::string::npos)
+        {
+            keyPressed = res;
+        }
+    }
 }

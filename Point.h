@@ -29,9 +29,9 @@ public:
 	 void draw(char ch = '#', bool colored=true) const;
 
 	// get data members of the class
-	int getx() const 	{ return x; }
+	int getx() const { return x; }
 
-	int gety() const	{ return y; }
+    int gety() const { return y; }
 	
 	bool isBusy() const { return busy; }
 

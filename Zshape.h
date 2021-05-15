@@ -7,6 +7,8 @@ public:
 
 	//ctor
 	Zshape(Board &_boardGame);
+    
+    CLONEABLE(Zshape)
 
 	AllAdjustRotations getPossibleRotations() const;
 };

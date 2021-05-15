@@ -36,32 +36,36 @@ void Board::setBoard(bool pause)
 		printShapes();
 		return;
 	}
-	for (int i = 0; i < ROWS - 2; i++)
+	for (int i = 0; i < ROWS; i++)
 	{
 		for (int j = 0; j < COLS; j++)
 		{
-			if (i < 2) {
-				boardGame[i][j].setPoint(j + gameZone.left, i + gameZone.top, false, -1, ' ');
-				turnOffPoint(j + gameZone.left, i + gameZone.top);
-			}
-			else {
-				boardGame[i][j].setPoint(j + gameZone.left, i + gameZone.top, false, -1, ' ');
-				turnOffPoint(j + gameZone.left, i + gameZone.top);
-			}
+            if (i<=2) {
+                boardGame[i][j].setPoint(j + gameZone.left, i + 2, false, -1, ' ');
+            } else {
+                turnOffPoint(j + gameZone.left, i + gameZone.top - 3);
+            }
 		}
 	}
 }
 
+void Board::copygrid(const Board& b)
+{
+	/*for (int i = 0; i < ROWS; i++)
+	{
+		for (int j = 0; j < COLS; j++)
+		{
+            boardGame[i][j].setPoint(b.boardGame[i][j].getx(), b.boardGame[i][j].gety(), b.isPointInBoardGameBusy(i, j) , b.getSerial(i, j), b.getSign(i, j));
+		}
+	}*/
+	//printShapes();
+	std::copy(&b.boardGame[0][0], &b.boardGame[0][0] + ROWS * COLS, &boardGame[0][0]);
+}
+
 void Board::cleanGameOver()
 {
-	gotoxy(gameFrame.left_f + 2, gameFrame.bottom_f + 1);
-	std::cout << "              " << std::endl;
-	gotoxy(gameFrame.left_f - 2, gameFrame.bottom_f + 3);
-	std::cout << "                                " << std::endl;
-	gotoxy(gameFrame.left_f - 2, gameFrame.bottom_f + 5);
-	std::cout << "                                " << std::endl;
+	setBoard();
 	topB->resetTopBoard();
-	
 
 }
 
@@ -70,7 +74,7 @@ return topB->getScore();
 }
 
 //check if the line is full
-bool Board::isFullLine(int curLine)
+bool Board::isFullLine(int curLine, bool cleanIfFound)
 {
 
 	//check FULL line
@@ -79,20 +83,29 @@ bool Board::isFullLine(int curLine)
 		if (!(p.isBusy()))
 			return false;
 	}
-	// marker the line before crush
-	for (Point&p : boardGame[curLine - gameZone.top + 3])
-	{
-		turnOnPoint(p.getx(), p.gety(),-3,'x');
-		Sleep(20);
-	}
-
-	// turn OFF line
-	for (Point&p : boardGame[curLine - gameZone.top + 3])
-	{
-		turnOffPoint(p.getx(), p.gety());
-	}
-
+    
+    if (cleanIfFound) {
+        cleanLine(curLine);
+    }
+    
 	return true;
+}
+
+void Board::cleanLine(int curLine)
+{
+    // marker the line before crush
+    for (Point&p : boardGame[curLine - gameZone.top + 3])
+    {
+        turnOnPoint(p.getx(), p.gety(),-3,'x');
+        Sleep(20);
+    }
+
+    // turn OFF line
+    for (Point&p : boardGame[curLine - gameZone.top + 3])
+    {
+        turnOffPoint(p.getx(), p.gety());
+    }
+    
 }
 
 bool Board::isEmptyLine(int curLine) const
@@ -106,22 +119,21 @@ bool Board::isEmptyLine(int curLine) const
 }
 
 // clean all the full lines
-bool Board::cleanLines(int startLine)
+bool Board::cleanLines(int startLine, bool mark)
 {
 	int inARow = 0;
 	bool res = false;
 	for (int i = 0; i < 6 && (startLine - i) >= 5; i++)
 	{
-		bool fullLine = isFullLine(startLine - i);
+		bool fullLine = isFullLine(startLine - i, mark);
 
 		if ( fullLine == true)
 		{
 			res = true;
 			inARow++;
-			Sleep(200);
 		}
 
-		else if (inARow != 0)
+		else if (inARow != 0 && mark)
 		{
 			if (inARow == 1)
 				topB->updateScore(SCORE::SINGLE_LINE);
@@ -182,7 +194,7 @@ bool Board::updateBoard()
 		row--;
 	}
 
-	return endClean;
+	return endClean; // exception
 }
 
 void Board::printShapes()
@@ -194,7 +206,7 @@ void Board::printShapes()
 		{
 			if (p.isBusy() == true)
 			{
-				p.draw(colored);
+				p.draw('#', colored);
 			}
 		}
 		row--;
@@ -274,4 +286,58 @@ void Board::hardDownShape(Point * arr , int size)
 		turnOffPoint(arr[i].getx(), arr[i].gety());
 		turnOnPoint(arr[i].getx(), arr[i].gety() + 1, arr[i].getSerialNumber(), arr[i].getSign());
 	}
+}
+
+int Board::aggregateHeight()
+{
+    int total = 0;
+    for(int c = 0; c < COLS; c++)
+    {
+        total += columnHeight(c);
+    }
+    return total;
+}
+
+int Board::columnHeight(int column)
+{
+    int r = 0;
+    for(; r < ROWS && !boardGame[r][column].isBusy(); r++);
+    return ROWS - r;
+}
+
+int Board::lines()
+{
+    int count = 0;
+    for(int r = 0; r < ROWS; r++){
+        if (isFullLine(r, false)){
+            count++;
+        }
+    }
+    return count;
+}
+
+int Board::holes()
+{
+    double count = 0;
+    for(int c = 0; c < COLS; c++){
+        bool block = false;
+        for(int r = 0; r < ROWS; r++){
+            if (boardGame[r][c].isBusy()) {
+                block = true;
+            }
+            else if (!boardGame[r][c].isBusy() && block){
+                count++;
+            }
+        }
+    }
+    return count;
+}
+
+int Board::bumpiness()
+{
+    double total = 0;
+    for(int c = 0; c < COLS - 1; c++){
+        total += std::abs(columnHeight(c) - columnHeight(c+ 1));
+    }
+    return total;
 }

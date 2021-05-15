@@ -8,6 +8,8 @@ public:
 
 	//ctor
 	Line(Board &_boardGame);
+    
+    CLONEABLE(Line)
 
 	AllAdjustRotations getPossibleRotations() const override;
 

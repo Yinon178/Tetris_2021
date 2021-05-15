@@ -7,7 +7,9 @@ public:
 
 	//ctor
 	MirrorZshape(Board &_boardGame);
-
+    
+    CLONEABLE(MirrorZshape)
+    
 	AllAdjustRotations getPossibleRotations() const;
 };
 
