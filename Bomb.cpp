@@ -74,6 +74,15 @@ bool Bomb::move(char keyPressed, bool mark)
 			return false;
 		}
 		break;
+	case eKEYS::HARD_DOWN:
+		while (true)
+		{
+			if (!(move(DEFAULT, mark)))
+				break;
+			if (mark)
+				boardGame.updateScoreBoard(2); // hard_drop x2 Distance 
+		}
+		break;
 	default:
 		break;
 	}
