@@ -34,7 +34,7 @@ bool Shape::move(char keyPressed, bool mark)
             if (mark)
                 boardGame.updateScoreBoard(2); // hard_drop x2 Distance 
         }
-        return true;
+        return false;
         break;
     default:
         currentMove = def;
