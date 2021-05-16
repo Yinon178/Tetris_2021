@@ -39,7 +39,7 @@ public:
 	Board(int _player) : player(_player), gameZone(_player),
     gameFrame(gameZone), topB(new TopBoard(this)) { setBoard(); }; // ctr
 
-	Board(const Board& b) : player(b.getPlayer()), gameZone(b.getPlayer()),
+	Board(const Board& b) : player(b.getPlayer()), colored(b.colored), gameZone(b.getPlayer()),
 		gameFrame(gameZone), topB(new TopBoard(this)) { copygrid(b); }; // copy ctr
 
 	~Board() { delete topB; }; // dctr
@@ -91,7 +91,7 @@ public:
 
 	bool cleanLines(int startLine, bool mark = true);
 
-	int blowUpSquare(int x, int y);
+	int blowUpSquare(int x, int y, bool mark);
 
 	bool checkInGameZone(int x, int y) const
 	{
@@ -149,7 +149,7 @@ public:
 		}
 	}
 
-	bool updateBoard();
+	bool updateBoard(bool mark);
 
 	void printShapes();
 
@@ -160,9 +160,9 @@ public:
 	// get serial Number and build the shape from the start
 	Point * createSerialShape(int serial, int row, int & shapeSize, Point * res);
 
-	void moveShape(Point * arr, int size);
+	void moveShape(Point * arr, int size, bool mark);
 
-	void hardDownShape(Point * arr, int size);
+	void hardDownShape(Point * arr, int size, bool mark);
 
 	void updateRecord(int newRecord)
 	{

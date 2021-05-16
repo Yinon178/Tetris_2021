@@ -22,14 +22,7 @@ bool Bomb::move(char keyPressed, bool mark)
 			return true;
 		else // explode 
 		{
-			boardGame.turnOffPoint(body.getx(), body.gety(), mark);
-			addScore = boardGame.blowUpSquare(body.getx(), body.gety());
-			if (mark)
-				boardGame.updateScoreBoard(addScore);
-			boardGame.updateBoard();
-			if (boardGame.cleanLines(boardGame.gameZone.bottom, mark))
-				boardGame.updateBoard();
-			return false;
+			return explode(0, 0, mark, addScore);
 		}
 		break;
 	case eKEYS::LEFT:
@@ -43,14 +36,7 @@ bool Bomb::move(char keyPressed, bool mark)
 			return true;
 		else // explode 
 		{
-			addScore = boardGame.blowUpSquare(body.getx() - 1, body.gety());
-			boardGame.turnOffPoint(body.getx(), body.gety(), mark);
-			if (mark)
-				boardGame.updateScoreBoard(addScore);
-			boardGame.updateBoard();
-			if (boardGame.cleanLines(boardGame.gameZone.bottom, mark))
-				boardGame.updateBoard();
-			return false;
+			return explode(-1, 0, mark, addScore);
 		}
 		break;
 	case eKEYS::RIGHT:
@@ -64,14 +50,7 @@ bool Bomb::move(char keyPressed, bool mark)
 			return true;
 		else // explode 
 		{
-			boardGame.turnOffPoint(body.getx(), body.gety(), mark);
-			addScore = boardGame.blowUpSquare(body.getx(), body.gety());
-			if(mark)
-				boardGame.updateScoreBoard(addScore);
-			boardGame.updateBoard();
-			if (boardGame.cleanLines(boardGame.gameZone.bottom, mark))
-				boardGame.updateBoard();
-			return false;
+			return explode(0, 0, mark, addScore);
 		}
 		break;
 	case eKEYS::HARD_DOWN:
@@ -80,11 +59,25 @@ bool Bomb::move(char keyPressed, bool mark)
 			if (!(move(DEFAULT, mark)))
 				break;
 			if (mark)
-				boardGame.updateScoreBoard(2); // hard_drop x2 Distance 
+				boardGame.updateScoreBoard(2); // hard_drop x2 distance 
 		}
+		return false;
 		break;
 	default:
+		return false;
 		break;
 	}
 
+}
+
+bool Bomb::explode(int x, int y, bool mark, int& addScore)
+{
+	boardGame.turnOffPoint(body.getx() + x, body.gety()+ y, mark);
+	addScore = boardGame.blowUpSquare(body.getx(), body.gety(), mark);
+	if (mark)
+		boardGame.updateScoreBoard(addScore);
+	boardGame.updateBoard(mark);
+	if (boardGame.cleanLines(boardGame.gameZone.bottom, mark))
+		boardGame.updateBoard(mark);
+	return false;
 }

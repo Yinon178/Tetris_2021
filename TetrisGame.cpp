@@ -135,6 +135,7 @@ void TetrisGame::userGameInputHandeling(bool& gameOver, bool& exitGame, GameObje
 
 			else if (keyPressed == PAUSE)
 			{
+				ClearScreen();
 				mainMenu.pauseGame();
 				while (true)
 				{
@@ -192,7 +193,7 @@ void TetrisGame::instructionsHandeling(char keyPressed, char keyPressedPlayer1, 
 GameObjects * TetrisGame::createNewObject(int &type, Board &board )
 {
 	GameObjects * res=NULL;
-	if (rand() % 5 == 1) {
+	if (rand() % 20 == 1) {
 		res = new Bomb(board);
 		updateStartBoard(B, board);
 		type = B;

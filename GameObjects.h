@@ -7,7 +7,7 @@
 
 #define BASE_CLONEABLE(Type) virtual Type *clone() const = 0;
 
-#define CLONEABLE(Type) virtual Type *clone() const {return new Type(*this); }
+#define CLONEABLE(Type) virtual Type *clone() const override {return new Type(*this); }
 
 class GameObjects {
 
