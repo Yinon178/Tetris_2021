@@ -135,6 +135,7 @@ void TetrisGame::userGameInputHandeling(bool& gameOver, bool& exitGame, GameObje
 
 			else if (keyPressed == PAUSE)
 			{
+				ClearScreen();
 				mainMenu.pauseGame();
 				while (true)
 				{

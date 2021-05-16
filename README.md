@@ -5,6 +5,8 @@ Tetris game implemented in C++ to **console**.
  * Colors
  * Game Speed
  * Bomb Included
+ # Gravity efect if shape can be moved down after full line cleared underneath
+
 
 ## Instructions
 

@@ -51,14 +51,6 @@ void Board::setBoard(bool pause)
 
 void Board::copygrid(const Board& b)
 {
-	/*for (int i = 0; i < ROWS; i++)
-	{
-		for (int j = 0; j < COLS; j++)
-		{
-            boardGame[i][j].setPoint(b.boardGame[i][j].getx(), b.boardGame[i][j].gety(), b.isPointInBoardGameBusy(i, j) , b.getSerial(i, j), b.getSign(i, j));
-		}
-	}*/
-	//printShapes();
 	std::copy(&b.boardGame[0][0], &b.boardGame[0][0] + ROWS * COLS, &boardGame[0][0]);
 }
 
@@ -150,7 +142,7 @@ bool Board::cleanLines(int startLine, bool mark)
 }
 
 //BOMB explode
-int Board::blowUpSquare(int x, int y)
+int Board::blowUpSquare(int x, int y, bool mark)
 {
 	int scoreCounter = 0;
 	for (int i = -4; i <= 4; i++) // X
@@ -162,11 +154,12 @@ int Board::blowUpSquare(int x, int y)
 			// count score
 			if (checkInGameZone(x + i, y + j) && (!(*this).isValid(x + i, y + j)))
 			{
-				turnOnPoint(x + i, y + j, -3, '*');
+				turnOnPoint(x + i, y + j, -3, '*', mark);
+				if (mark)
+					Sleep(20);
 				scoreCounter -= 50;
-				(*this).turnOffPoint(x + i, y + j);
-		Sleep(150);
-	
+				turnOffPoint(x + i, y + j, mark);
+
 			}
 		}
 	}
@@ -175,7 +168,7 @@ int Board::blowUpSquare(int x, int y)
 	
 }
 
-bool Board::updateBoard()
+bool Board::updateBoard(bool mark)
 {
 	Point temp[4];
 	int tempSize;
@@ -188,7 +181,7 @@ bool Board::updateBoard()
 			if (p.isBusy() == true && isValid(p.getx(), p.gety() + 1))
 			{
 				createSerialShape(p.getSerialNumber(), row, tempSize, temp);
-				moveShape(temp, tempSize);
+				moveShape(temp, tempSize, mark);
 			}
 		}
 		row--;
@@ -243,7 +236,7 @@ Point * Board::createSerialShape(int serial, int row, int & shapeSize, Point * r
 
 }
 
-void Board::moveShape(Point * arr, int size)
+void Board::moveShape(Point * arr, int size, bool mark)
 {
 	bool flag = false;
 	bool flag1 = true;
@@ -271,20 +264,20 @@ void Board::moveShape(Point * arr, int size)
 
 	if (flag==true && flag1==true)
 	{
-		hardDownShape(arr, size);
+		hardDownShape(arr, size, mark);
 		for (int i = 0; i < size; i++)
 			arr[i].setPoint(arr[i].getx(), arr[i].gety() + 1, true, arr[i].getSerialNumber(), arr[i].getSign());
 
-		moveShape(arr, size);
+		moveShape(arr, size, mark);
 	}
 }
 
-void Board::hardDownShape(Point * arr , int size)
+void Board::hardDownShape(Point * arr , int size, bool mark)
 {
 	for (int i = 0; i < size; i++)
 	{
-		turnOffPoint(arr[i].getx(), arr[i].gety());
-		turnOnPoint(arr[i].getx(), arr[i].gety() + 1, arr[i].getSerialNumber(), arr[i].getSign());
+		turnOffPoint(arr[i].getx(), arr[i].gety(), mark);
+		turnOnPoint(arr[i].getx(), arr[i].gety() + 1, arr[i].getSerialNumber(), arr[i].getSign(), mark);
 	}
 }
 

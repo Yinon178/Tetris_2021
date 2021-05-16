@@ -3,9 +3,7 @@
 #include "Special.h"
 
 class Bomb : public Special {
-	int bla = 0;
 public:
-
 	//ctor
 	Bomb(Board &_boardGame) : Special(_boardGame) {
 		body.setPoint((boardGame.gameZone.left + boardGame.gameZone.right) / 2, boardGame.gameZone.top, true, getSerialObj(), Sign::B);
@@ -18,6 +16,8 @@ public:
 	
 	// move
 	bool move(char keyPressed = DEFAULT, bool mark = true) override;
+
+	bool explode(int x, int y, bool mark, int& addScore);
 
 	bool isBomb() override { return true; };
 
